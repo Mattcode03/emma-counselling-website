@@ -27,5 +27,26 @@ To preview locally, just open `index.html` in a browser, or run a simple local s
 
 ## Design system
 
-- **Colors**: palette based on client-supplied swatch (Forest, Leaf, Calm, Deep Sea, Sea Foam, Peaceful, Illuminated) — defined as CSS variables at the top of `css/style.css` for easy tweaking.
-- **Fonts**: Playfair Display (headings), Lora (body text), Montserrat (nav/buttons/labels) — loaded via Google Fonts.
+- **Colors**: palette based on client-supplied swatch (Forest, Leaf, Calm, Deep Sea, Sea Foam, Peaceful, Illuminated), defined as CSS variables at the top of `css/style.css`. The seven swatch colours are unchanged.
+- **Fonts**: Playfair Display (headings), Lora (body text), Montserrat (nav/buttons/labels), loaded via Google Fonts.
+
+### Accent tokens and contrast
+
+The swatch gold (`--illuminated`, `#C6913F`) is a **decorative colour only**. At the sizes this site uses it, it does not reach WCAG AA against any page background, so derived tokens carry the text:
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--illuminated` | `#C6913F` | Borders, rules, non-text accents only |
+| `--illuminated-dark` | `#A97A32` | The wordmark's "Counselling" (3.35:1 on Peaceful, large text) |
+| `--illuminated-ink` | `#7E5722` | Eyebrow labels on light surfaces (5.65:1 on Peaceful) |
+| `--illuminated-light` | `#E5C286` | Text and icons on Forest backgrounds (4.72:1) |
+| `--forest-deep` | `#23422F` | Button hover, eyebrows on Calm / Sea Foam tints |
+
+Other rules worth keeping if you edit the CSS:
+
+- The primary button is Forest with Peaceful text (7.04:1). It was previously white on gold at 2.79:1.
+- On the Calm and Sea Foam sections, body copy uses `--text`, not `--text-soft`. The soft grey drops to ~3.8:1 on those tints.
+- Every interactive element has a `:focus-visible` outline, and a `prefers-reduced-motion` block neutralises the hover lifts and smooth scrolling.
+- The horizontal nav hands over to the toggle at **1080px**, not 860px. Below that the four links plus the CTA no longer fit on one line.
+
+All foreground/background pairs in the stylesheet were checked against WCAG AA and pass.

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.success) {
           status.className = "form-status is-success";
           status.textContent =
-            "Thank you — your message has been sent. Emma will be in touch soon.";
+            "Thank you, your message has been sent. Emma will be in touch soon.";
           form.reset();
         } else {
           throw new Error(data.message || "Something went wrong.");
