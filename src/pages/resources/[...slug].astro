@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { practice } from "../../site";
+import { breadcrumbs } from "../../schema";
+
+interface Props {
+  post: CollectionEntry<"resources">;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection("resources");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+};
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const path = `/resources/${post.id}/`;
+const pageUrl = new URL(path, Astro.site).href;
+
+const formattedDate = post.data.publishDate.toLocaleDateString("en-ZA", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const schema = [
+  {
+    "@type": "Article",
+    "@id": `${pageUrl}#article`,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishDate.toISOString(),
+    articleSection: post.data.category,
+    inLanguage: "en-ZA",
+    author: { "@id": `${new URL("/", Astro.site).href}#emma` },
+    publisher: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    mainEntityOfPage: pageUrl,
+  },
+  breadcrumbs(Astro.site, [
+    { name: "Resources", path: "/resources/" },
+    { name: post.data.title, path },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`${post.data.title} | ${practice.name}`}
+  description={post.data.description}
+  ogImage={post.data.cover}
+  ogImageAlt={post.data.coverAlt || post.data.title}
+  noindex={post.data.placeholder}
+  schema={schema}
+>
+  <article class="article">
+    <div class="container container--reading">
+      <a href="/resources/" class="article-back">
+        <span aria-hidden="true">&larr;</span> All resources
+      </a>
+      <div class="article-meta">
+        <span class="tag">{post.data.category}</span>
+        <span>{formattedDate}</span>
+        {post.data.readingTime && <span>{post.data.readingTime}</span>}
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class="article-standfirst">{post.data.description}</p>
+    </div>
+
+    <div class="container container--wide">
+      <div class="article-cover">
+        <Image
+          src={post.data.cover}
+          alt={post.data.coverAlt}
+          width={1600}
+          height={700}
+          fit="cover"
+          widths={[640, 960, 1280, 1600]}
+          sizes="(max-width: 1100px) 92vw, 1000px"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+
+    <div class="container container--reading">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <CtaBand
+    heading="Book your free 15-minute consultation"
+    body="A complimentary call to see whether we're the right fit for one another. No pressure — just a conversation."
+  />
+</BaseLayout>

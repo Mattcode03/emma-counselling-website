@@ -1,0 +1,101 @@
+---
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { practice } from "../site";
+import { person, professionalService, website } from "../schema";
+import { portraitUrl } from "../og";
+import "../styles/style.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Extra schema.org nodes for this page, merged into the global @graph. */
+  schema?: unknown[];
+  /** Keeps the page out of search results (used for placeholder content). */
+  noindex?: boolean;
+  /** Overrides the default social-share image. */
+  ogImage?: ImageMetadata;
+  /** Alt text describing the share image. */
+  ogImageAlt?: string;
+}
+
+const {
+  title,
+  description,
+  schema = [],
+  noindex = false,
+  ogImage,
+  ogImageAlt = `${practice.counsellor}, ${practice.registration} ${practice.jobTitle}`,
+} = Astro.props;
+
+// Canonical and Open Graph URLs derive from the configured `site`, so the
+// domain is never hardcoded in a page.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// Social crawlers need a fixed, absolute image URL, so the share image is
+// rendered at a known size rather than relying on a content-hashed srcset.
+const ogUrl = await portraitUrl(Astro.site, ogImage);
+
+// The practice, Emma herself and the site are the identity anchors every page
+// cross-references by @id (ProfessionalService names #emma as its founder and
+// provider), so all three are emitted on every page. Pages add only their own
+// page-level nodes on top.
+const graph = [
+  professionalService(Astro.site, ogUrl),
+  person(Astro.site, ogUrl),
+  website(Astro.site),
+  ...schema,
+];
+const jsonLd = { "@context": "https://schema.org", "@graph": graph };
+---
+
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"}
+    />
+    <meta name="author" content={practice.counsellor} />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={practice.name} />
+    <meta property="og:locale" content="en_ZA" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <meta name="theme-color" content="#23422F" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

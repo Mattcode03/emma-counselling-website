@@ -1,0 +1,73 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  /** Imported image from src/assets — Astro resizes and reformats at build. */
+  image: ImageMetadata;
+  /** Empty string marks the image decorative (interior heroes are backdrops). */
+  alt?: string;
+  eyebrow?: string;
+  /** Plain-text heading. Omit and use the `title` slot for markup. */
+  title?: string;
+  description?: string;
+  /** `home` is the tall hero; `interior` and `short` are page banners. */
+  variant?: "home" | "interior" | "short";
+}
+
+const {
+  image,
+  alt = "",
+  eyebrow,
+  title,
+  description,
+  variant = "interior",
+} = Astro.props;
+
+const variantClass = {
+  home: "",
+  interior: "photo-hero--interior",
+  short: "photo-hero--short",
+}[variant];
+
+// The home hero is the LCP element, so it loads eagerly at high priority.
+// Page banners below it stay lazy.
+const isHome = variant === "home";
+
+// The source photos are tall portraits (up to 4160×6240). Left unconstrained,
+// a 1920px-wide variant would be 2880px tall — several MB for what is a
+// cropped backdrop. Pinning a 16:9 ratio and cropping with `fit: cover` keeps
+// the generated files small while still filling the box at every breakpoint;
+// 16:9 is a compromise between the wide desktop banner and the taller box the
+// hero occupies on phones.
+const RATIO_W = 1600;
+const RATIO_H = 900;
+---
+
+<div class:list={["photo-hero", variantClass]}>
+  <Image
+    src={image}
+    alt={alt}
+    width={RATIO_W}
+    height={RATIO_H}
+    fit="cover"
+    position="center"
+    widths={[640, 960, 1280, 1920]}
+    sizes="100vw"
+    loading={isHome ? "eager" : "lazy"}
+    fetchpriority={isHome ? "high" : "auto"}
+    decoding="async"
+    role={alt === "" ? "presentation" : undefined}
+  />
+  <div class="photo-hero-content">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h1>{title}<slot name="title" /></h1>
+    {
+      (description || Astro.slots.has("description")) && (
+        <p>
+          {description}
+          <slot name="description" />
+        </p>
+      )
+    }
+  </div>
+</div>

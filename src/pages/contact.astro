@@ -1,0 +1,179 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import { practice } from "../site";
+import { breadcrumbs } from "../schema";
+import heroImage from "../assets/images/consultation.jpg";
+
+const title = "Contact & Book Online Counselling | Cape Town, South Africa";
+const description =
+  "Book a free 15-minute consultation for online counselling or virtual therapy anywhere in South Africa. Message Emma Rossouw, Cape Town-based counsellor.";
+
+const nextSteps = [
+  "I read your message and reply to suggest a few times for a free 15-minute call.",
+  "We talk — about what's going on, and any questions you have. No obligation to book.",
+  "If it feels right, we schedule your first session and I send the secure video link.",
+];
+
+const schema = [
+  {
+    "@type": "ContactPage",
+    "@id": `${new URL("/contact/", Astro.site).href}#webpage`,
+    url: new URL("/contact/", Astro.site).href,
+    name: title,
+    description,
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+    about: { "@id": `${new URL("/", Astro.site).href}#practice` },
+  },
+  breadcrumbs(Astro.site, [{ name: "Contact", path: "/contact/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Get in touch"
+    title="Book your free consultation"
+    description="Send a message below and I'll be in touch to arrange a time. Sessions are held online, so you can book from Cape Town or anywhere else in South Africa."
+    variant="short"
+  />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <h2>Email</h2>
+          <a href={`mailto:${practice.email}`}>{practice.email}</a>
+        </div>
+        <div class="contact-info-item">
+          <h2>Phone</h2>
+          <a href={`tel:${practice.phone}`}>{practice.phoneDisplay}</a>
+        </div>
+        <div class="contact-info-item">
+          <h2>Sessions</h2>
+          <p>
+            Held securely online, from the comfort and privacy of your own space. Based in {
+              practice.city
+            }, {practice.region}, working with clients across {practice.countryName}.
+          </p>
+        </div>
+        <div class="contact-next">
+          <h2>What happens next</h2>
+          {
+            nextSteps.map((step, index) => (
+              <div class="contact-next-step">
+                <span class="step-index">{index + 1}</span>
+                <p>{step}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <form id="contact-form" class="contact-form card">
+        <h2 class="contact-form-title">I'd love to hear from you</h2>
+        <p class="contact-form-intro">
+          Only your name and email are needed &mdash; share as much or as little as you like.
+        </p>
+
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input
+          type="hidden"
+          name="subject"
+          value="New enquiry from Emma Rossouw Counselling website"
+        />
+        <input type="checkbox" name="botcheck" style="display: none;" />
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-field">
+            <label for="phone">Phone <span class="optional">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+27 &hellip;" />
+          </div>
+          <div class="form-field">
+            <label for="interest">I'm interested in</label>
+            <select id="interest" name="interest">
+              <option>Individual counselling</option>
+              <option>Couples counselling</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              placeholder="A little about what you're looking for&hellip;"
+              required></textarea>
+          </div>
+        </div>
+
+        <div class="contact-form-submit-row">
+          <button type="submit" class="btn btn-primary contact-form-submit">Send message</button>
+        </div>
+        <p class="contact-privacy-note">
+          Your message is confidential. If you're in immediate danger or crisis, please contact
+          emergency services or a 24-hour crisis line rather than waiting for a reply.
+        </p>
+        <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Web3Forms submission. Astro bundles this per-page rather than shipping a
+  // global js/contact.js to every route.
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+
+  if (form && status) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const submitBtn = form.querySelector<HTMLButtonElement>("button[type='submit']");
+      const originalLabel = submitBtn?.textContent ?? "Send message";
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+      }
+      status.className = "form-status";
+      status.textContent = "";
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(form),
+        });
+        const data = await response.json();
+
+        if (!data.success) throw new Error(data.message ?? "Something went wrong.");
+
+        status.className = "form-status is-success";
+        status.textContent =
+          "Thank you, your message has been sent. Emma will be in touch soon.";
+        form.reset();
+      } catch {
+        status.className = "form-status is-error";
+        status.textContent =
+          "Sorry, something went wrong sending your message. Please try again or email directly.";
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      }
+    });
+  }
+</script>

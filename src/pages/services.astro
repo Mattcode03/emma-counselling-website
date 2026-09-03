@@ -1,0 +1,158 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { fees, supportAreas } from "../site";
+import { breadcrumbs } from "../schema";
+import heroImage from "../assets/images/individual-counselling.jpg";
+import individualImage from "../assets/images/individual-counselling.jpg";
+import couplesImage from "../assets/images/couples-counselling.jpg";
+
+const title = "Online Counselling Services & Fees | Cape Town, South Africa";
+const description =
+  "Individual and couples online counselling with Emma Rossouw. Virtual therapy across South Africa from R400 per session. Free 15-minute consultation.";
+
+const offerings = [
+  {
+    image: individualImage,
+    alt: "Individual online counselling",
+    heading: "Individual online counselling",
+    body: "For children, adolescents, and adults, tailored to your specific needs, goals, and circumstances. We work at your pace, in a space where you can speak openly.",
+    price: "R400",
+  },
+  {
+    image: couplesImage,
+    alt: "Couples online counselling",
+    heading: "Couples online counselling",
+    body: "A collaborative, person-centred space to work through relationship, marriage, and family challenges together — with both of you heard.",
+    price: "R600",
+  },
+];
+
+const pageUrl = new URL("/services/", Astro.site).href;
+
+const schema = [
+  {
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: "Online counselling and virtual therapy",
+    serviceType: "Online wellness counselling",
+    description:
+      "Secure online counselling sessions for individuals and couples, delivered by video anywhere in South Africa by an ASCHP Registered Specialist Wellness Counsellor.",
+    url: pageUrl,
+    provider: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    areaServed: { "@type": "Country", name: "South Africa" },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: new URL("/contact/", Astro.site).href,
+      name: "Online video sessions",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Session fees",
+      itemListElement: fees.map((fee) => ({
+        "@type": "Offer",
+        name: fee.schemaName,
+        description: fee.blurb,
+        price: fee.price,
+        priceCurrency: "ZAR",
+        availability: "https://schema.org/InStock",
+        itemOffered: { "@type": "Service", name: fee.schemaName },
+      })),
+    },
+  },
+  breadcrumbs(Astro.site, [{ name: "Services & fees", path: "/services/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Services"
+    title="Online counselling services"
+    description="Secure online sessions for clients across South Africa — professional support from the comfort and privacy of your own space."
+    variant="interior"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="media-grid media-grid--wide">
+        {
+          offerings.map((offering) => (
+            <div class="service-card">
+              <div class="media-card-image">
+                <Image
+                  src={offering.image}
+                  alt={offering.alt}
+                  width={960}
+                  height={540}
+                  fit="cover"
+                  widths={[520, 1040, 1560]}
+                  sizes="(max-width: 760px) 90vw, 520px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="service-card-body">
+                <h2>{offering.heading}</h2>
+                <p>{offering.body}</p>
+                <div class="service-meta">
+                  <span>1 hour</span>
+                  <span class="dot">&middot;</span>
+                  <span>Online, secure video</span>
+                  <span class="dot">&middot;</span>
+                  <span class="price">{offering.price}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sage">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Areas I commonly support</span>
+        <h2 style="color: var(--forest-deep);">I work with a wide range of concerns</h2>
+        <p>
+          If you're unsure whether your concern falls within these areas, please don't hesitate to
+          get in touch. Together, we can determine the most appropriate way to support you.
+        </p>
+      </div>
+      <ul class="tag-list tag-list--center">
+        {supportAreas.map((area) => <li>{area}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Session fees</h2>
+      </div>
+      <div class="pricing-grid">
+        {
+          fees.map((fee) => (
+            <div class="price-card">
+              <div class="eyebrow">{fee.eyebrow}</div>
+              <div class="price-amount">{fee.amount}</div>
+              <div class="price-amount-note">{fee.note}</div>
+              <p>{fee.blurb}</p>
+              <a href="/contact/" class="btn btn-primary">
+                Book now
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Not sure where to start?"
+    body="Reach out and we'll figure out together whether counselling is the right fit for you."
+  />
+</BaseLayout>

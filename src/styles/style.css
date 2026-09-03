@@ -96,6 +96,16 @@ p {
   padding: 0 24px;
 }
 
+/* Resources listing and article covers run a little wider than body copy. */
+.container--wide {
+  max-width: 1100px;
+}
+
+/* Measure-constrained column for article prose. */
+.container--reading {
+  max-width: 720px;
+}
+
 .eyebrow {
   font-family: var(--font-ui);
   font-size: 0.78rem;
@@ -597,6 +607,11 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: clamp(18px, 2.5vw, 32px);
+}
+
+/* Two-up service cards on the Services page need a wider minimum. */
+.media-grid--wide {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .media-card {
@@ -1420,7 +1435,7 @@ p {
   padding-top: 0;
 }
 
-.contact-info-item h3 {
+.contact-info-item h2 {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 600;
@@ -1450,7 +1465,7 @@ p {
   padding-top: 24px;
 }
 
-.contact-next h3 {
+.contact-next h2 {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 600;
@@ -1745,6 +1760,185 @@ p {
 
 .tag-list--center {
   justify-content: center;
+}
+
+/* ==========================================================================
+   About page — qualifications and approach cards
+   Replaces the inline styles the static pages used to carry.
+   ========================================================================== */
+
+.qualifications-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 4vw, 60px);
+}
+
+.qualifications-intro {
+  flex: 1 1 260px;
+}
+
+.qualifications-intro h2 {
+  margin-top: 16px;
+}
+
+.qualifications-list {
+  flex: 1 1 420px;
+}
+
+.approach-card {
+  border-top: 2px solid var(--illuminated);
+  padding-top: 26px;
+}
+
+/* ==========================================================================
+   Resource articles
+   ========================================================================== */
+
+.note-box--spaced {
+  margin-bottom: clamp(28px, 3.4vw, 44px);
+}
+
+.article {
+  padding: clamp(40px, 5vw, 72px) 0 clamp(32px, 4vw, 56px);
+}
+
+.article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  margin-bottom: 24px;
+  transition: gap 0.2s ease;
+}
+
+.article-back:hover {
+  gap: 14px;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.article-meta .tag {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+}
+
+.article h1 {
+  margin: 0 0 18px;
+}
+
+.article-standfirst {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.5;
+  color: var(--forest);
+  margin: 0;
+}
+
+.article-cover {
+  margin: clamp(28px, 3.4vw, 44px) 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--leaf);
+  box-shadow: 0 12px 34px rgba(46, 89, 67, 0.14);
+}
+
+.article-cover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+}
+
+/* Long-form Markdown output. Only the elements posts actually use are styled;
+   headings stay on the display face and body copy keeps the site's measure. */
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin: 1.8em 0 0.5em;
+}
+
+.prose h3 {
+  margin: 1.6em 0 0.5em;
+}
+
+.prose p,
+.prose li {
+  color: var(--text-soft);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+  margin: 0 0 1.2em;
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+}
+
+.prose a {
+  color: var(--illuminated-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose blockquote {
+  margin: 1.6em 0;
+  padding: 4px 0 4px 22px;
+  border-left: 2px solid var(--illuminated);
+}
+
+.prose blockquote p {
+  margin-bottom: 0.6em;
+  color: var(--text);
+}
+
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: rgba(46, 89, 67, 0.09);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  color: var(--forest);
+}
+
+.note-box code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: rgba(46, 89, 67, 0.1);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  color: var(--forest);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid rgba(46, 89, 67, 0.18);
+  margin: 2em 0;
 }
 
 /* ==========================================================================

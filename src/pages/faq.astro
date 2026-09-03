@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { allFaqs, faqGroups, faqsToConfirm } from "../faqs";
+import { breadcrumbs } from "../schema";
+import heroImage from "../assets/images/gradient-3.jpg";
+
+const title = "Questions About Online Counselling | Emma Rossouw, Cape Town";
+const description =
+  "Answers to common questions about booking, sessions, fees, and confidentiality for online counselling with Emma Rossouw, ASCHP Specialist Wellness Counsellor.";
+
+const schema = [
+  {
+    "@type": "FAQPage",
+    "@id": `${new URL("/faq/", Astro.site).href}#webpage`,
+    url: new URL("/faq/", Astro.site).href,
+    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+    mainEntity: allFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: { "@type": "Answer", text: faq.a },
+    })),
+  },
+  breadcrumbs(Astro.site, [{ name: "Questions", path: "/faq/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Questions"
+    title="Things people often ask"
+    variant="short"
+  />
+
+  {
+    faqGroups.map((group) => (
+      <section class:list={["section", { "section--sage": group.tinted }]}>
+        <div class="container">
+          <div class="faq-group">
+            <div class="faq-group-label">{group.label}</div>
+            <div class="faq-list">
+              {group.items.map((item) => (
+                <div class="faq-item">
+                  <h3>{item.q}</h3>
+                  <p>{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section section--tight-top">
+    <div class="container">
+      <div class="note-box">
+        <div class="note-box-label">For Emma to confirm</div>
+        <p>
+          Three practical questions clients ask that I couldn't answer from the current site &mdash;
+          your wording, and they can join the list above:
+        </p>
+        <ul class="tag-list">
+          {faqsToConfirm.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Still have a question?"
+    body="If you don't see the answer here, send a message and I'll get back to you directly."
+    label="Get in touch"
+  />
+</BaseLayout>

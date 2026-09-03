@@ -1,0 +1,113 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PhotoHero from "../../components/PhotoHero.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import heroImage from "../../assets/images/wellness-hero.jpg";
+
+const title = "Resources | Emma Rossouw Counselling, Cape Town";
+const description =
+  "Short, practical reading on anxiety, relationships, and burnout from Emma Rossouw, ASCHP Specialist Wellness Counsellor. More articles coming soon.";
+
+const posts = (await getCollection("resources")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
+const featured = posts.find((post) => post.data.featured) ?? posts[0];
+const rest = posts.filter((post) => post.id !== featured?.id);
+
+// While any post is still scaffolding, the section stays out of search results
+// and the "content to come" banner is shown.
+const hasPlaceholders = posts.some((post) => post.data.placeholder);
+---
+
+<BaseLayout title={title} description={description} noindex={hasPlaceholders}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Resources"
+    title="Reading between sessions"
+    description="Short, practical pieces on the things that come up most often in the counselling room."
+    variant="short"
+  />
+
+  <section class="section">
+    <div class="container container--wide">
+      {
+        hasPlaceholders && (
+          <div class="note-box note-box--spaced">
+            <div class="note-box-label">Layout only &mdash; content to come</div>
+            <p>
+              The cards below show how posts will sit once you've written them. Each one is a
+              Markdown file in <code>src/content/resources/</code> &mdash; edit the text, drop
+              <code>placeholder: true</code> from the top of the file, and it publishes.
+            </p>
+          </div>
+        )
+      }
+
+      {
+        featured && (
+          <a href={`/resources/${featured.id}/`} class="resource-featured">
+            <div class="resource-featured-image">
+              <Image
+                src={featured.data.cover}
+                alt={featured.data.coverAlt}
+                width={800}
+                height={600}
+                fit="cover"
+                widths={[420, 840, 1260]}
+                sizes="(max-width: 760px) 90vw, 420px"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="resource-featured-body">
+              <div class="resource-meta">
+                <span class="tag">Featured</span>
+                {featured.data.readingTime && <span>{featured.data.readingTime}</span>}
+              </div>
+              <h2>{featured.data.title}</h2>
+              <p>{featured.data.description}</p>
+              <span class="resource-read-link">
+                Read the piece <span aria-hidden="true">&rarr;</span>
+              </span>
+            </div>
+          </a>
+        )
+      }
+
+      <div class="resource-grid">
+        {
+          rest.map((post) => (
+            <a href={`/resources/${post.id}/`} class="resource-card">
+              <div class="resource-card-image">
+                <Image
+                  src={post.data.cover}
+                  alt={post.data.coverAlt}
+                  width={640}
+                  height={400}
+                  fit="cover"
+                  widths={[340, 680, 1020]}
+                  sizes="(max-width: 760px) 90vw, 340px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="resource-card-body">
+                <span class="tag">{post.data.category}</span>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Book your free 15-minute consultation"
+    body="A complimentary call to see whether we're the right fit for one another. No pressure — just a conversation."
+  />
+</BaseLayout>

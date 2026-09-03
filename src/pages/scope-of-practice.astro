@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { breadcrumbs } from "../schema";
+import heroImage from "../assets/images/gradient-2.jpg";
+
+const title = "Scope of Practice | ASCHP Wellness Counsellor, Cape Town";
+const description =
+  "What to expect from online counselling with Emma Rossouw, an ASCHP Registered Specialist Wellness Counsellor based in Cape Town, South Africa.";
+
+/** Inline SVG paths for the two scope cards. */
+const heartPath =
+  "M12 20.3C12 20.3 3.8 15.1 3.8 9.3C3.8 6.4 6 4.2 8.7 4.2C10.1 4.2 11.3 4.9 12 6C12.7 4.9 13.9 4.2 15.3 4.2C18 4.2 20.2 6.4 20.2 9.3C20.2 15.1 12 20.3 12 20.3Z";
+const leafPaths = [
+  "M4.5 19.5C4.5 19.5 3.2 9.8 12 4.8C20.8 9.8 19.5 19.5 19.5 19.5C13.5 19.5 4.5 19.5 4.5 19.5Z",
+  "M12 4.8C10.5 9.8 8.5 15 4.5 19.5",
+];
+
+const principles = [
+  "Every person's journey is different, which is why I tailor each session to your unique needs, goals, and experiences.",
+  "My aim is to create a safe, supportive, confidential, and non-judgemental space where you feel comfortable to talk openly and be yourself.",
+  "Sessions are held online, so you can access counselling from the comfort and privacy of your own home or any space where you feel safe and relaxed.",
+  "I use a range of evidence-based counselling approaches, including Cognitive Behavioural Therapy (CBT), Solution-Focused Therapy, and Narrative Therapy, depending on what will best support you.",
+  "Together, we'll explore the challenges you're facing, gain a better understanding of your experiences, and work towards meaningful, lasting change.",
+  "My goal is to equip you with practical tools, coping strategies, and greater self-awareness so you feel more confident and resilient long after our sessions have ended.",
+];
+
+const steps = [
+  "You send a message through the contact form, and I reply to arrange a free 15-minute call at a time that suits you.",
+  "On the call we talk about what's brought you here and what you're hoping for. You can ask anything about the counselling process — there's no obligation to book.",
+  "If it feels like a fit, we schedule your first full session and I send you the secure video link and everything you need beforehand.",
+  "We work together at a pace that suits you, reviewing along the way what's helping and what you'd like to focus on next.",
+];
+
+const schema = [
+  {
+    "@type": "AboutPage",
+    "@id": `${new URL("/scope-of-practice/", Astro.site).href}#webpage`,
+    url: new URL("/scope-of-practice/", Astro.site).href,
+    name: title,
+    description,
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+    about: { "@id": `${new URL("/", Astro.site).href}#emma` },
+  },
+  breadcrumbs(Astro.site, [
+    { name: "What to expect", path: "/scope-of-practice/" },
+  ]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Scope of practice"
+    title="What to expect"
+    description="Understanding what counselling with me looks like, and where my scope of practice begins and ends."
+    variant="interior"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        <div class="card card--icon">
+          <span class="icon-badge" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d={heartPath}></path>
+            </svg>
+          </span>
+          <h2>Professional, non-diagnostic support</h2>
+          <p>
+            My role is to provide professional, non-diagnostic counselling that promotes emotional
+            wellbeing, resilience, and personal growth. I support individuals in managing everyday
+            emotional challenges, stress, relationship difficulties, life transitions, and other
+            concerns that impact overall wellbeing.
+          </p>
+        </div>
+        <div class="card card--icon">
+          <span class="icon-badge" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              {leafPaths.map((d) => <path d={d} />)}
+            </svg>
+          </span>
+          <h2>Beyond my scope</h2>
+          <p>
+            As an ASCHP-registered Specialist Wellness Counsellor, I do not diagnose mental health
+            disorders or prescribe medication. Should your needs fall outside my scope of practice, I
+            will gladly refer you to a trusted HPCSA-registered mental health professional, such as a
+            Registered Counsellor, Psychologist, Psychiatrist, or another appropriate healthcare
+            practitioner, ensuring you receive the level of care best suited to your needs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sage">
+    <div class="container">
+      <div class="section-head">
+        <h2 style="color: var(--forest-deep);">A safe, tailored, confidential space</h2>
+      </div>
+      <div class="numbered-grid">
+        {
+          principles.map((principle, index) => (
+            <div class="numbered-card">
+              <div class="number">{String(index + 1).padStart(2, "0")}</div>
+              <p>{principle}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="step-list">
+        <span class="eyebrow">Your first session</span>
+        <h2 class="step-list-head">How it usually goes</h2>
+        {
+          steps.map((step, index) => (
+            <div class="step-row">
+              <span class="step-number">Step {index + 1}</span>
+              <p>{step}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="See if we're the right fit"
+    body="I offer a complimentary 15-minute consultation to help you decide whether we're the right fit for one another. A chance to meet, discuss the challenges you're facing, and ask any questions about the counselling process."
+  />
+</BaseLayout>

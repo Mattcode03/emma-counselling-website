@@ -1,0 +1,162 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { practice, qualifications } from "../site";
+import { breadcrumbs } from "../schema";
+import heroImage from "../assets/images/gradient.jpg";
+import portrait from "../assets/images/emma-profile.jpg";
+
+const title = "About Emma Rossouw | ASCHP Wellness Counsellor, Cape Town";
+const description =
+  "Meet Emma Rossouw, a Registered Specialist Wellness Counsellor (ASCHP) based in Cape Town, offering integrative, evidence-based online counselling across South Africa.";
+
+const approaches = [
+  {
+    heading: "Cognitive Behavioural Therapy",
+    body: "Noticing the patterns in how you think, feel and act — and finding practical ways to shift the ones that no longer serve you.",
+  },
+  {
+    heading: "Solution-Focused Therapy",
+    body: "Starting from what already works in your life and building on it, with clear goals and steps you can actually take.",
+  },
+  {
+    heading: "Narrative Therapy",
+    body: "Looking at the story you hold about yourself and your experiences, and finding room to retell it on your own terms.",
+  },
+];
+
+// The Person / ProfessionalService / WebSite nodes come from BaseLayout.
+const schema = [
+  {
+    "@type": "AboutPage",
+    "@id": `${new URL("/about/", Astro.site).href}#webpage`,
+    url: new URL("/about/", Astro.site).href,
+    name: title,
+    description,
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+    mainEntity: { "@id": `${new URL("/", Astro.site).href}#emma` },
+  },
+  breadcrumbs(Astro.site, [{ name: "About me", path: "/about/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero image={heroImage} eyebrow="About me" variant="interior">
+    <Fragment slot="title">Hello, I'm <em>Emma Rossouw</em>.</Fragment>
+  </PhotoHero>
+
+  <div class="container bio-grid">
+    <aside class="bio-aside">
+      <div class="bio-aside-image">
+        <Image
+          src={portrait}
+          alt="Emma Rossouw, ASCHP Registered Specialist Wellness Counsellor"
+          width={600}
+          height={600}
+          fit="cover"
+          position="top"
+          widths={[300, 600, 900]}
+          sizes="(max-width: 860px) 90vw, 300px"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="bio-credential">
+        <div class="bio-credential-label">Registered with</div>
+        <div class="bio-credential-name">{practice.registration}</div>
+        <p>{practice.registrationBody} &mdash; Specialist Wellness Counsellor.</p>
+      </div>
+    </aside>
+    <div class="bio-copy">
+      <p class="bio-lead">
+        Taking the first step towards seeking support can feel overwhelming, but it can also be the
+        beginning of meaningful change.
+      </p>
+      <p>
+        Whether you're navigating stress, anxiety, relationship challenges, life transitions, or
+        simply seeking personal growth, I'm here to provide a warm, confidential space where you can
+        feel heard, understood, and supported.
+      </p>
+      <p>
+        Sessions are held securely online, so you can access counselling from anywhere in South
+        Africa. Together, we'll work towards building resilience, gaining insight, and developing the
+        tools to help you move forward with greater confidence, balance, and wellbeing.
+      </p>
+      <div class="bio-divider"></div>
+      <p>
+        I'm Emma Rossouw, a Registered Specialist Wellness Counsellor (ASCHP) based in Cape Town,
+        passionate about creating a safe, supportive space where people feel heard, understood, and
+        empowered to navigate life's challenges.
+      </p>
+      <p>
+        I take an integrative approach to counselling, recognising that every individual is unique
+        and that there is no one-size-fits-all approach to therapy. Together, we will tailor our
+        sessions to your specific needs, goals, and circumstances.
+      </p>
+      <p>
+        Drawing on evidence-based approaches such as Cognitive Behavioural Therapy (CBT),
+        Solution-Focused Therapy, and Narrative Therapy, I work collaboratively with you within a
+        person-centred framework. This means you'll be met with empathy, respect, and acceptance
+        while we explore practical strategies and meaningful insights to help you navigate life's
+        challenges, build resilience, and move towards the life you want to create.
+      </p>
+      <div class="bio-quote">
+        <p>
+          &ldquo;Every person's journey is different, which is why I tailor each session to your
+          unique needs, goals, and experiences.&rdquo;
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section section--sage">
+    <div class="container qualifications-layout">
+      <div class="qualifications-intro">
+        <span class="eyebrow">My qualifications</span>
+        <h2 style="color: var(--forest-deep);">Training and registration</h2>
+      </div>
+      <div class="qualifications-list">
+        <ul class="qualifications">
+          {
+            qualifications.map((qualification) => (
+              <li>
+                <span>
+                  {qualification.name}
+                  {qualification.honours && <em> {qualification.honours}</em>}
+                </span>
+                <span class="credential-org">{qualification.org}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How I work</span>
+        <h2>Three approaches I draw on</h2>
+      </div>
+      <div class="grid grid-3">
+        {
+          approaches.map((approach) => (
+            <div class="approach-card">
+              <h3>{approach.heading}</h3>
+              <p>{approach.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Book your free 15-minute consultation"
+    body="A complimentary call to see whether we're the right fit for one another. No pressure — just a conversation."
+  />
+</BaseLayout>

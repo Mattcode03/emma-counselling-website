@@ -1,0 +1,26 @@
+---
+interface Props {
+  heading: string;
+  body: string;
+  /** CTA label; the arrow is appended automatically. */
+  label?: string;
+  href?: string;
+}
+
+const {
+  heading,
+  body,
+  label = "Book a free call",
+  href = "/contact/",
+} = Astro.props;
+---
+
+<div class="section--forest cta-decorated">
+  <div class="container">
+    <div class="section cta-band">
+      <h2>{heading}</h2>
+      <p>{body}</p>
+      <a href={href} class="btn btn-primary">{label} <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</div>

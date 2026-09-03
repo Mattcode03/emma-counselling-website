@@ -1,0 +1,179 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { fees } from "../site";
+import heroImage from "../assets/images/wellness-hero.jpg";
+import portrait from "../assets/images/emma-profile.jpg";
+import individualImage from "../assets/images/individual-counselling.jpg";
+import couplesImage from "../assets/images/couples-counselling.jpg";
+import consultationImage from "../assets/images/consultation.jpg";
+
+const title = "Online Counselling South Africa | Emma Rossouw, Cape Town";
+const description =
+  "Secure online counselling and virtual therapy from Cape Town for clients across South Africa. ASCHP Specialist Wellness Counsellor. Free 15-min consultation.";
+
+const services = [
+  {
+    image: individualImage,
+    alt: "Individual online counselling session",
+    heading: "Individual counselling",
+    body: "For children, adolescents and adults — tailored to your specific needs, goals and circumstances.",
+  },
+  {
+    image: couplesImage,
+    alt: "Couples online counselling session",
+    heading: "Couples counselling",
+    body: "A collaborative, person-centred space to work through relationship, marriage and family challenges together.",
+  },
+  {
+    image: consultationImage,
+    alt: "Free 15-minute consultation call",
+    heading: "A free first call",
+    body: "Fifteen minutes to meet, talk through what's going on, and see whether we're the right fit.",
+  },
+];
+
+const stats = [
+  { value: "Free 15 min", label: "First conversation, no cost" },
+  { value: "ASCHP", label: "Registered wellness counsellor" },
+  { value: "Fully online", label: "Secure video sessions" },
+];
+
+// The Person / ProfessionalService / WebSite nodes come from BaseLayout.
+const schema = [
+  {
+    "@type": "WebPage",
+    "@id": `${new URL("/", Astro.site).href}#webpage`,
+    url: new URL("/", Astro.site).href,
+    name: title,
+    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+    about: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    inLanguage: "en-ZA",
+  },
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    alt="Calm natural setting representing online wellness counselling in South Africa"
+    eyebrow="Online counselling across South Africa"
+    description="A warm, confidential space to feel heard — from your own home, anywhere in South Africa."
+    variant="home"
+  >
+    <Fragment slot="title">Welcome. <em>I'm glad you're here.</em></Fragment>
+  </PhotoHero>
+
+  <div class="stat-card">
+    {
+      stats.map((stat) => (
+        <div class="stat-card-item">
+          <div class="stat-value">{stat.value}</div>
+          <div class="stat-label">{stat.label}</div>
+        </div>
+      ))
+    }
+    <a href="/contact/" class="btn btn-primary">Book now</a>
+  </div>
+
+  <section class="about-teaser-section">
+    <div class="container about-teaser">
+      <div class="about-teaser-image">
+        <Image
+          src={portrait}
+          alt="Emma Rossouw, ASCHP Registered Specialist Wellness Counsellor in Cape Town"
+          width={600}
+          height={600}
+          fit="cover"
+          position="top"
+          widths={[300, 600, 900]}
+          sizes="(max-width: 640px) 90vw, 300px"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="about-teaser-copy">
+        <span class="eyebrow">About me</span>
+        <h2>A safe, supportive space to be heard.</h2>
+        <p>
+          Taking the first step towards seeking support can feel overwhelming, but it can also be
+          the beginning of meaningful change. Whether you're navigating stress, anxiety,
+          relationship challenges, life transitions, or simply seeking personal growth, I'm here to
+          provide a warm, confidential space where you can feel heard, understood, and supported.
+        </p>
+        <p>
+          Sessions are held securely online, so you can access counselling from anywhere in South
+          Africa. Together, we'll work towards building resilience, gaining insight, and developing
+          the tools to help you move forward with greater confidence, balance, and wellbeing.
+        </p>
+        <p>
+          I'm Emma Rossouw, a Registered Specialist Wellness Counsellor (ASCHP) based in Cape Town,
+          passionate about creating a space where people feel heard, understood, and empowered to
+          navigate life's challenges.
+        </p>
+        <a href="/about/" class="read-more-link">
+          Read more about me <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sage">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How I work</span>
+        <h2 style="color: var(--forest-deep);">Tailored to you, every session</h2>
+      </div>
+      <div class="media-grid">
+        {
+          services.map((service) => (
+            <div class="media-card">
+              <div class="media-card-image">
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  width={640}
+                  height={440}
+                  fit="cover"
+                  widths={[340, 680, 1020]}
+                  sizes="(max-width: 760px) 90vw, 340px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="media-card-body">
+                <h3>{service.heading}</h3>
+                <p>{service.body}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="fee-list-head">
+        <h2>Session fees</h2>
+        <span class="fee-list-note">All sessions held online &middot; 1 hour</span>
+      </div>
+      {
+        fees.map((fee) => (
+          <a href="/contact/" class="fee-row">
+            <span class="fee-row-name">{fee.name}</span>
+            <span class="fee-row-price">{fee.rowPrice}</span>
+            <span class="fee-row-cta">Book &rarr;</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Book your free 15-minute consultation"
+    body="A complimentary call to see whether we're the right fit for one another. No pressure — just a conversation."
+  />
+</BaseLayout>

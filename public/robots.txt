@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Update the domain below once the site is live.
+# The sitemap is generated at build time by @astrojs/sitemap.
+Sitemap: https://REPLACE-WITH-DOMAIN.co.za/sitemap-index.xml

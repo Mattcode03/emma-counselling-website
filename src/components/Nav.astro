@@ -1,0 +1,53 @@
+---
+import { navLinks, practice } from "../site";
+
+/** Pathname of the current page, used to mark the active link. */
+const path = Astro.url.pathname;
+
+/** Trailing-slash-insensitive match so "/about" and "/about/" both work. */
+const normalise = (href: string) => (href === "/" ? "/" : href.replace(/\/$/, ""));
+const isActive = (href: string) => normalise(path) === normalise(href);
+---
+
+<header class="site-header">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/" class="nav-logo">
+      {practice.nameParts.lead} <span>{practice.nameParts.accent}</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[{ active: isActive(link.href) }]}
+              aria-current={isActive(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="nav-cta">
+        <a href="/contact/" class="btn btn-primary">Book a free call</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Mobile nav toggle. Astro bundles and defers this automatically, and it is
+  // scoped to the component rather than a global js/nav.js include.
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const links = document.querySelector<HTMLUListElement>(".nav-links");
+
+  if (toggle && links) {
+    toggle.addEventListener("click", () => {
+      const isOpen = links.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  }
+</script>
