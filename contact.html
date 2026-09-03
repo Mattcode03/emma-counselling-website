@@ -24,13 +24,11 @@
   <meta name="twitter:description" content="Book a free 15-minute consultation for online counselling anywhere in South Africa." />
   <meta name="twitter:image" content="https://REPLACE-WITH-DOMAIN.co.za/assets/images/emma-profile.jpg" />
 
-  <meta name="theme-color" content="#2E5943" />
-  <!-- TODO: add favicon links here once a favicon file exists. -->
-
+  <meta name="theme-color" content="#23422F" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
 
   <script type="application/ld+json">
@@ -83,72 +81,97 @@
       </button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="scope-of-practice.html">Scope of Practice</a></li>
-        <li><a href="contact.html" class="active" aria-current="page">Contact</a></li>
-        <li class="nav-cta"><a href="contact.html" class="btn btn-primary">Book a Free Consultation</a></li>
+        <li><a href="about.html">About me</a></li>
+        <li><a href="services.html">Services &amp; fees</a></li>
+        <li><a href="scope-of-practice.html">What to expect</a></li>
+        <li><a href="faq.html">Questions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li class="nav-cta"><a href="contact.html" class="btn btn-primary">Book a free call</a></li>
       </ul>
     </nav>
   </header>
 
   <main id="main">
-    <section class="page-hero page-hero--contact">
-      <div class="container">
-        <span class="eyebrow">Get in Touch</span>
-        <h1>Book Online Counselling</h1>
-        <p>
-          I offer a complimentary 15-minute consultation to help you decide whether we're the
-          right fit for one another. Sessions are held online, so you can book from Cape Town or
-          anywhere else in South Africa. Send a message below and I'll be in touch to arrange a time.
-        </p>
+    <div class="photo-hero photo-hero--short">
+      <img src="assets/images/consultation.jpg" alt="" role="presentation" />
+      <div class="photo-hero-content">
+        <span class="eyebrow">Get in touch</span>
+        <h1>Book your free consultation</h1>
+        <p>Send a message below and I'll be in touch to arrange a time. Sessions are held online, so you can book from Cape Town or anywhere else in South Africa.</p>
       </div>
-    </section>
+    </div>
 
     <section class="section">
       <div class="container contact-grid">
         <div class="contact-info">
-          <div class="card">
+          <div class="contact-info-item">
             <h3>Email</h3>
-            <p><a href="mailto:emma.rossouw03@gmail.com">emma.rossouw03@gmail.com</a></p>
+            <a href="mailto:emma.rossouw03@gmail.com">emma.rossouw03@gmail.com</a>
           </div>
-          <div class="card">
+          <div class="contact-info-item">
             <h3>Phone</h3>
-            <p><a href="tel:+27820670589">+27 82 067 0589</a></p>
+            <a href="tel:+27820670589">+27 82 067 0589</a>
           </div>
-          <div class="card">
+          <div class="contact-info-item">
             <h3>Sessions</h3>
-            <p>
-              Held securely online, from the comfort and privacy of your own space. Based in Cape
-              Town, Western Cape, working with clients across South Africa.
-            </p>
+            <p>Held securely online, from the comfort and privacy of your own space. Based in Cape Town, Western Cape, working with clients across South Africa.</p>
+          </div>
+          <div class="contact-next">
+            <h3>What happens next</h3>
+            <div class="contact-next-step">
+              <span class="step-index">1</span>
+              <p>I read your message and reply to suggest a few times for a free 15-minute call.</p>
+            </div>
+            <div class="contact-next-step">
+              <span class="step-index">2</span>
+              <p>We talk &mdash; about what's going on, and any questions you have. No obligation to book.</p>
+            </div>
+            <div class="contact-next-step">
+              <span class="step-index">3</span>
+              <p>If it feels right, we schedule your first session and I send the secure video link.</p>
+            </div>
           </div>
         </div>
 
         <form id="contact-form" class="contact-form card">
-          <h3 class="contact-form-title">I'd love to hear from you</h3>
+          <h2 class="contact-form-title">I'd love to hear from you</h2>
+          <p class="contact-form-intro">Only your name and email are needed &mdash; share as much or as little as you like.</p>
 
           <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
           <input type="hidden" name="subject" value="New enquiry from Emma Rossouw Counselling website" />
           <input type="checkbox" name="botcheck" style="display: none;" />
 
-          <div class="form-field">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required />
-          </div>
-          <div class="form-field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="form-field">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" name="phone" />
-          </div>
-          <div class="form-field">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required />
+            </div>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-field">
+              <label for="phone">Phone <span class="optional">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+27 &hellip;" />
+            </div>
+            <div class="form-field">
+              <label for="interest">I'm interested in</label>
+              <select id="interest" name="interest">
+                <option>Individual counselling</option>
+                <option>Couples counselling</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-field form-field--full">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" placeholder="A little about what you're looking for&hellip;" required></textarea>
+            </div>
           </div>
 
-          <button type="submit" class="btn btn-primary contact-form-submit">Send Message</button>
+          <div class="contact-form-submit-row">
+            <button type="submit" class="btn btn-primary contact-form-submit">Send message</button>
+          </div>
+          <p class="contact-privacy-note">Your message is confidential. If you're in immediate danger or crisis, please contact emergency services or a 24-hour crisis line rather than waiting for a reply.</p>
           <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
         </form>
       </div>
@@ -159,7 +182,7 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand">Emma Rossouw Counselling</div>
+          <div class="footer-brand">Emma Rossouw <span>Counselling</span></div>
           <p class="footer-nap">
             Online counselling &amp; virtual therapy<br />
             Cape Town, Western Cape, South Africa<br />
@@ -176,12 +199,21 @@
             </a>
           </div>
         </div>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="scope-of-practice.html">Scope of Practice</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+        <div class="footer-nav">
+          <ul class="footer-nav-col">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About me</a></li>
+            <li><a href="services.html">Services &amp; fees</a></li>
+          </ul>
+          <ul class="footer-nav-col">
+            <li><a href="scope-of-practice.html">What to expect</a></li>
+            <li><a href="faq.html">Questions</a></li>
+            <li><a href="resources.html">Resources</a></li>
+          </ul>
+          <ul class="footer-nav-col">
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
       </div>
       <div class="footer-bottom">
         <span>&copy; <span id="year"></span> Emma Rossouw Counselling. All rights reserved.</span>

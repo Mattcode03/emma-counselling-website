@@ -24,10 +24,12 @@
   --text-soft: #4B5C53;
   --white: #FFFFFF;
 
-  /* Type */
-  --font-display: "Playfair Display", serif;
-  --font-body: "Lora", serif;
-  --font-ui: "Montserrat", sans-serif;
+  /* Type. Instrument Serif ships one weight (400) in roman and italic only,
+     so headings lean on size and italic accents rather than boldness. Karla
+     covers body copy and all UI labels. */
+  --font-display: "Instrument Serif", serif;
+  --font-body: "Karla", sans-serif;
+  --font-ui: "Karla", sans-serif;
 
   /* Layout */
   --max-width: 1120px;
@@ -68,15 +70,20 @@ a {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
+  font-weight: 400;
   color: var(--forest);
-  line-height: 1.25;
-  margin: 0 0 0.6em;
-  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
 }
 
-h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
-h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
-h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+h1 { font-size: clamp(2.4rem, 5.2vw, 3.7rem); }
+h2 { font-size: clamp(1.8rem, 3.3vw, 2.6rem); }
+h3 { font-size: clamp(1.25rem, 2vw, 1.55rem); }
+
+em, .accent-italic {
+  font-style: italic;
+  color: var(--illuminated-dark);
+}
 
 p {
   margin: 0 0 1.2em;
@@ -92,7 +99,7 @@ p {
 .eyebrow {
   font-family: var(--font-ui);
   font-size: 0.78rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--illuminated-ink);
   font-weight: 600;
@@ -159,13 +166,13 @@ p {
 
 .btn {
   font-family: var(--font-ui);
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   font-weight: 600;
   display: inline-block;
-  padding: 14px 32px;
-  border-radius: var(--radius);
+  padding: 15px 30px;
+  border-radius: 999px;
   border: 2px solid transparent;
   white-space: nowrap;
   cursor: pointer;
@@ -195,6 +202,16 @@ p {
 
 .btn-outline:hover {
   background: var(--forest);
+  color: var(--peaceful);
+}
+
+.hero-actions .btn-outline {
+  border-color: #a97a32;
+  color: #a97a32;
+}
+
+.hero-actions .btn-outline:hover {
+  background: #a97a32;
   color: var(--peaceful);
 }
 
@@ -232,57 +249,67 @@ p {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(247, 240, 223, 0.92);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(46, 89, 67, 0.1);
+  background: var(--forest-deep);
 }
 
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px;
+  gap: 16px 28px;
+  padding: 16px 24px;
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
 .nav-logo {
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--forest);
-  letter-spacing: 0.02em;
+  font-size: 1.4rem;
+  color: var(--peaceful);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .nav-logo span {
-  color: var(--illuminated-dark);
+  font-style: italic;
+  color: var(--illuminated-light);
 }
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 32px;
+  gap: 6px 18px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.nav-links a {
+.nav-links a:not(.btn) {
+  display: inline-flex;
+  flex-direction: column;
   font-family: var(--font-ui);
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--text);
+  color: rgba(247, 240, 223, 0.82);
   font-weight: 500;
-  padding: 6px 0;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  padding: 10px 0;
+  white-space: nowrap;
+  transition: color 0.15s ease;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--forest);
-  border-color: var(--illuminated);
+.nav-links a:not(.btn):hover,
+.nav-links a:not(.btn).active {
+  color: var(--illuminated-light);
+}
+
+.nav-links a.active::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 5px;
+  background: var(--illuminated-light);
 }
 
 .nav-links > li {
@@ -290,15 +317,19 @@ p {
 }
 
 .nav-cta {
-  margin-left: 8px;
+  margin-left: 4px;
 }
 
-/* Slightly tighter than the in-page buttons so the bar clears 1080px.
-   The gold label is a deliberate brand choice: #C6913F on Forest is 2.86:1,
-   below the 4.5:1 AA threshold for text at this size. */
 .nav-cta .btn-primary {
-  padding: 12px 24px;
-  color: var(--illuminated);
+  padding: 12px 22px;
+  font-size: 0.72rem;
+  background: var(--peaceful);
+  color: var(--forest-deep);
+}
+
+.nav-cta .btn-primary:hover {
+  background: var(--illuminated-light);
+  color: var(--forest-deep);
 }
 
 .nav-toggle {
@@ -314,29 +345,29 @@ p {
 .nav-toggle span {
   width: 26px;
   height: 2px;
-  background: var(--forest);
+  background: var(--peaceful);
   display: block;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* The horizontal nav ran out of room well before the old 860px switch: four
-   links plus a long CTA needed ~865px inside a 852px bar at 900px wide, so
-   the logo, "Scope of Practice" and the button label all wrapped. Hand over
-   to the toggle at 1024px instead, and tighten the gap just above it. */
-@media (min-width: 1081px) {
+@media (min-width: 1201px) {
   .nav-logo,
   .nav-links a {
     white-space: nowrap;
   }
 }
 
-@media (max-width: 1200px) and (min-width: 1081px) {
+@media (max-width: 1200px) and (min-width: 1025px) {
   .nav-links {
-    gap: 22px;
+    gap: 4px 14px;
+  }
+
+  .nav-links a:not(.btn) {
+    font-size: 0.68rem;
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1024px) {
   .nav-toggle {
     display: flex;
   }
@@ -348,12 +379,15 @@ p {
     right: 0;
     flex-direction: column;
     align-items: flex-start;
-    background: var(--peaceful);
-    padding: 20px 24px 28px;
-    gap: 18px;
-    border-bottom: 1px solid rgba(46, 89, 67, 0.1);
+    background: var(--forest-deep);
+    padding: 12px 24px 28px;
+    gap: 4px;
     box-shadow: var(--shadow);
     display: none;
+  }
+
+  .nav-links a:not(.btn) {
+    padding: 10px 0;
   }
 
   .nav-links.is-open {
@@ -362,97 +396,354 @@ p {
 
   .nav-cta {
     margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .nav-cta .btn {
+    display: block;
+    text-align: center;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Hero
+   Photo hero (home + interior pages) — full-bleed image, dark gradient,
+   centred copy. Interior pages use the shorter variant.
    -------------------------------------------------------------------------- */
 
-.hero {
+.photo-hero {
   position: relative;
-  padding: 88px 0 80px;
   overflow: hidden;
+  background: var(--forest);
+  height: clamp(460px, 52vw, 660px);
 }
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 56px;
+.photo-hero--interior {
+  height: clamp(300px, 32vw, 420px);
+}
+
+.photo-hero--short {
+  height: clamp(280px, 28vw, 380px);
+}
+
+.photo-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(35, 66, 47, 0.6) 0%, rgba(35, 66, 47, 0.64) 44%, rgba(35, 66, 47, 0.82) 100%);
+}
+
+.photo-hero--interior::after,
+.photo-hero--short::after {
+  background: linear-gradient(180deg, rgba(35, 66, 47, 0.62) 0%, rgba(35, 66, 47, 0.82) 100%);
+}
+
+.photo-hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px 24px 90px;
+}
+
+.photo-hero--interior .photo-hero-content,
+.photo-hero--short .photo-hero-content {
+  padding: 24px;
+}
+
+.photo-hero-content .eyebrow {
+  color: var(--peaceful);
+  margin-bottom: 18px;
+}
+
+.photo-hero-content h1 {
+  color: var(--peaceful);
+  margin: 0 0 16px;
+  max-width: 22ch;
+}
+
+.photo-hero-content p {
+  color: rgba(247, 240, 223, 0.9);
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* Floating stat card overlapping the home hero's lower edge */
+.stat-card {
+  width: min(1000px, 92%);
+  margin: clamp(-56px, -5vw, -70px) auto 0;
+  position: relative;
+  z-index: 2;
+  background: var(--peaceful);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(20, 33, 27, 0.22);
+  padding: clamp(26px, 3.4vw, 44px) clamp(24px, 3.8vw, 48px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 40px;
   align-items: center;
 }
 
-.hero-copy .eyebrow {
-  color: var(--illuminated-ink);
+.stat-card-item {
+  flex: 1 1 190px;
 }
 
-.hero-lead {
-  font-size: 1.15rem;
-  max-width: 34ch;
+.stat-card-item .stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  color: var(--forest);
+  line-height: 1.1;
 }
 
-.hero-image {
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  aspect-ratio: 4 / 5;
-}
-
-.hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.about-image {
-  max-width: 420px;
-  margin: 0 auto;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  aspect-ratio: 4 / 5;
-}
-
-.about-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+.stat-card-item .stat-label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-soft);
   margin-top: 8px;
 }
 
-.page-hero {
-  padding: 80px 0 64px;
-  text-align: center;
+.stat-card .btn {
+  flex: 0 0 auto;
 }
 
-.page-hero .eyebrow {
-  color: var(--illuminated-ink);
-}
-
-.page-hero p {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-@media (max-width: 860px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-image {
-    order: -1;
-    aspect-ratio: 16 / 10;
-  }
+@media (max-width: 640px) {
+  .photo-hero-content { padding-bottom: 60px; }
+  .stat-card { margin-top: -40px; }
 }
 
 /* --------------------------------------------------------------------------
-   Cards / Lists
+   Home — about teaser
+   -------------------------------------------------------------------------- */
+
+.about-teaser-section {
+  padding: clamp(52px, 7vw, 110px) 0 clamp(48px, 6.4vw, 100px);
+}
+
+.about-teaser {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(32px, 5vw, 76px);
+  align-items: center;
+}
+
+.about-teaser-image {
+  flex: 1 1 260px;
+  max-width: 300px;
+  overflow: hidden;
+  border-radius: 200px 200px var(--radius) var(--radius);
+  background: var(--calm);
+  box-shadow: 0 18px 44px rgba(46, 89, 67, 0.18);
+}
+
+.about-teaser-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 1.2s ease;
+}
+
+.about-teaser-image:hover img {
+  transform: scale(1.05);
+}
+
+.about-teaser-copy {
+  flex: 1 1 400px;
+}
+
+.about-teaser-copy h2 {
+  margin: 14px 0 20px;
+  max-width: 22ch;
+}
+
+.read-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  border-bottom: 1px solid rgba(198, 145, 63, 0.5);
+  padding-bottom: 6px;
+  transition: border-color 0.2s ease, gap 0.2s ease;
+}
+
+.read-more-link:hover {
+  border-color: var(--illuminated);
+  gap: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Media cards — image-topped cards reused for Home "how I work",
+   Services detail cards, and Resources grid.
+   -------------------------------------------------------------------------- */
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: clamp(18px, 2.5vw, 32px);
+}
+
+.media-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.media-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(20, 33, 27, 0.2);
+}
+
+.media-card-image {
+  overflow: hidden;
+  background: var(--leaf);
+}
+
+.media-card-image img {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+}
+
+.media-card-body {
+  padding: clamp(24px, 2.5vw, 32px) clamp(22px, 2.3vw, 30px) clamp(26px, 2.7vw, 34px);
+}
+
+.media-card-body h3 {
+  margin: 0 0 12px;
+}
+
+.media-card-body p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Larger service cards on the Services page, with a fee footer strip */
+.service-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(46, 89, 67, 0.14);
+}
+
+.service-card .media-card-image img {
+  aspect-ratio: 16 / 9;
+}
+
+.service-card-body {
+  padding: clamp(24px, 2.8vw, 36px);
+}
+
+.service-card-body h2,
+.service-card-body h3 {
+  margin: 0 0 14px;
+}
+
+.service-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(46, 89, 67, 0.16);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.service-meta .dot {
+  color: var(--illuminated-dark);
+}
+
+.service-meta .price {
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Fee list — home page, row-style links
+   -------------------------------------------------------------------------- */
+
+.fee-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(46, 89, 67, 0.2);
+}
+
+.fee-list-head h2 {
+  margin: 0;
+}
+
+.fee-list-note {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.fee-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 26px 16px 26px 0;
+  border-bottom: 1px solid rgba(46, 89, 67, 0.12);
+  transition: background 0.2s ease, padding-left 0.2s ease;
+}
+
+.fee-row:hover {
+  background: rgba(168, 196, 172, 0.24);
+  padding-left: 16px;
+}
+
+.fee-row-name {
+  flex: 1 1 260px;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.9vw, 1.55rem);
+  color: var(--forest);
+}
+
+.fee-row-price {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.9vw, 1.55rem);
+  color: var(--forest);
+  white-space: nowrap;
+}
+
+.fee-row-cta {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Cards / tag list
    -------------------------------------------------------------------------- */
 
 .grid {
@@ -480,18 +771,8 @@ p {
   margin-bottom: 0.5em;
 }
 
-.card--gradient-bg {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
-    url("../assets/images/gradient.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-.card--gradient-bg-3 {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
-    url("../assets/images/gradient 3.jpg");
-  background-size: cover;
-  background-position: center;
+.card--icon {
+  padding: clamp(26px, 3vw, 40px);
 }
 
 .tag-list {
@@ -504,17 +785,20 @@ p {
 }
 
 .tag-list li {
-  background: var(--white);
+  background: var(--peaceful);
   border: 1px solid rgba(46, 89, 67, 0.15);
   color: var(--forest);
   font-family: var(--font-ui);
   font-size: 0.85rem;
   padding: 10px 18px;
   border-radius: 30px;
+}
+
+.tag-list--links li {
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.tag-list li:hover {
+.tag-list--links li:hover {
   background: var(--forest);
   border-color: var(--forest);
   color: var(--peaceful);
@@ -522,77 +806,161 @@ p {
   box-shadow: var(--shadow);
 }
 
+.tag-list--center {
+  justify-content: center;
+}
+
 /* --------------------------------------------------------------------------
-   Bubble field (organic feature list)
+   Icon badge — circular icon disc used on Scope cards
    -------------------------------------------------------------------------- */
 
-.bubble-field {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px 26px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.bubble-item {
-  flex: 0 1 250px;
-  background: var(--white);
-  padding: 34px 26px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  border-radius: 58% 42% 53% 47% / 44% 40% 60% 56%;
-  transition: transform 0.25s ease, border-radius 0.25s ease, box-shadow 0.25s ease;
-}
-
-.bubble-item:hover {
-  transform: translateY(-6px);
-  border-radius: 42% 58% 61% 39% / 56% 44% 56% 44%;
-  box-shadow: 0 16px 34px rgba(46, 89, 67, 0.18);
-}
-
-.bubble-item:nth-child(2n) {
-  margin-top: 34px;
-  border-radius: 45% 55% 40% 60% / 55% 45% 55% 45%;
-}
-
-.bubble-item:nth-child(3n) {
-  margin-top: -8px;
-  border-radius: 50% 50% 62% 38% / 40% 55% 45% 60%;
-}
-
-.bubble-item p {
-  margin: 0;
-  font-size: 0.96rem;
-  color: var(--text-soft);
-}
-
-.bubble-icon {
+.icon-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 54px;
-  height: 54px;
-  margin: 0 auto 18px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 20px;
   border-radius: 50%;
-  /* The bubble behind this is white, so the disc needs its own tint to read
-     as a container. Sage keeps the glyph at 5.28:1 and the disc visible
-     against the card. */
+  /* The card behind this is white, so the disc needs its own tint to read
+     as a container. Sage keeps the glyph at 5.28:1 and the disc visible. */
   background: #C3D7C6;
   color: var(--forest);
 }
 
-.bubble-icon svg {
-  width: 26px;
-  height: 26px;
+.icon-badge svg {
+  width: 24px;
+  height: 24px;
 }
 
-@media (max-width: 640px) {
-  .bubble-item:nth-child(2n),
-  .bubble-item:nth-child(3n) {
-    margin-top: 0;
-  }
+/* --------------------------------------------------------------------------
+   Numbered card grid — Scope page "safe, tailored, confidential space"
+   -------------------------------------------------------------------------- */
+
+.numbered-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: clamp(18px, 2.4vw, 30px);
+  max-width: 1100px;
+  margin: 0 auto;
 }
+
+.numbered-card {
+  background: var(--peaceful);
+  border-radius: var(--radius);
+  padding: clamp(24px, 2.6vw, 34px);
+  transition: transform 0.3s ease;
+}
+
+.numbered-card:hover {
+  transform: translateY(-4px);
+}
+
+.numbered-card .number {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--illuminated-dark);
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.numbered-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   Step list — Scope page "how it usually goes"
+   -------------------------------------------------------------------------- */
+
+.step-list {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.step-list-head {
+  margin: 16px 0 32px;
+}
+
+.step-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 30px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(46, 89, 67, 0.18);
+}
+
+.step-row:last-child {
+  border-bottom: 1px solid rgba(46, 89, 67, 0.18);
+}
+
+.step-number {
+  flex: 0 0 90px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--illuminated-dark);
+}
+
+.step-row p {
+  flex: 1 1 320px;
+  margin: 0;
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   Fee cards — Services page, flat white cards with a gold top accent
+   -------------------------------------------------------------------------- */
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 2.4vw, 30px);
+}
+
+.price-card {
+  background: var(--white);
+  border-top: 2px solid var(--illuminated);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: clamp(26px, 2.8vw, 36px);
+  box-shadow: 0 12px 30px rgba(46, 89, 67, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.price-card .eyebrow {
+  margin-bottom: 16px;
+}
+
+.price-amount {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  color: var(--forest);
+  line-height: 1;
+}
+
+.price-amount-note {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-top: 8px;
+}
+
+.price-card p {
+  margin: 18px 0 26px;
+  font-size: 0.95rem;
+}
+
+.price-card .btn {
+  margin-top: auto;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Qualifications list
+   -------------------------------------------------------------------------- */
 
 .qualifications {
   list-style: none;
@@ -601,10 +969,13 @@ p {
 }
 
 .qualifications li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  justify-content: space-between;
   padding: 18px 0;
   border-bottom: 1px solid rgba(46, 89, 67, 0.15);
-  font-family: var(--font-ui);
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text);
 }
 
@@ -612,97 +983,352 @@ p {
   border-bottom: none;
 }
 
+.qualifications .credential-org {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.section--sage .qualifications li {
+  border-bottom-color: rgba(35, 66, 47, 0.22);
+}
+
+.section--sage .qualifications .credential-org {
+  color: var(--forest-deep);
+}
+
 /* --------------------------------------------------------------------------
-   Pricing
+   About page bio layout
    -------------------------------------------------------------------------- */
 
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+.bio-grid {
+  padding: clamp(44px, 6vw, 92px) 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: flex-start;
+}
+
+.bio-aside {
+  flex: 1 1 260px;
+  max-width: 300px;
+  position: sticky;
+  top: 96px;
+}
+
+.bio-aside-image {
+  overflow: hidden;
+  border-radius: 200px 200px var(--radius) var(--radius);
+  background: var(--calm);
+  box-shadow: 0 18px 44px rgba(46, 89, 67, 0.18);
+}
+
+.bio-aside-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.bio-credential {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(46, 89, 67, 0.18);
+}
+
+.bio-credential-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  margin-bottom: 12px;
+}
+
+.bio-credential-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--forest);
+  line-height: 1.2;
+}
+
+.bio-credential p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+.bio-copy {
+  flex: 1 1 420px;
+}
+
+.bio-lead {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  line-height: 1.5;
+  color: var(--forest);
+}
+
+.bio-divider {
+  height: 1px;
+  background: rgba(46, 89, 67, 0.18);
+  margin: 30px 0;
+}
+
+.bio-quote {
+  border-left: 2px solid var(--illuminated);
+  padding: 6px 0 6px 24px;
+}
+
+.bio-quote p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--forest);
 }
 
 @media (max-width: 860px) {
-  .pricing-grid {
-    grid-template-columns: 1fr;
+  .bio-aside {
+    position: static;
+    max-width: 300px;
+    margin: 0 auto;
   }
 }
 
-.price-card {
+/* --------------------------------------------------------------------------
+   FAQ page
+   -------------------------------------------------------------------------- */
+
+.faq-group {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.faq-group-label {
+  flex: 0 0 200px;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  position: sticky;
+  top: 96px;
+  align-self: flex-start;
+}
+
+.section--sage .faq-group-label {
+  color: var(--forest-deep);
+}
+
+.faq-list {
+  flex: 1 1 400px;
+}
+
+.faq-item {
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(46, 89, 67, 0.16);
+}
+
+.faq-item:first-child {
+  padding-top: 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h3 {
+  margin: 0 0 12px;
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--text);
+}
+
+.section--sage .faq-item {
+  border-bottom-color: rgba(35, 66, 47, 0.22);
+}
+
+.section--sage .faq-item p {
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   Note box — dashed callouts flagging draft content for Emma to review
+   -------------------------------------------------------------------------- */
+
+.note-box {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: rgba(198, 145, 63, 0.12);
+  border: 1px dashed rgba(198, 145, 63, 0.6);
+  border-radius: var(--radius);
+  padding: clamp(22px, 2.6vw, 32px);
+}
+
+.note-box-label {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  margin-bottom: 14px;
+}
+
+.note-box p {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+}
+
+.note-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Resources page
+   -------------------------------------------------------------------------- */
+
+.resource-featured {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: center;
   background: var(--white);
   border-radius: var(--radius);
-  padding: 40px 32px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  border: 2px solid transparent;
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(46, 89, 67, 0.13);
+  margin-bottom: clamp(20px, 2.6vw, 32px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resource-featured:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 46px rgba(20, 33, 27, 0.18);
+}
+
+.resource-featured-image {
+  flex: 1 1 320px;
+  min-width: 280px;
+  overflow: hidden;
+  background: var(--leaf);
+  align-self: stretch;
+}
+
+.resource-featured-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  object-fit: cover;
+}
+
+.resource-featured-body {
+  flex: 1 1 340px;
+  padding: clamp(24px, 2.8vw, 36px);
+}
+
+.resource-meta {
   display: flex;
-  flex-direction: column;
-  transition: border-color 0.15s ease;
-}
-
-.price-card:hover {
-  border-color: var(--forest);
-}
-
-.price-card .eyebrow {
-  margin-bottom: 1.2em;
-}
-
-.price-card .btn {
-  margin-top: auto;
-}
-
-.price-amount {
-  font-family: var(--font-display);
-  font-size: 2.4rem;
-  color: var(--forest);
-  margin: 8px 0 20px;
-}
-
-.price-amount small {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
   color: var(--text-soft);
+}
+
+.resource-meta .tag {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+}
+
+.resource-featured-body h2 {
+  margin: 0 0 14px;
+}
+
+.resource-featured-body p {
+  margin: 0 0 20px;
+}
+
+.resource-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: clamp(18px, 2.4vw, 30px);
+}
+
+.resource-card {
   display: block;
-  margin-top: 6px;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(46, 89, 67, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.price-card--consultation,
-.price-card--individual,
-.price-card--couples {
-  background-size: cover;
-  background-position: center;
-  color: var(--white);
+.resource-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 44px rgba(20, 33, 27, 0.18);
 }
 
-.price-card--consultation {
-  background-image: linear-gradient(rgba(20, 33, 27, 0.78), rgba(20, 33, 27, 0.78)), url("../assets/images/consultation.jpg");
+.resource-card-image {
+  overflow: hidden;
+  background: var(--leaf);
 }
 
-.price-card--individual {
-  background-image: linear-gradient(rgba(20, 33, 27, 0.78), rgba(20, 33, 27, 0.78)), url("../assets/images/individual counselling.jpg");
+.resource-card-image img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
 
-.price-card--couples {
-  background-image: linear-gradient(rgba(20, 33, 27, 0.78), rgba(20, 33, 27, 0.78)), url("../assets/images/couples counselling.jpg");
+.resource-card-body {
+  padding: clamp(22px, 2.4vw, 30px);
 }
 
-.price-card--consultation h3,
-.price-card--individual h3,
-.price-card--couples h3,
-.price-card--consultation .price-amount,
-.price-card--individual .price-amount,
-.price-card--couples .price-amount,
-.price-card--consultation p,
-.price-card--individual p,
-.price-card--couples p {
-  color: var(--white);
+.resource-card-body .tag {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  margin-bottom: 12px;
 }
 
-.price-card--consultation .price-amount small,
-.price-card--individual .price-amount small,
-.price-card--couples .price-amount small {
-  color: rgba(255, 255, 255, 0.85);
+.resource-card-body h3 {
+  margin: 0 0 12px;
+}
+
+.resource-card-body p {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -722,13 +1348,59 @@ p {
   margin: 0 auto 32px;
 }
 
+/* Two faint line-art motifs that drift slowly behind the final CTA band.
+   Purely decorative: no markup, nothing announced by screen readers. */
+.section--forest.cta-decorated {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-decorated::before,
+.cta-decorated::after {
+  content: "";
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: drift 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cta-decorated::before {
+  top: 36px;
+  left: 6%;
+  width: clamp(70px, 9vw, 120px);
+  height: clamp(70px, 9vw, 120px);
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%23E5C286' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='32' cy='16' rx='6' ry='11'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(60 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(120 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(180 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(240 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(300 32 32)'/%3E%3Ccircle cx='32' cy='32' r='4.5'/%3E%3C/svg%3E");
+}
+
+.cta-decorated::after {
+  bottom: 44px;
+  right: 8%;
+  width: clamp(60px, 7.5vw, 96px);
+  height: clamp(60px, 7.5vw, 96px);
+  opacity: 0.55;
+  animation-duration: 20s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%23A8C4AC' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 56V16'/%3E%3Cpath d='M32 30c-10 0-15-6-15-14 9 0 15 6 15 14z'/%3E%3Cpath d='M32 42c10 0 15-6 15-14-9 0-15 6-15 14z'/%3E%3Cpath d='M32 22c-8 0-12-5-12-11 7 0 12 5 12 11z'/%3E%3C/svg%3E");
+}
+
+.cta-decorated .cta-band {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -14px, 0); }
+}
+
 /* --------------------------------------------------------------------------
-   Contact form
+   Contact page
    -------------------------------------------------------------------------- */
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr 1.4fr;
   gap: 48px;
   align-items: flex-start;
 }
@@ -739,30 +1411,88 @@ p {
   }
 }
 
-.contact-info .card {
-  margin-bottom: 20px;
+.contact-info-item {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(46, 89, 67, 0.18);
 }
 
-.contact-info h3 {
+.contact-info-item:first-child {
+  padding-top: 0;
+}
+
+.contact-info-item h3 {
   font-family: var(--font-ui);
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--forest);
-  margin-bottom: 0.4em;
+  color: var(--illuminated-ink);
+  margin-bottom: 10px;
 }
 
-.contact-info p {
+.contact-info-item p,
+.contact-info-item a {
   margin: 0;
-  color: var(--text);
+}
+
+.contact-info-item a {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--forest);
+  transition: color 0.2s ease;
+}
+
+.contact-info-item a:hover {
+  color: var(--illuminated-dark);
+}
+
+.contact-next {
+  padding-top: 24px;
+}
+
+.contact-next h3 {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--illuminated-ink);
+  margin-bottom: 14px;
+}
+
+.contact-next-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.contact-next-step:last-child {
+  margin-bottom: 0;
+}
+
+.contact-next-step .step-index {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--illuminated-dark);
+  flex: 0 0 20px;
+}
+
+.contact-next-step p {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 .contact-form {
-  border-top: 4px solid var(--illuminated);
-  padding: 40px;
+  border-top: 3px solid var(--illuminated);
+  padding: clamp(26px, 3.2vw, 44px);
+  border-radius: 0 0 var(--radius) var(--radius);
 }
 
 .contact-form-title {
+  margin-bottom: 8px;
+}
+
+.contact-form-intro {
   margin-bottom: 28px;
 }
 
@@ -770,38 +1500,72 @@ p {
   width: 100%;
 }
 
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
 .form-field {
-  margin-bottom: 22px;
+  flex: 1 1 200px;
+  margin-bottom: 0;
+}
+
+.form-field--full {
+  flex-basis: 100%;
 }
 
 .form-field label {
   display: block;
   font-family: var(--font-ui);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--forest);
   margin-bottom: 8px;
   font-weight: 600;
 }
 
+.form-field label .optional {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-soft);
+}
+
 .form-field input,
+.form-field select,
 .form-field textarea {
   width: 100%;
-  padding: 14px 16px;
+  padding: 15px 16px;
   border: 1px solid rgba(46, 89, 67, 0.25);
-  border-radius: var(--radius);
+  border-radius: 4px;
   font-family: var(--font-body);
   font-size: 1rem;
-  background: var(--white);
+  background: var(--peaceful);
   color: var(--text);
 }
 
+.form-field textarea {
+  resize: vertical;
+}
+
 .form-field input:focus,
+.form-field select:focus,
 .form-field textarea:focus {
   outline: none;
-  border-color: var(--leaf);
-  box-shadow: 0 0 0 3px rgba(92, 143, 112, 0.2);
+  border-color: var(--illuminated);
+  box-shadow: 0 0 0 3px rgba(198, 145, 63, 0.2);
+}
+
+.contact-form-submit-row {
+  margin-top: 24px;
+}
+
+.contact-privacy-note {
+  margin: 16px 0 0;
+  font-size: 0.82rem;
+  color: var(--text-soft);
 }
 
 .form-status {
@@ -830,49 +1594,63 @@ p {
    -------------------------------------------------------------------------- */
 
 .site-footer {
-  background: var(--forest);
+  background: var(--forest-deep);
   color: rgba(247, 240, 223, 0.85);
-  padding: 56px 0 32px;
+  padding: clamp(36px, 4.4vw, 52px) 0 30px;
+  margin-top: auto;
 }
 
 .footer-grid {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 32px;
-  margin-bottom: 32px;
+  justify-content: space-between;
+  gap: clamp(24px, 3vw, 40px);
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(247, 240, 223, 0.16);
+  margin-bottom: 20px;
 }
 
 .footer-brand {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   color: var(--peaceful);
 }
 
-.footer-links {
+.footer-brand span {
+  font-style: italic;
+  color: var(--illuminated-light);
+}
+
+.footer-nav {
+  flex: 0 1 auto;
   display: flex;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: clamp(24px, 3.4vw, 48px);
+}
+
+.footer-nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   list-style: none;
-  padding: 0;
   margin: 0;
-  font-family: var(--font-ui);
+  padding: 0;
   font-size: 0.85rem;
 }
 
-.footer-links a {
-  color: rgba(247, 240, 223, 0.85);
+.footer-nav-col a {
+  color: rgba(247, 240, 223, 0.8);
+  transition: color 0.2s ease;
 }
 
-.footer-links a:hover {
+.footer-nav-col a:hover {
   color: var(--illuminated-light);
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(247, 240, 223, 0.15);
-  padding-top: 20px;
   font-family: var(--font-ui);
-  font-size: 0.78rem;
-  color: rgba(247, 240, 223, 0.6);
+  font-size: 0.72rem;
+  color: rgba(247, 240, 223, 0.55);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -881,7 +1659,6 @@ p {
 
 @media (max-width: 600px) {
   .section { padding: 64px 0; }
-  .hero { padding: 72px 0 56px; }
 }
 
 /* Skip link — visible only on keyboard focus */
@@ -905,12 +1682,12 @@ p {
 
 /* Footer practice details (NAP) */
 .footer-nap {
-  margin: 10px 0 0;
+  margin: 16px 0 0;
   font-family: var(--font-ui);
   font-size: 0.82rem;
-  line-height: 1.7;
-  color: rgba(247, 240, 223, 0.7);
-  max-width: 34ch;
+  line-height: 1.85;
+  color: rgba(247, 240, 223, 0.72);
+  max-width: 32ch;
 }
 
 .footer-nap a {
@@ -932,17 +1709,17 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(247, 240, 223, 0.25);
+  border: 1px solid rgba(247, 240, 223, 0.28);
   color: rgba(247, 240, 223, 0.85);
   transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .footer-social a:hover,
 .footer-social a:focus-visible {
-  color: var(--forest);
+  color: var(--forest-deep);
   background: var(--illuminated-light);
   border-color: var(--illuminated-light);
 }
@@ -953,96 +1730,9 @@ p {
 }
 
 /* ==========================================================================
-   Decorative hero motifs
-   Transparent wellness line-art (lotus, bloom, sprig, meditation, heart,
-   radiance) layered behind hero copy as CSS background images. Purely
-   ornamental: no markup, nothing announced by screen readers, no hit-testing.
-   Opacity is baked into each SVG — lighter brand colours carry a higher value
-   so every motif reads at roughly the same weight on the cream background.
-   ========================================================================== */
-
-:root {
-  /* Lotus — forest */
-  --decor-lotus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%232E5943' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' opacity='0.10'%3E%3Cpath d='M32 44c-6-6-6-16 0-24 6 8 6 18 0 24z'/%3E%3Cpath d='M32 44c-9-3-13-12-11-21 8 3 12 12 11 21z'/%3E%3Cpath d='M32 44c9-3 13-12 11-21-8 3-12 12-11 21z'/%3E%3Cpath d='M32 44c-11 1-19-5-20-14 9-2 18 4 20 14z'/%3E%3Cpath d='M32 44c11 1 19-5 20-14-9-2-18 4-20 14z'/%3E%3C/svg%3E");
-
-  /* Six-petal bloom — leaf */
-  --decor-bloom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%235C8F70' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' opacity='0.14'%3E%3Cellipse cx='32' cy='16' rx='6' ry='11'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(60 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(120 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(180 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(240 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='11' transform='rotate(300 32 32)'/%3E%3Ccircle cx='32' cy='32' r='4.5'/%3E%3C/svg%3E");
-
-  /* Leaf sprig — forest */
-  --decor-sprig: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%232E5943' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' opacity='0.11'%3E%3Cpath d='M32 56V16'/%3E%3Cpath d='M32 30c-10 0-15-6-15-14 9 0 15 6 15 14z'/%3E%3Cpath d='M32 42c10 0 15-6 15-14-9 0-15 6-15 14z'/%3E%3Cpath d='M32 22c-8 0-12-5-12-11 7 0 12 5 12 11z'/%3E%3C/svg%3E");
-
-  /* Meditating figure — deep sea */
-  --decor-meditation: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%234A7378' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' opacity='0.13'%3E%3Ccircle cx='32' cy='12' r='5.5'/%3E%3Cpath d='M32 19c-5 0-8 4-9 9l-1 6'/%3E%3Cpath d='M32 19c5 0 8 4 9 9l1 6'/%3E%3Cpath d='M22 34c-5 2-8 4-10 7 5 4 12 6 20 6s15-2 20-6c-2-3-5-5-10-7'/%3E%3C/svg%3E");
-
-  /* Heart — illuminated */
-  --decor-heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C6913F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.17'%3E%3Cpath d='M12 20.3C12 20.3 3.8 15.1 3.8 9.3C3.8 6.4 6 4.2 8.7 4.2C10.1 4.2 11.3 4.9 12 6C12.7 4.9 13.9 4.2 15.3 4.2C18 4.2 20.2 6.4 20.2 9.3C20.2 15.1 12 20.3 12 20.3Z'/%3E%3C/svg%3E");
-
-  /* Radiance — illuminated */
-  --decor-radiance: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C6913F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.17'%3E%3Ccircle cx='12' cy='12' r='4.2'/%3E%3Cpath d='M12 2.6V5.4M12 18.6V21.4M2.6 12H5.4M18.6 12H21.4M5.3 5.3L7.3 7.3M16.7 16.7L18.7 18.7M18.7 5.3L16.7 7.3M7.3 16.7L5.3 18.7'/%3E%3C/svg%3E");
-}
-
-.hero,
-.page-hero {
-  position: relative;
-  overflow: hidden;
-  background-repeat: no-repeat;
-}
-
-/* Home — copy sits left, photo right. Ten motifs in three bands:
-     1. the original trio hugging the left and lower edge
-     2. four filling the margins around the photo
-     3. three more spacing out the top band and the right flank
-   Adjacent motifs never repeat a shape or a colour. */
-.hero {
-  background-image:
-    var(--decor-lotus), var(--decor-bloom), var(--decor-sprig);
-  background-position:
-    -24px 84%, 4% 2%, 44% 100%;
-  background-size:
-    150px, 96px, 112px;
-}
-
-/* Interior pages centre their copy, so motifs sit out at the shoulders — two
-   per side (upper and lower) so the hero reads as balanced. Each list runs
-   upper-left, upper-right, lower-right, lower-left; the lower pair shares a
-   vertical position so it mirrors across the copy. */
-.page-hero--services {
-  background-image: var(--decor-meditation), var(--decor-bloom);
-  background-position: 3% 22%, 95% 12%;
-  background-size: 124px, 100px;
-}
-
-.page-hero--scope {
-  background-image: var(--decor-lotus), var(--decor-radiance);
-  background-position: 2% 18%, 94% 20%;
-  background-size: 140px, 82px;
-}
-
-.page-hero--contact {
-  background-image: var(--decor-heart), var(--decor-bloom);
-  background-position: 4% 20%, 93% 16%;
-  background-size: 84px, 98px;
-}
-
-/* Narrow screens: the copy fills the width, so keep one light accent only */
-@media (max-width: 860px) {
-  .hero,
-  .page-hero--services,
-  .page-hero--scope,
-  .page-hero--contact {
-    background-image: var(--decor-sprig);
-    background-position: 100% 100%;
-    background-size: 92px;
-  }
-}
-
-/* ==========================================================================
    Layout helpers
-   Replace the one-off inline styles that were scattered through the markup.
    ========================================================================== */
 
-/* Welcome band: carries the two paragraphs that used to sit in the hero and
-   pushed the booking button below the fold. */
 .welcome {
   max-width: 720px;
   margin: 0 auto;
@@ -1053,24 +1743,18 @@ p {
   font-size: 1.05rem;
 }
 
-.qualifications {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
 .tag-list--center {
   justify-content: center;
 }
 
 /* ==========================================================================
    Focus visibility
-   Only the skip link and the footer social icon had a focus style. Everything
-   else fell back to whatever the browser drew over a low-contrast surface.
    ========================================================================== */
 
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
+select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--deep-sea);
@@ -1079,14 +1763,14 @@ textarea:focus-visible,
 }
 
 .section--forest a:focus-visible,
-.section--forest button:focus-visible {
+.section--forest button:focus-visible,
+.site-header a:focus-visible,
+.site-header button:focus-visible {
   outline-color: var(--illuminated-light);
 }
 
 /* ==========================================================================
    Reduced motion
-   The page leans on hover lifts and smooth scrolling. Anyone who has asked
-   their OS to calm things down gets the layout without the movement.
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1099,12 +1783,14 @@ textarea:focus-visible,
     scroll-behavior: auto !important;
   }
 
-  /* Hover lifts translate as well as fade, so neutralise the transform
-     itself rather than only shortening it. */
   .btn:hover,
-  .tag-list li:hover,
+  .tag-list--links li:hover,
   .price-card:hover,
-  .bubble-item:hover,
+  .media-card:hover,
+  .resource-card:hover,
+  .resource-featured:hover,
+  .numbered-card:hover,
+  .about-teaser-image:hover img,
   .footer-social a:hover {
     transform: none;
   }
