@@ -634,16 +634,17 @@ p {
 
 .media-card-image img {
   width: 100%;
-  aspect-ratio: 16 / 11;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
 .media-card-body {
-  padding: clamp(24px, 2.5vw, 32px) clamp(22px, 2.3vw, 30px) clamp(26px, 2.7vw, 34px);
+  padding: clamp(20px, 2vw, 26px) clamp(22px, 2.3vw, 30px) clamp(22px, 2.2vw, 28px);
 }
 
 .media-card-body h3 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
 }
 
 .media-card-body p {
