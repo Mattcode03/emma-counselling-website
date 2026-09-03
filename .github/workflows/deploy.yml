@@ -1,0 +1,63 @@
+name: Deploy to GitHub Pages
+
+# The site is an Astro project, so it has to be built before it can be served.
+# This replaces the previous "deploy from a branch" setup, which worked only
+# because the old site was hand-written HTML sitting in the repo root.
+#
+# One-time setup: in the repo's Settings -> Pages, set "Source" to
+# "GitHub Actions". Without that, this workflow runs but nothing is published.
+
+on:
+  push:
+    branches: [main]
+  # Allows a manual run from the Actions tab.
+  workflow_dispatch:
+
+# Least-privilege token, scoped to what the Pages deployment needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

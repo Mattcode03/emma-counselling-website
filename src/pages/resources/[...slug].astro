@@ -1,11 +1,12 @@
 ---
+import { href } from "../../url";
 import { Image } from "astro:assets";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CtaBand from "../../components/CtaBand.astro";
 import { practice } from "../../site";
-import { breadcrumbs } from "../../schema";
+import { breadcrumbs, abs } from "../../schema";
 
 interface Props {
   post: CollectionEntry<"resources">;
@@ -40,8 +41,8 @@ const schema = [
     datePublished: post.data.publishDate.toISOString(),
     articleSection: post.data.category,
     inLanguage: "en-ZA",
-    author: { "@id": `${new URL("/", Astro.site).href}#emma` },
-    publisher: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    author: { "@id": `${abs(Astro.site, "/")}#emma` },
+    publisher: { "@id": `${abs(Astro.site, "/")}#practice` },
     mainEntityOfPage: pageUrl,
   },
   breadcrumbs(Astro.site, [
@@ -61,7 +62,7 @@ const schema = [
 >
   <article class="article">
     <div class="container container--reading">
-      <a href="/resources/" class="article-back">
+      <a href={href("/resources/")} class="article-back">
         <span aria-hidden="true">&larr;</span> All resources
       </a>
       <div class="article-meta">

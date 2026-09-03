@@ -1,4 +1,5 @@
 ---
+import { href } from "../../url";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -48,7 +49,7 @@ const hasPlaceholders = posts.some((post) => post.data.placeholder);
 
       {
         featured && (
-          <a href={`/resources/${featured.id}/`} class="resource-featured">
+          <a href={href(`/resources/${featured.id}/`)} class="resource-featured">
             <div class="resource-featured-image">
               <Image
                 src={featured.data.cover}
@@ -80,7 +81,7 @@ const hasPlaceholders = posts.some((post) => post.data.placeholder);
       <div class="resource-grid">
         {
           rest.map((post) => (
-            <a href={`/resources/${post.id}/`} class="resource-card">
+            <a href={href(`/resources/${post.id}/`)} class="resource-card">
               <div class="resource-card-image">
                 <Image
                   src={post.data.cover}

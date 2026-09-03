@@ -1,9 +1,12 @@
 ---
+import { href as withBase } from "../url";
+
 interface Props {
   heading: string;
   body: string;
   /** CTA label; the arrow is appended automatically. */
   label?: string;
+  /** Root-relative target; the deployment base is applied here. */
   href?: string;
 }
 
@@ -20,7 +23,9 @@ const {
     <div class="section cta-band">
       <h2>{heading}</h2>
       <p>{body}</p>
-      <a href={href} class="btn btn-primary">{label} <span aria-hidden="true">&rarr;</span></a>
+      <a href={withBase(href)} class="btn btn-primary">
+        {label} <span aria-hidden="true">&rarr;</span>
+      </a>
     </div>
   </div>
 </div>

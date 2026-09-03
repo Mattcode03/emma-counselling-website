@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import CtaBand from "../components/CtaBand.astro";
 import { allFaqs, faqGroups, faqsToConfirm } from "../faqs";
-import { breadcrumbs } from "../schema";
+import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/gradient-3.jpg";
 
 const title = "Questions About Online Counselling | Emma Rossouw, Cape Town";
@@ -13,9 +13,9 @@ const description =
 const schema = [
   {
     "@type": "FAQPage",
-    "@id": `${new URL("/faq/", Astro.site).href}#webpage`,
-    url: new URL("/faq/", Astro.site).href,
-    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+    "@id": `${abs(Astro.site, "/faq/")}#webpage`,
+    url: abs(Astro.site, "/faq/"),
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
     mainEntity: allFaqs.map((faq) => ({
       "@type": "Question",
       name: faq.q,

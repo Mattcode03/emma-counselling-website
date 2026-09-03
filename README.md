@@ -16,8 +16,36 @@ npm run preview  # serve the built dist/ locally
 npm run check    # TypeScript + Astro template type checking
 ```
 
-Deploy the contents of `dist/` to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
-On Netlify/Vercel, set the build command to `npm run build` and the publish directory to `dist`.
+## Deployment
+
+Deployed to **GitHub Pages** by `.github/workflows/deploy.yml`, which runs on every push to `main`:
+it installs, type-checks, builds, and publishes `dist/`. There is nothing to commit by hand and no
+build output in the repo.
+
+> **One-time setup:** in the repo's **Settings → Pages**, "Source" must be set to **GitHub Actions**.
+> The site previously used "Deploy from a branch", which only worked because the old site was
+> hand-written HTML in the repo root. An Astro site has to be built first, so leaving it on
+> "Deploy from a branch" would publish nothing.
+
+Live at https://mattcode03.github.io/emma-counselling-website/
+
+### Moving to a real domain
+
+The site currently lives under a GitHub Pages *project path*, so every internal link needs a
+`/emma-counselling-website` prefix. That is handled centrally — see `src/url.ts`. To switch to a
+custom domain, change two lines in `astro.config.mjs`:
+
+```js
+const SITE = "https://the-real-domain.co.za";
+const BASE = "/";
+```
+
+then add a `public/CNAME` file containing the domain, and update the `Sitemap:` line in
+`public/robots.txt`. Canonicals, Open Graph tags, schema.org `@id`s, the sitemap and every internal
+link follow automatically.
+
+To host somewhere else instead (Netlify, Vercel, Cloudflare Pages): build command `npm run build`,
+publish directory `dist`, and set `BASE = "/"`.
 
 ## Structure
 
@@ -32,6 +60,7 @@ src/
   assets/images/    Source photos. Optimised at build time; never served as-is.
   styles/style.css  All styling.
   site.ts           Practice details, nav, fees, support areas, qualifications.
+  url.ts            Base-aware link helpers (GitHub Pages project path).
   faqs.ts           FAQ content.
   schema.ts         schema.org graph builders.
   content.config.ts Frontmatter schema for the resources collection.
@@ -47,7 +76,7 @@ public/             Served verbatim (robots.txt).
 | Nav or footer links | `src/site.ts` (`navLinks`, `footerColumns`) |
 | FAQ questions | `src/faqs.ts` — updates both the page and the FAQPage structured data |
 | Areas of support / qualifications | `src/site.ts` |
-| The live domain | `astro.config.mjs` (`SITE`) — one line; canonicals, OG tags, JSON-LD and the sitemap all follow |
+| The live domain / base path | `astro.config.mjs` (`SITE`, `BASE`) — canonicals, OG tags, JSON-LD, the sitemap and every internal link all follow |
 | Colours, fonts, layout | `src/styles/style.css` |
 
 ### Adding a resource article
@@ -84,8 +113,7 @@ disappears automatically once no post is flagged.
    submissions by email, with no backend required.
    - Get a free access key from web3forms.com using Emma's email.
    - Replace `YOUR_WEB3FORMS_ACCESS_KEY` in `src/pages/contact.astro`.
-2. **Domain** — set `SITE` in `astro.config.mjs` to the real domain, then update the `Sitemap:` line
-   in `public/robots.txt`.
+2. **Domain** — see "Moving to a real domain" above.
 3. **Resource articles** — replace the four placeholder posts (see above).
 4. **Favicon** — none yet; add one to `public/` and link it in `BaseLayout.astro`.
 5. **Logo** — currently text-only (`Emma Rossouw Counselling`) styled in the nav and footer.

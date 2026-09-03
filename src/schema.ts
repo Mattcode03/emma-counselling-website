@@ -7,10 +7,10 @@
  * drift from what the pages actually display.
  */
 import { fees, practice, qualifications } from "./site";
+import { absolute } from "./url";
 
-/** Absolute URL for a site-root-relative path. */
-export const abs = (site: URL | undefined, path = "/") =>
-  new URL(path, site ?? "https://example.com").href;
+/** Absolute URL for a site-root-relative path, including the deployment base. */
+export const abs = absolute;
 
 /** Stable @id anchors, so nodes can cross-reference across pages. */
 export const ids = (site: URL | undefined) => ({

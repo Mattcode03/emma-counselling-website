@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import CtaBand from "../components/CtaBand.astro";
 import { practice, qualifications } from "../site";
-import { breadcrumbs } from "../schema";
+import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/gradient.jpg";
 import portrait from "../assets/images/emma-profile.jpg";
 
@@ -31,13 +31,13 @@ const approaches = [
 const schema = [
   {
     "@type": "AboutPage",
-    "@id": `${new URL("/about/", Astro.site).href}#webpage`,
-    url: new URL("/about/", Astro.site).href,
+    "@id": `${abs(Astro.site, "/about/")}#webpage`,
+    url: abs(Astro.site, "/about/"),
     name: title,
     description,
     inLanguage: "en-ZA",
-    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
-    mainEntity: { "@id": `${new URL("/", Astro.site).href}#emma` },
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+    mainEntity: { "@id": `${abs(Astro.site, "/")}#emma` },
   },
   breadcrumbs(Astro.site, [{ name: "About me", path: "/about/" }]),
 ];

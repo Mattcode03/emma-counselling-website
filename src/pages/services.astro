@@ -1,10 +1,11 @@
 ---
+import { href } from "../url";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import CtaBand from "../components/CtaBand.astro";
 import { fees, supportAreas } from "../site";
-import { breadcrumbs } from "../schema";
+import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/individual-counselling.jpg";
 import individualImage from "../assets/images/individual-counselling.jpg";
 import couplesImage from "../assets/images/couples-counselling.jpg";
@@ -30,7 +31,7 @@ const offerings = [
   },
 ];
 
-const pageUrl = new URL("/services/", Astro.site).href;
+const pageUrl = abs(Astro.site, "/services/");
 
 const schema = [
   {
@@ -41,11 +42,11 @@ const schema = [
     description:
       "Secure online counselling sessions for individuals and couples, delivered by video anywhere in South Africa by an ASCHP Registered Specialist Wellness Counsellor.",
     url: pageUrl,
-    provider: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    provider: { "@id": `${abs(Astro.site, "/")}#practice` },
     areaServed: { "@type": "Country", name: "South Africa" },
     availableChannel: {
       "@type": "ServiceChannel",
-      serviceUrl: new URL("/contact/", Astro.site).href,
+      serviceUrl: abs(Astro.site, "/contact/"),
       name: "Online video sessions",
     },
     hasOfferCatalog: {
@@ -141,7 +142,7 @@ const schema = [
               <div class="price-amount">{fee.amount}</div>
               <div class="price-amount-note">{fee.note}</div>
               <p>{fee.blurb}</p>
-              <a href="/contact/" class="btn btn-primary">
+              <a href={href("/contact/")} class="btn btn-primary">
                 Book now
               </a>
             </div>

@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import { practice } from "../site";
-import { breadcrumbs } from "../schema";
+import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/consultation.jpg";
 
 const title = "Contact & Book Online Counselling | Cape Town, South Africa";
@@ -18,13 +18,13 @@ const nextSteps = [
 const schema = [
   {
     "@type": "ContactPage",
-    "@id": `${new URL("/contact/", Astro.site).href}#webpage`,
-    url: new URL("/contact/", Astro.site).href,
+    "@id": `${abs(Astro.site, "/contact/")}#webpage`,
+    url: abs(Astro.site, "/contact/"),
     name: title,
     description,
     inLanguage: "en-ZA",
-    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
-    about: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+    about: { "@id": `${abs(Astro.site, "/")}#practice` },
   },
   breadcrumbs(Astro.site, [{ name: "Contact", path: "/contact/" }]),
 ];

@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import CtaBand from "../components/CtaBand.astro";
-import { breadcrumbs } from "../schema";
+import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/gradient-2.jpg";
 
 const title = "Scope of Practice | ASCHP Wellness Counsellor, Cape Town";
@@ -36,13 +36,13 @@ const steps = [
 const schema = [
   {
     "@type": "AboutPage",
-    "@id": `${new URL("/scope-of-practice/", Astro.site).href}#webpage`,
-    url: new URL("/scope-of-practice/", Astro.site).href,
+    "@id": `${abs(Astro.site, "/scope-of-practice/")}#webpage`,
+    url: abs(Astro.site, "/scope-of-practice/"),
     name: title,
     description,
     inLanguage: "en-ZA",
-    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
-    about: { "@id": `${new URL("/", Astro.site).href}#emma` },
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+    about: { "@id": `${abs(Astro.site, "/")}#emma` },
   },
   breadcrumbs(Astro.site, [
     { name: "What to expect", path: "/scope-of-practice/" },

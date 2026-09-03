@@ -1,4 +1,6 @@
 ---
+import { href } from "../url";
+import { abs } from "../schema";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
@@ -45,11 +47,11 @@ const stats = [
 const schema = [
   {
     "@type": "WebPage",
-    "@id": `${new URL("/", Astro.site).href}#webpage`,
-    url: new URL("/", Astro.site).href,
+    "@id": `${abs(Astro.site, "/")}#webpage`,
+    url: abs(Astro.site, "/"),
     name: title,
-    isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
-    about: { "@id": `${new URL("/", Astro.site).href}#practice` },
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+    about: { "@id": `${abs(Astro.site, "/")}#practice` },
     inLanguage: "en-ZA",
   },
 ];
@@ -75,7 +77,7 @@ const schema = [
         </div>
       ))
     }
-    <a href="/contact/" class="btn btn-primary">Book now</a>
+    <a href={href("/contact/")} class="btn btn-primary">Book now</a>
   </div>
 
   <section class="about-teaser-section">
@@ -113,7 +115,7 @@ const schema = [
           passionate about creating a space where people feel heard, understood, and empowered to
           navigate life's challenges.
         </p>
-        <a href="/about/" class="read-more-link">
+        <a href={href("/about/")} class="read-more-link">
           Read more about me <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
@@ -162,7 +164,7 @@ const schema = [
       </div>
       {
         fees.map((fee) => (
-          <a href="/contact/" class="fee-row">
+          <a href={href("/contact/")} class="fee-row">
             <span class="fee-row-name">{fee.name}</span>
             <span class="fee-row-price">{fee.rowPrice}</span>
             <span class="fee-row-cta">Book &rarr;</span>

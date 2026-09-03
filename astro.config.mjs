@@ -3,14 +3,23 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 /**
- * The live domain. This is the ONE place the domain is defined — canonical
- * URLs, Open Graph tags, schema.org @ids and the generated sitemap all derive
- * from `Astro.site`, so switching to the real domain is a single-line change.
+ * Deployment target. These two constants are the only place the public URL is
+ * defined — canonical tags, Open Graph, schema.org @ids, the sitemap and every
+ * internal link derive from them.
+ *
+ * Currently deployed to GitHub Pages under a project path:
+ *   https://mattcode03.github.io/emma-counselling-website/
+ *
+ * When the real domain is ready, change these two lines and nothing else:
+ *   const SITE = "https://the-real-domain.co.za";
+ *   const BASE = "/";
  */
-const SITE = "https://REPLACE-WITH-DOMAIN.co.za";
+const SITE = "https://mattcode03.github.io";
+const BASE = "/emma-counselling-website";
 
 export default defineConfig({
   site: SITE,
+  base: BASE,
 
   integrations: [
     sitemap({
@@ -21,8 +30,7 @@ export default defineConfig({
   ],
 
   build: {
-    // Clean URLs: /services/ rather than /services.html. The site is not live
-    // yet, so there are no existing URLs to preserve.
+    // Clean URLs: /services/ rather than /services.html.
     format: "directory",
   },
 
