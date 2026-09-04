@@ -535,8 +535,13 @@ p {
 }
 
 @media (max-width: 640px) {
-  .photo-hero-content { padding-bottom: 60px; }
-  .stat-card { margin-top: -40px; }
+  /* A touch more breathing room from the screen edge on phones. */
+  .container { padding-left: 28px; padding-right: 28px; }
+
+  /* Pull the card up so it straddles the hero / about-teaser edge roughly
+     half and half; the extra hero padding keeps it clear of the copy. */
+  .photo-hero-content { padding-bottom: 118px; }
+  .stat-card { margin-top: clamp(-185px, -40vw, -135px); }
 }
 
 /* --------------------------------------------------------------------------
@@ -1027,7 +1032,9 @@ p {
    -------------------------------------------------------------------------- */
 
 .bio-grid {
-  padding: clamp(44px, 6vw, 92px) 0;
+  /* padding-block only — a `padding: x 0` shorthand here would override the
+     .container gutter and push the copy to the screen edge on mobile. */
+  padding-block: clamp(44px, 6vw, 92px);
   display: flex;
   flex-wrap: wrap;
   gap: clamp(32px, 5vw, 72px);
