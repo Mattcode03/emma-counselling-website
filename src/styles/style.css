@@ -535,8 +535,8 @@ p {
 }
 
 @media (max-width: 640px) {
-  /* A touch more breathing room from the screen edge on phones. */
-  .container { padding-left: 28px; padding-right: 28px; }
+  /* More breathing room from the screen edge on phones. */
+  .container { padding-left: 32px; padding-right: 32px; }
 
   /* Pull the card up so it straddles the hero / about-teaser edge roughly
      half and half; the extra hero padding keeps it clear of the copy. */
