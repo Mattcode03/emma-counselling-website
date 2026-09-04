@@ -12,6 +12,8 @@ interface Props {
   description?: string;
   /** `home` is the tall hero; `interior` and `short` are page banners. */
   variant?: "home" | "interior" | "short";
+  /** Extra class on the hero root, for page-specific overrides. */
+  class?: string;
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   title,
   description,
   variant = "interior",
+  class: className,
 } = Astro.props;
 
 const variantClass = {
@@ -43,7 +46,7 @@ const RATIO_W = 1600;
 const RATIO_H = 900;
 ---
 
-<div class:list={["photo-hero", variantClass]}>
+<div class:list={["photo-hero", variantClass, className]}>
   <Image
     src={image}
     alt={alt}

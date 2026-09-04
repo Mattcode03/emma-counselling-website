@@ -482,6 +482,12 @@ p {
   max-width: 22ch;
 }
 
+/* Resources, FAQ, Scope of practice, and Services banners: the heading takes
+   the brand gold rather than Peaceful. */
+.photo-hero--gold-heading .photo-hero-content h1 {
+  color: var(--illuminated-dark);
+}
+
 .photo-hero-content p {
   color: rgba(247, 240, 223, 0.9);
   max-width: 56ch;
