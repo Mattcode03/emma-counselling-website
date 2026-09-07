@@ -4,7 +4,7 @@ description: >-
   Why the same argument keeps returning, and what changes when both people
   feel heard.
 category: Relationships
-cover: ../../assets/images/couples-counselling.jpg
+cover: ../../assets/images/gradient-4.jpg
 publishDate: 2026-09-01
 readingTime: 6 min read
 placeholder: true

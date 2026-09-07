@@ -3,7 +3,7 @@ title: "Tired, or burnt out? Telling them apart"
 description: >-
   The signs worth taking seriously, and why rest alone often isn't enough.
 category: Burnout
-cover: ../../assets/images/consultation.jpg
+cover: ../../assets/images/gradient-5.jpg
 publishDate: 2026-08-31
 readingTime: 5 min read
 placeholder: true
