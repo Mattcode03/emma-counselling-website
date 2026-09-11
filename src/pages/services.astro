@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import CtaBand from "../components/CtaBand.astro";
+import PackageOffer from "../components/PackageOffer.astro";
 import { fees, supportAreas } from "../site";
 import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/gradient-2.jpg";
@@ -12,7 +13,7 @@ import couplesImage from "../assets/images/couples-counselling.jpg";
 
 const title = "Online Counselling Services & Fees | Cape Town, South Africa";
 const description =
-  "Individual and couples online counselling with Emma Rossouw. Virtual therapy across South Africa from R400 per session. Free 15-minute consultation.";
+  "Individual and couples online counselling with Emma Rossouw. Virtual therapy across South Africa from R400 per session. Free 20-minute consultation.";
 
 const offerings = [
   {
@@ -111,6 +112,7 @@ const schema = [
           ))
         }
       </div>
+      <PackageOffer />
     </div>
   </section>
 

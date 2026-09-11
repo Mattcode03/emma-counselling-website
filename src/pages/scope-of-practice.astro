@@ -17,19 +17,10 @@ const leafPaths = [
   "M12 4.8C10.5 9.8 8.5 15 4.5 19.5",
 ];
 
-const principles = [
-  "Every person's journey is different, which is why I tailor each session to your unique needs, goals, and experiences.",
-  "My aim is to create a safe, supportive, confidential, and non-judgemental space where you feel comfortable to talk openly and be yourself.",
-  "Sessions are held online, so you can access counselling from the comfort and privacy of your own home or any space where you feel safe and relaxed.",
-  "I use a range of evidence-based counselling approaches, including Cognitive Behavioural Therapy (CBT), Solution-Focused Therapy, and Narrative Therapy, depending on what will best support you.",
-  "Together, we'll explore the challenges you're facing, gain a better understanding of your experiences, and work towards meaningful, lasting change.",
-  "My goal is to equip you with practical tools, coping strategies, and greater self-awareness so you feel more confident and resilient long after our sessions have ended.",
-];
-
 const steps = [
-  "You send a message through the contact form, and I reply to arrange a free 15-minute call at a time that suits you.",
+  "You send a message through the contact form, and I reply to arrange a free 20-minute call at a time that suits you.",
   "On the call we talk about what's brought you here and what you're hoping for. You can ask anything about the counselling process — there's no obligation to book.",
-  "If it feels like a fit, we schedule your first full session and I send you the secure video link and everything you need beforehand.",
+  "If it feels like a fit, we schedule your first full session and I send you a secure video link and all necessary confidentiality agreements needed to start.",
   "We work together at a pace that suits you, reviewing along the way what's helping and what you'd like to focus on next.",
 ];
 
@@ -102,8 +93,8 @@ const schema = [
             As an ASCHP-registered Specialist Wellness Counsellor, I do not diagnose mental health
             disorders or prescribe medication. Should your needs fall outside my scope of practice, I
             will gladly refer you to a trusted HPCSA-registered mental health professional, such as a
-            Registered Counsellor, Psychologist, Psychiatrist, or another appropriate healthcare
-            practitioner, ensuring you receive the level of care best suited to your needs.
+            Psychologist, Psychiatrist, or another appropriate healthcare practitioner, ensuring you
+            receive the level of care best suited to your needs.
           </p>
         </div>
       </div>
@@ -111,24 +102,6 @@ const schema = [
   </section>
 
   <section class="section section--sage">
-    <div class="container">
-      <div class="section-head">
-        <h2 style="color: var(--forest-deep);">A safe, tailored, confidential space</h2>
-      </div>
-      <div class="numbered-grid">
-        {
-          principles.map((principle, index) => (
-            <div class="numbered-card">
-              <div class="number">{String(index + 1).padStart(2, "0")}</div>
-              <p>{principle}</p>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
     <div class="container">
       <div class="step-list">
         <span class="eyebrow">Your first session</span>
@@ -147,6 +120,6 @@ const schema = [
 
   <CtaBand
     heading="See if we're the right fit"
-    body="I offer a complimentary 15-minute consultation to help you decide whether we're the right fit for one another. A chance to meet, discuss the challenges you're facing, and ask any questions about the counselling process."
+    body="I offer a complimentary 20-minute consultation to help you decide whether we're the right fit for one another. A chance to meet, discuss the challenges you're facing, and ask any questions about the counselling process."
   />
 </BaseLayout>

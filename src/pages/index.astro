@@ -5,6 +5,7 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import CtaBand from "../components/CtaBand.astro";
+import PackageOffer from "../components/PackageOffer.astro";
 import { fees } from "../site";
 import heroImage from "../assets/images/wellness-hero.jpg";
 import portrait from "../assets/images/emma-profile.jpg";
@@ -14,7 +15,7 @@ import consultationImage from "../assets/images/consultation.jpg";
 
 const title = "Online Counselling South Africa | Emma Rossouw, Cape Town";
 const description =
-  "Secure online counselling and virtual therapy from Cape Town for clients across South Africa. ASCHP Specialist Wellness Counsellor. Free 15-min consultation.";
+  "Secure online counselling and virtual therapy from Cape Town for clients across South Africa. ASCHP Specialist Wellness Counsellor. Free 20-min consultation.";
 
 const services = [
   {
@@ -31,15 +32,15 @@ const services = [
   },
   {
     image: consultationImage,
-    alt: "Free 15-minute consultation call",
+    alt: "Free 20-minute consultation call",
     heading: "A free first call",
-    body: "Fifteen minutes to meet, talk through what's going on, and see whether we're the right fit.",
+    body: "Twenty minutes to meet, talk through what's going on, and see whether we're the right fit.",
   },
 ];
 
 const stats = [
-  { value: "Free 15 min", label: "First conversation, no cost" },
-  { value: "ASCHP", label: "Registered wellness counsellor" },
+  { value: "20 min", label: "First conversation, no cost" },
+  { value: "ASCHP", label: "Registered Specialist Wellness Counsellor" },
   { value: "Fully online", label: "Secure video sessions" },
 ];
 
@@ -61,8 +62,8 @@ const schema = [
   <PhotoHero
     image={heroImage}
     alt="Calm natural setting representing online wellness counselling in South Africa"
-    eyebrow="Online counselling across South Africa"
-    description="A warm, confidential space to feel heard — from your own home, anywhere in South Africa."
+    eyebrow="Online counselling"
+    description="A warm, confidential space to feel heard — from the comfort of your own home."
     variant="home"
   >
     <Fragment slot="title">Welcome. <em>I'm glad you're here.</em></Fragment>
@@ -106,9 +107,9 @@ const schema = [
           provide a warm, confidential space where you can feel heard, understood, and supported.
         </p>
         <p>
-          Sessions are held securely online, so you can access counselling from anywhere in South
-          Africa. Together, we'll work towards building resilience, gaining insight, and developing
-          the tools to help you move forward with greater confidence, balance, and wellbeing.
+          Sessions are held securely online, so you can access counselling from anywhere. Together,
+          we'll work towards building resilience, gaining insight, and developing the tools to help
+          you move forward with greater confidence, balance, and wellbeing.
         </p>
         <p>
           I'm Emma Rossouw, a Registered Specialist Wellness Counsellor (ASCHP) based in Cape Town,
@@ -171,11 +172,12 @@ const schema = [
           </a>
         ))
       }
+      <PackageOffer />
     </div>
   </section>
 
   <CtaBand
-    heading="Book your free 15-minute consultation"
+    heading="Book your free 20-minute consultation"
     body="A complimentary call to see whether we're the right fit for one another. No pressure — just a conversation."
   />
 </BaseLayout>

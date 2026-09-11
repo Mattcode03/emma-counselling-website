@@ -96,16 +96,6 @@ p {
   padding: 0 24px;
 }
 
-/* Resources listing and article covers run a little wider than body copy. */
-.container--wide {
-  max-width: 1100px;
-}
-
-/* Measure-constrained column for article prose. */
-.container--reading {
-  max-width: 720px;
-}
-
 .eyebrow {
   font-family: var(--font-ui);
   font-size: 0.78rem;
@@ -119,10 +109,6 @@ p {
 
 .section {
   padding: 88px 0;
-}
-
-.section--tight-top {
-  padding-top: 20px;
 }
 
 .section--sage {
@@ -482,7 +468,7 @@ p {
   max-width: 22ch;
 }
 
-/* Resources, FAQ, Scope of practice, and Services banners: the heading takes
+/* FAQ, Scope of practice, and Services banners: the heading takes
    the brand gold rather than Peaceful. */
 .photo-hero--gold-heading .photo-hero-content h1 {
   color: var(--illuminated-dark);
@@ -610,8 +596,8 @@ p {
 }
 
 /* --------------------------------------------------------------------------
-   Media cards — image-topped cards reused for Home "how I work",
-   Services detail cards, and Resources grid.
+   Media cards — image-topped cards reused for Home "how I work"
+   and Services detail cards.
    -------------------------------------------------------------------------- */
 
 .media-grid {
@@ -922,11 +908,18 @@ p {
   border-bottom: 1px solid rgba(46, 89, 67, 0.18);
 }
 
+/* Same reason as .qualifications and .faq-item: the hairline reads too faint
+   once the section sits on Calm rather than white. */
+.section--sage .step-row,
+.section--sage .step-row:last-child {
+  border-color: rgba(35, 66, 47, 0.22);
+}
+
 .step-number {
   flex: 0 0 90px;
   font-family: var(--font-display);
   font-size: 1.25rem;
-  color: var(--illuminated-dark);
+  color: #f7f0df;
 }
 
 .step-row p {
@@ -1190,174 +1183,6 @@ p {
 
 .section--sage .faq-item p {
   color: var(--text);
-}
-
-/* --------------------------------------------------------------------------
-   Note box — dashed callouts flagging draft content for Emma to review
-   -------------------------------------------------------------------------- */
-
-.note-box {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: rgba(198, 145, 63, 0.12);
-  border: 1px dashed rgba(198, 145, 63, 0.6);
-  border-radius: var(--radius);
-  padding: clamp(22px, 2.6vw, 32px);
-}
-
-.note-box-label {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--illuminated-ink);
-  margin-bottom: 14px;
-}
-
-.note-box p {
-  margin: 0 0 14px;
-  font-size: 0.95rem;
-}
-
-.note-box p:last-child {
-  margin-bottom: 0;
-}
-
-/* --------------------------------------------------------------------------
-   Resources page
-   -------------------------------------------------------------------------- */
-
-.resource-featured {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(20px, 3vw, 40px);
-  align-items: center;
-  background: var(--white);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 12px 34px rgba(46, 89, 67, 0.13);
-  margin-bottom: clamp(20px, 2.6vw, 32px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.resource-featured:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 46px rgba(20, 33, 27, 0.18);
-}
-
-.resource-featured-image {
-  flex: 1 1 320px;
-  min-width: 280px;
-  overflow: hidden;
-  background: var(--leaf);
-  align-self: stretch;
-}
-
-.resource-featured-image img {
-  width: 100%;
-  height: 100%;
-  min-height: 240px;
-  object-fit: cover;
-}
-
-.resource-featured-body {
-  flex: 1 1 340px;
-  padding: clamp(24px, 2.8vw, 36px);
-}
-
-.resource-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 16px;
-  font-size: 0.85rem;
-  color: var(--text-soft);
-}
-
-.resource-meta .tag {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--illuminated-ink);
-}
-
-.resource-featured-body h2 {
-  margin: 0 0 14px;
-}
-
-.resource-featured-body p {
-  margin: 0 0 20px;
-}
-
-.resource-read-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--illuminated-ink);
-}
-
-.resource-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: clamp(18px, 2.4vw, 30px);
-}
-
-.resource-card {
-  display: block;
-  background: var(--white);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(46, 89, 67, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.resource-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 44px rgba(20, 33, 27, 0.18);
-}
-
-.resource-card-image {
-  overflow: hidden;
-  background: var(--leaf);
-}
-
-.resource-card-image img {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-}
-
-.resource-card-body {
-  padding: clamp(22px, 2.4vw, 30px);
-}
-
-.resource-card-body .tag {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--illuminated-ink);
-  margin-bottom: 12px;
-}
-
-.resource-card-body h3 {
-  margin: 0 0 12px;
-}
-
-.resource-card-body p {
-  margin: 0;
-  font-size: 0.9rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -1805,157 +1630,6 @@ p {
 }
 
 /* ==========================================================================
-   Resource articles
-   ========================================================================== */
-
-.note-box--spaced {
-  margin-bottom: clamp(28px, 3.4vw, 44px);
-}
-
-.article {
-  padding: clamp(40px, 5vw, 72px) 0 clamp(32px, 4vw, 56px);
-}
-
-.article-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--illuminated-ink);
-  margin-bottom: 24px;
-  transition: gap 0.2s ease;
-}
-
-.article-back:hover {
-  gap: 14px;
-}
-
-.article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  align-items: center;
-  margin-bottom: 16px;
-  font-size: 0.85rem;
-  color: var(--text-soft);
-}
-
-.article-meta .tag {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--illuminated-ink);
-}
-
-.article h1 {
-  margin: 0 0 18px;
-}
-
-.article-standfirst {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2vw, 1.55rem);
-  line-height: 1.5;
-  color: var(--forest);
-  margin: 0;
-}
-
-.article-cover {
-  margin: clamp(28px, 3.4vw, 44px) 0;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--leaf);
-  box-shadow: 0 12px 34px rgba(46, 89, 67, 0.14);
-}
-
-.article-cover img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 7;
-  object-fit: cover;
-}
-
-/* Long-form Markdown output. Only the elements posts actually use are styled;
-   headings stay on the display face and body copy keeps the site's measure. */
-.prose > :first-child {
-  margin-top: 0;
-}
-
-.prose h2 {
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  margin: 1.8em 0 0.5em;
-}
-
-.prose h3 {
-  margin: 1.6em 0 0.5em;
-}
-
-.prose p,
-.prose li {
-  color: var(--text-soft);
-}
-
-.prose ul,
-.prose ol {
-  padding-left: 1.3em;
-  margin: 0 0 1.2em;
-}
-
-.prose li {
-  margin-bottom: 0.5em;
-}
-
-.prose a {
-  color: var(--illuminated-ink);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.prose blockquote {
-  margin: 1.6em 0;
-  padding: 4px 0 4px 22px;
-  border-left: 2px solid var(--illuminated);
-}
-
-.prose blockquote p {
-  margin-bottom: 0.6em;
-  color: var(--text);
-}
-
-.prose blockquote p:last-child {
-  margin-bottom: 0;
-}
-
-.prose code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.9em;
-  background: rgba(46, 89, 67, 0.09);
-  padding: 0.15em 0.4em;
-  border-radius: 3px;
-  color: var(--forest);
-}
-
-.note-box code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.9em;
-  background: rgba(46, 89, 67, 0.1);
-  padding: 0.15em 0.4em;
-  border-radius: 3px;
-  color: var(--forest);
-}
-
-.prose hr {
-  border: none;
-  border-top: 1px solid rgba(46, 89, 67, 0.18);
-  margin: 2em 0;
-}
-
-/* ==========================================================================
    Focus visibility
    ========================================================================== */
 
@@ -1995,8 +1669,6 @@ textarea:focus-visible,
   .tag-list--links li:hover,
   .price-card:hover,
   .media-card:hover,
-  .resource-card:hover,
-  .resource-featured:hover,
   .numbered-card:hover,
   .about-teaser-image:hover img,
   .footer-social a:hover {

@@ -24,11 +24,11 @@ export const faqGroups: readonly FaqGroup[] = [
     items: [
       {
         q: "How do I book a first session?",
-        a: "Send a message through the contact form with a little about what you're looking for. I'll reply to arrange a free 15-minute consultation, and we take it from there.",
+        a: "Send a message through the contact form with a little about what you're looking for. I'll reply to arrange a free 20-minute consultation, and we take it from there.",
       },
       {
         q: "What happens in the free consultation?",
-        a: "It's a complimentary 15-minute call to meet, discuss the challenges you're facing, and ask any questions about the counselling process. It's there to help you decide whether we're the right fit for one another — there's no pressure to book.",
+        a: "It's a complimentary 20-minute call to meet, discuss the challenges you're facing, and ask any questions about the counselling process. It's there to help you decide whether we're the right fit for one another — there's no pressure to book.",
       },
       {
         q: "Do I need to know what I want to work on?",
@@ -42,15 +42,19 @@ export const faqGroups: readonly FaqGroup[] = [
     items: [
       {
         q: "How long is a session, and what does it cost?",
-        a: "Sessions run for one hour. Individual sessions are R400 and couples sessions R600. The first 15-minute consultation is free.",
+        a: "Sessions run for one hour. Individual sessions are R400 and couples sessions R600. The first 20-minute consultation is free.",
+      },
+      {
+        q: "How does payment work?",
+        a: "I will invoice you after each session or a once-off initial invoice if you choose the up front promo. Payments can then be made via EFT.",
       },
       {
         q: "Are sessions really all online?",
-        a: "Yes. Sessions are held securely online, so you can access counselling from anywhere in South Africa — from your own home, or any space where you feel safe and relaxed. I'm based in Cape Town.",
+        a: "Yes. Sessions are held securely online, so you can access counselling from anywhere — from your own home, or any space where you feel safe and comfortable. I'm based in Cape Town.",
       },
       {
         q: "Who do you work with?",
-        a: "Individual counselling is available for children, adolescents, and adults. I also work with couples on relationship, marriage, and family challenges.",
+        a: "Individual counselling is available for children, adolescents, and adults. I also work with couples on relationship, marriage, and family or friendship challenges.",
       },
       {
         q: "How often would we meet, and for how long?",
@@ -72,18 +76,11 @@ export const faqGroups: readonly FaqGroup[] = [
       },
       {
         q: "What if my needs fall outside your scope?",
-        a: "I'll gladly refer you to a trusted HPCSA-registered mental health professional — a Registered Counsellor, Psychologist, Psychiatrist, or another appropriate practitioner — so you receive the level of care best suited to your needs.",
+        a: "I'll gladly refer you to a trusted HPCSA-registered mental health professional — a Psychologist, Psychiatrist, or another appropriate practitioner — so you receive the level of care best suited to your needs.",
       },
     ],
   },
 ];
-
-/** Questions still awaiting Emma's wording, shown in the note box. */
-export const faqsToConfirm = [
-  "Payment method and when payment is due",
-  "Cancellation / rescheduling notice",
-  "Medical aid claims and invoices",
-] as const;
 
 /** Flattened for the FAQPage schema. */
 export const allFaqs = faqGroups.flatMap((group) => group.items);

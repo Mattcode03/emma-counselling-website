@@ -7,10 +7,10 @@ import heroImage from "../assets/images/consultation.jpg";
 
 const title = "Contact & Book Online Counselling | Cape Town, South Africa";
 const description =
-  "Book a free 15-minute consultation for online counselling or virtual therapy anywhere in South Africa. Message Emma Rossouw, Cape Town-based counsellor.";
+  "Book a free 20-minute consultation for online counselling or virtual therapy anywhere in South Africa. Message Emma Rossouw, Cape Town-based counsellor.";
 
 const nextSteps = [
-  "I read your message and reply to suggest a few times for a free 15-minute call.",
+  "I read your message and reply to suggest a few times for a free 20-minute call.",
   "We talk — about what's going on, and any questions you have. No obligation to book.",
   "If it feels right, we schedule your first session and I send the secure video link.",
 ];
@@ -77,7 +77,7 @@ const schema = [
           Only your name and email are needed &mdash; share as much or as little as you like.
         </p>
 
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input type="hidden" name="access_key" value="9944884e-c9ae-44fe-96c2-00b476453632" />
         <input
           type="hidden"
           name="subject"
@@ -106,6 +106,26 @@ const schema = [
               <option>Not sure yet</option>
             </select>
           </div>
+          <fieldset class="form-field form-field--full offer-choice">
+            <legend>Six-session offer</legend>
+            <p class="offer-choice-note">
+              Book six sessions up front and pay for five &mdash; your sixth session is free.
+            </p>
+            <div class="offer-choice-options">
+              <label class="offer-choice-option">
+                <input
+                  type="radio"
+                  name="offer"
+                  value="Yes, I'd like to claim the six-session offer"
+                />
+                <span>Yes, I'd like to claim the offer</span>
+              </label>
+              <label class="offer-choice-option">
+                <input type="radio" name="offer" value="No" checked />
+                <span>No thanks</span>
+              </label>
+            </div>
+          </fieldset>
           <div class="form-field form-field--full">
             <label for="message">Message</label>
             <textarea
@@ -135,6 +155,12 @@ const schema = [
   // global js/contact.js to every route.
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
   const status = document.getElementById("form-status");
+
+  // Arriving from the Services page's "Claim this offer" button.
+  if (new URLSearchParams(window.location.search).get("offer") === "six-sessions") {
+    const claim = form?.querySelector<HTMLInputElement>('input[name="offer"]:not([value="No"])');
+    if (claim) claim.checked = true;
+  }
 
   if (form && status) {
     form.addEventListener("submit", async (event) => {
@@ -177,3 +203,75 @@ const schema = [
     });
   }
 </script>
+
+<style>
+  .offer-choice {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .offer-choice legend {
+    padding: 0;
+    margin-bottom: 8px;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--forest);
+  }
+
+  .offer-choice-note {
+    margin: 0 0 12px;
+    font-size: 0.9rem;
+  }
+
+  .offer-choice-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Overrides the uppercase field-label style these would inherit. */
+  .offer-choice .offer-choice-option {
+    flex: 1 1 220px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 14px 16px;
+    border: 1px solid rgba(46, 89, 67, 0.25);
+    border-radius: 4px;
+    background: var(--peaceful);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .offer-choice .offer-choice-option:has(input:checked) {
+    border-color: var(--illuminated);
+    box-shadow: 0 0 0 3px rgba(198, 145, 63, 0.2);
+  }
+
+  .offer-choice .offer-choice-option:has(input:focus-visible) {
+    outline: 3px solid var(--deep-sea);
+    outline-offset: 2px;
+  }
+
+  /* The shared text-input rule would otherwise stretch the radios full width. */
+  .offer-choice input[type="radio"] {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    accent-color: var(--forest);
+  }
+</style>

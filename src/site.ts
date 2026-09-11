@@ -39,7 +39,6 @@ export const navLinks = [
   { href: "/services/", label: "Services & fees" },
   { href: "/scope-of-practice/", label: "What to expect" },
   { href: "/faq/", label: "Questions" },
-  { href: "/resources/", label: "Resources" },
 ] as const;
 
 /** Footer link columns, mirroring the design's three-column arrangement. */
@@ -52,7 +51,6 @@ export const footerColumns = [
   [
     { href: "/scope-of-practice/", label: "What to expect" },
     { href: "/faq/", label: "Questions" },
-    { href: "/resources/", label: "Resources" },
   ],
   [{ href: "/contact/", label: "Contact" }],
 ] as const;
@@ -69,9 +67,9 @@ export const fees = [
     amount: "Free",
     /** Numeric price for schema.org. */
     price: "0",
-    note: "15 minutes",
-    rowPrice: "Free · 15 min",
-    schemaName: "Free 15-minute consultation",
+    note: "20 minutes",
+    rowPrice: "Free · 20 min",
+    schemaName: "Free 20-minute consultation",
     blurb:
       "A chance to meet, discuss your needs, and see whether we're the right fit for one another.",
   },
@@ -102,7 +100,6 @@ export const fees = [
 /** Areas of support, shown as chips on the Services page. */
 export const supportAreas = [
   "Anxiety and stress",
-  "Depression",
   "Burnout and workplace wellbeing",
   "Self-esteem and confidence",
   "Life transitions and adjustment",
@@ -111,10 +108,12 @@ export const supportAreas = [
   "Grief and loss",
   "Trauma",
   "Personal growth and self-discovery",
+  "Identity and self-exploration",
   "Body image and eating-related concerns",
   "Substance use and addiction",
   "Career guidance and decision-making",
   "Developing healthy coping skills",
+  "Motivation and focus",
   "General emotional wellbeing",
 ] as const;
 

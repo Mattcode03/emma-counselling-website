@@ -1,0 +1,96 @@
+---
+import { href } from "../url";
+import { fees } from "../site";
+
+const rand = (amount: number) => `R${amount.toLocaleString("en-US")}`;
+
+const bundles = fees
+  .filter((fee) => fee.id !== "consultation")
+  .map((fee) => ({
+    name: fee.name,
+    pay: rand(Number(fee.price) * 5),
+    save: rand(Number(fee.price)),
+  }));
+---
+
+<div class="package-offer">
+  <span class="eyebrow">Special offer</span>
+  <h2>Book six sessions, <em>your sixth is free</em></h2>
+  <p>
+    Book six sessions up front and you only pay for five — your sixth session is on me, for
+    individual or couples counselling.
+  </p>
+  <ul class="package-offer-bundles">
+    {
+      bundles.map((bundle) => (
+        <li>
+          <span class="package-offer-bundle-name">{bundle.name}</span>
+          <span class="package-offer-bundle-price">6 sessions for {bundle.pay}</span>
+          <span class="package-offer-bundle-save">You save {bundle.save}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <a href={href("/contact/?offer=six-sessions")} class="btn btn-primary">Claim this offer</a>
+</div>
+
+<style>
+  .package-offer {
+    max-width: 640px;
+    margin: clamp(40px, 5vw, 64px) auto 0;
+    padding: clamp(32px, 5vw, 48px) clamp(20px, 5vw, 44px);
+    text-align: center;
+    background: var(--peaceful);
+    border-top: 4px solid var(--illuminated);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 34px rgba(46, 89, 67, 0.14);
+  }
+
+  .package-offer h2 {
+    margin: 12px 0 14px;
+  }
+
+  .package-offer p {
+    margin: 0 0 24px;
+  }
+
+  .package-offer-bundles {
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .package-offer-bundles li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .package-offer-bundle-name {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--illuminated-ink);
+  }
+
+  .package-offer-bundle-price {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.2;
+    color: var(--forest);
+  }
+
+  .package-offer-bundle-save {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+</style>

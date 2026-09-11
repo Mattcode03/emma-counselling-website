@@ -21,13 +21,7 @@ export default defineConfig({
   site: SITE,
   base: BASE,
 
-  integrations: [
-    sitemap({
-      // resources/* is placeholder copy pending Emma's real articles and is
-      // noindexed, so it must stay out of the sitemap too.
-      filter: (page) => !page.includes("/resources"),
-    }),
-  ],
+  integrations: [sitemap()],
 
   build: {
     // Clean URLs: /services/ rather than /services.html.
