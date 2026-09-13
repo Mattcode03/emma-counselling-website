@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
 import { practice } from "../site";
 import { breadcrumbs, abs } from "../schema";
-import heroImage from "../assets/images/consultation.jpg";
+import heroImage from "../assets/images/wellness-hero.jpg";
 
 const title = "Contact & Book Online Counselling | Cape Town, South Africa";
 const description =
@@ -37,6 +37,7 @@ const schema = [
     title="Book your free consultation"
     description="Send a message below and I'll be in touch to arrange a time. Sessions are held online, so you can book from Cape Town or anywhere else in South Africa."
     variant="short"
+    class="photo-hero--gold-heading"
   />
 
   <section class="section">
@@ -72,7 +73,7 @@ const schema = [
       </div>
 
       <form id="contact-form" class="contact-form card">
-        <h2 class="contact-form-title">I'd love to hear from you</h2>
+        <h2 class="contact-form-title">I look forward to hearing from you</h2>
         <p class="contact-form-intro">
           Only your name and email are needed &mdash; share as much or as little as you like.
         </p>

@@ -1,6 +1,8 @@
 ---
+import { Image } from "astro:assets";
 import { href as withBase } from "../url";
-import { navLinks, practice } from "../site";
+import { navLinks } from "../site";
+import logo from "../assets/images/logo.png";
 
 /**
  * Pathname of the current page. In a based deployment this already includes
@@ -18,7 +20,13 @@ const isActive = (link: string) => normalise(path) === normalise(withBase(link))
 <header class="site-header">
   <nav class="nav" aria-label="Main navigation">
     <a href={withBase("/")} class="nav-logo">
-      {practice.nameParts.lead} <span>{practice.nameParts.accent}</span>
+      <Image
+        src={logo}
+        alt="ER Counselling home"
+        height={96}
+        densities={[1, 2]}
+        loading="eager"
+      />
     </a>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>

@@ -259,21 +259,21 @@ p {
 }
 
 .nav-logo {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  color: var(--peaceful);
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+  display: flex;
+  flex-shrink: 0;
 }
 
-.nav-logo span {
-  font-style: italic;
-  color: var(--illuminated-light);
+.nav-logo img {
+  display: block;
+  width: auto;
+  height: 96px;
 }
 
 .nav-links {
   display: flex;
   flex-wrap: wrap;
+  /* If the CTA wraps beside the large logo, keep it under the links' right edge. */
+  justify-content: flex-end;
   align-items: center;
   gap: 6px 18px;
   list-style: none;
@@ -285,7 +285,7 @@ p {
   display: inline-flex;
   flex-direction: column;
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: rgba(247, 240, 223, 0.82);
@@ -359,11 +359,17 @@ p {
   }
 
   .nav-links a:not(.btn) {
-    font-size: 0.68rem;
+    font-size: 0.78rem;
   }
 }
 
 @media (max-width: 1024px) {
+  /* Leave room for the side padding and the menu toggle beside the logo. */
+  .nav-logo img {
+    height: auto;
+    width: min(294px, calc(100vw - 118px));
+  }
+
   .nav-toggle {
     display: flex;
   }
@@ -468,7 +474,7 @@ p {
   max-width: 22ch;
 }
 
-/* FAQ, Scope of practice, and Services banners: the heading takes
+/* FAQ, Scope of practice, Services, and Contact banners: the heading takes
    the brand gold rather than Peaceful. */
 .photo-hero--gold-heading .photo-hero-content h1 {
   color: var(--illuminated-dark);

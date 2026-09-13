@@ -11,11 +11,11 @@
 
 export const practice = {
   name: "Emma Rossouw Counselling",
-  /** Rendered as "Emma Rossouw <em>Counselling</em>" in the nav and footer. */
+  /** Rendered as "Emma Rossouw <em>Counselling</em>" in the footer. */
   nameParts: { lead: "Emma Rossouw", accent: "Counselling" },
   counsellor: "Emma Rossouw",
   jobTitle: "Registered Specialist Wellness Counsellor",
-  email: "emma.rossouw03@gmail.com",
+  email: "info@ercounselling.co.za",
   /** E.164, for tel: links and schema.org. */
   phone: "+27820670589",
   /** Human-readable form for display. */
