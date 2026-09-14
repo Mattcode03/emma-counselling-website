@@ -1678,7 +1678,9 @@ textarea:focus-visible,
 .section--forest a:focus-visible,
 .section--forest button:focus-visible,
 .site-header a:focus-visible,
-.site-header button:focus-visible {
+.site-header button:focus-visible,
+.site-footer a:focus-visible,
+.site-footer button:focus-visible {
   outline-color: var(--illuminated-light);
 }
 

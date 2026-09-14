@@ -71,6 +71,11 @@ import { gaMeasurementId } from "../analytics";
         </ul>
       </nav>
       <span>{`${practice.footerCredential} · Reg. no. ${practice.registrationNumber}`}</span>
+      <span class="footer-credit">
+        Designed by <a href="https://ingaladigital.co.za" target="_blank" rel="noopener"
+          >Ingala Digital</a
+        >
+      </span>
     </div>
   </div>
 </footer>
@@ -105,7 +110,15 @@ import { gaMeasurementId } from "../analytics";
     color: var(--illuminated-light);
   }
 
-  .footer-legal-button:focus-visible {
-    outline-color: var(--illuminated-light);
+  /* Underlined because colour alone doesn't set it apart from the text. */
+  .footer-credit a {
+    color: rgba(247, 240, 223, 0.8);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .footer-credit a:hover {
+    color: var(--illuminated-light);
   }
 </style>
