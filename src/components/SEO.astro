@@ -1,0 +1,73 @@
+---
+/**
+ * Per-page search and social metadata: title, description, canonical URL,
+ * robots directives, Open Graph and Twitter cards. BaseLayout renders this on
+ * every page from the props each page passes, so no page hand-writes tags.
+ */
+import { practice } from "../site";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Optional. Google ignores meta keywords, so most pages leave this out. */
+  keywords?: readonly string[];
+  /** Keeps the page out of search results. */
+  noindex?: boolean;
+  /** Absolute URL of the share image. */
+  ogImageUrl: string;
+  ogImageAlt: string;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  noindex = false,
+  ogImageUrl,
+  ogImageAlt,
+} = Astro.props;
+
+// Search results truncate anything longer. Failing the build here means an
+// over-long title or description can't reach the live site unnoticed.
+const TITLE_LIMIT = 60;
+const DESCRIPTION_LIMIT = 160;
+
+if (title.length >= TITLE_LIMIT) {
+  throw new Error(
+    `${Astro.url.pathname}: the title is ${title.length} characters; keep it under ${TITLE_LIMIT}. "${title}"`,
+  );
+}
+if (description.length >= DESCRIPTION_LIMIT) {
+  throw new Error(
+    `${Astro.url.pathname}: the description is ${description.length} characters; keep it under ${DESCRIPTION_LIMIT}. "${description}"`,
+  );
+}
+
+// Derived from the configured `site`, so the domain is never hardcoded in a
+// page, and every page gets one without opting in.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+{/* A noindex page (the 404) has no canonical version to point to. */}
+{!noindex && <link rel="canonical" href={canonical} />}
+<meta
+  name="robots"
+  content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"}
+/>
+<meta name="author" content={practice.counsellor} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={practice.name} />
+<meta property="og:locale" content="en_ZA" />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />

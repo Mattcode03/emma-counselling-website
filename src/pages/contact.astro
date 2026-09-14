@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhotoHero from "../components/PhotoHero.astro";
+import { href } from "../url";
 import { practice } from "../site";
 import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/wellness-hero.jpg";
@@ -72,7 +73,14 @@ const schema = [
         </div>
       </div>
 
-      <form id="contact-form" class="contact-form card">
+      <!-- action/method are the no-JavaScript fallback: without them a failed
+           script would submit the form as a GET, putting the message in the URL. -->
+      <form
+        id="contact-form"
+        class="contact-form card"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+      >
         <h2 class="contact-form-title">I look forward to hearing from you</h2>
         <p class="contact-form-intro">
           Only your name and email are needed &mdash; share as much or as little as you like.
@@ -89,15 +97,38 @@ const schema = [
         <div class="form-row">
           <div class="form-field">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your name"
+              autocomplete="name"
+              maxlength="100"
+              required
+            />
           </div>
           <div class="form-field">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              maxlength="254"
+              required
+            />
           </div>
           <div class="form-field">
             <label for="phone">Phone <span class="optional">(optional)</span></label>
-            <input type="tel" id="phone" name="phone" placeholder="+27 &hellip;" />
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="+27 &hellip;"
+              autocomplete="tel"
+              maxlength="30"
+            />
           </div>
           <div class="form-field">
             <label for="interest">I'm interested in</label>
@@ -134,7 +165,25 @@ const schema = [
               name="message"
               rows="6"
               placeholder="A little about what you're looking for&hellip;"
+              maxlength="5000"
               required></textarea>
+          </div>
+          <div class="form-field form-field--full consent-field">
+            <label class="consent-option" for="consent">
+              <input
+                type="checkbox"
+                id="consent"
+                name="consent"
+                value="Agreed to the privacy policy"
+                required
+              />
+              <span>
+                I agree to {practice.name} using the information in this form, including anything
+                I share about my health or wellbeing, to respond to my enquiry, as set out in the <a
+                  href={href("/privacy-policy/")}>privacy policy</a
+                >.
+              </span>
+            </label>
           </div>
         </div>
 
@@ -263,6 +312,35 @@ const schema = [
   .offer-choice .offer-choice-option:has(input:focus-visible) {
     outline: 3px solid var(--deep-sea);
     outline-offset: 2px;
+  }
+
+  /* Overrides the uppercase field-label style, as for the offer options. */
+  .consent-field .consent-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .consent-field .consent-option a {
+    text-decoration: underline;
+  }
+
+  .consent-field input[type="checkbox"] {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 4px 0 0;
+    padding: 0;
+    box-shadow: none;
+    accent-color: var(--forest);
   }
 
   /* The shared text-input rule would otherwise stretch the radios full width. */

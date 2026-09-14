@@ -1,0 +1,261 @@
+---
+/**
+ * Cookie consent banner and the only place Google Analytics is loaded.
+ *
+ * BaseLayout renders this only when PUBLIC_GA4_MEASUREMENT_ID is set. Google
+ * Consent Mode v2 defaults every consent type to "denied", and gtag.js itself
+ * is not requested until the visitor allows analytics, so rejecting (or never
+ * choosing) means no Google request and no _ga cookies at all.
+ */
+import { href } from "../url";
+import { gaMeasurementId } from "../analytics";
+---
+
+<div
+  id="cookie-consent"
+  class="cookie-consent"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-consent-title"
+  aria-describedby="cookie-consent-description"
+  tabindex="-1"
+  data-ga-id={gaMeasurementId}
+  hidden
+>
+  <h2 id="cookie-consent-title" class="cookie-consent-title">Cookie preferences</h2>
+  <p id="cookie-consent-description">
+    With your permission, this site uses Google Analytics cookies to count visits and see which
+    pages are useful. They're only set if you allow them. There are no advertising or marketing
+    cookies. <a href={href("/cookie-policy/")}>Read the cookie policy</a>.
+  </p>
+  <fieldset class="cookie-consent-options">
+    <legend>Choose which cookies to allow</legend>
+    <label>
+      <input type="checkbox" checked disabled />
+      <span><strong>Strictly necessary</strong> &mdash; remembers this choice. Always on.</span>
+    </label>
+    <label>
+      <input type="checkbox" name="analytics" data-consent-analytics />
+      <span><strong>Analytics</strong> &mdash; Google Analytics, to understand how the site is used.</span>
+    </label>
+  </fieldset>
+  <div class="cookie-consent-actions">
+    <button type="button" class="btn btn-primary" data-consent="reject">Reject all</button>
+    <button type="button" class="btn btn-outline" data-consent="save">Save choices</button>
+    <button type="button" class="btn btn-primary" data-consent="accept">Accept all</button>
+  </div>
+</div>
+
+<script>
+  type Gtag = (...args: unknown[]) => void;
+
+  /** Bump when the cookie policy changes materially, to ask everyone again. */
+  const CONSENT_VERSION = 1;
+  const STORAGE_KEY = "erc-cookie-consent";
+
+  const banner = document.getElementById("cookie-consent");
+  const gaId = banner?.dataset.gaId;
+  const w = window as typeof window & { dataLayer?: unknown[]; gtag?: Gtag };
+
+  if (banner && gaId) {
+    w.dataLayer = w.dataLayer ?? [];
+    // gtag.js reads the `arguments` object, so this can't be an arrow function.
+    const gtag: Gtag = function () {
+      // eslint-disable-next-line prefer-rest-params
+      w.dataLayer?.push(arguments);
+    };
+    w.gtag = gtag;
+
+    // Consent Mode v2: everything denied until the visitor decides.
+    gtag("consent", "default", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "denied",
+    });
+
+    const checkbox = banner.querySelector<HTMLInputElement>("[data-consent-analytics]");
+    let gaLoaded = false;
+    let returnFocus: HTMLElement | null = null;
+
+    /** The stored analytics choice, or null if the visitor hasn't chosen. */
+    const readChoice = (): boolean | null => {
+      try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
+        if (stored?.version === CONSENT_VERSION && typeof stored.analytics === "boolean") {
+          return stored.analytics;
+        }
+      } catch {
+        // Storage blocked or corrupt: treat as no choice made.
+      }
+      return null;
+    };
+
+    const saveChoice = (analytics: boolean) => {
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ analytics, version: CONSENT_VERSION, date: new Date().toISOString() }),
+        );
+      } catch {
+        // Without storage the banner simply asks again on the next page.
+      }
+    };
+
+    const loadAnalytics = () => {
+      if (gaLoaded) return;
+      gaLoaded = true;
+      gtag("consent", "update", { analytics_storage: "granted" });
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`;
+      document.head.append(script);
+      gtag("js", new Date());
+      gtag("config", gaId);
+    };
+
+    const deleteAnalyticsCookies = () => {
+      const host = location.hostname;
+      const domains = ["", host, `.${host}`, `.${host.replace(/^www\./, "")}`];
+      for (const cookie of document.cookie.split(";")) {
+        const name = cookie.split("=")[0].trim();
+        if (name !== "_ga" && !name.startsWith("_ga_")) continue;
+        for (const domain of domains) {
+          document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ""}`;
+        }
+      }
+    };
+
+    const open = (moveFocus: boolean) => {
+      if (checkbox) checkbox.checked = readChoice() === true;
+      banner.hidden = false;
+      if (moveFocus) {
+        returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        banner.focus();
+      }
+    };
+
+    const close = () => {
+      banner.hidden = true;
+      returnFocus?.focus();
+      returnFocus = null;
+    };
+
+    const applyChoice = (analytics: boolean) => {
+      const wasLoaded = gaLoaded;
+      saveChoice(analytics);
+      close();
+      if (analytics) {
+        loadAnalytics();
+        return;
+      }
+      gtag("consent", "update", { analytics_storage: "denied" });
+      deleteAnalyticsCookies();
+      // A loaded gtag.js can't be unloaded; reloading guarantees it stops.
+      if (wasLoaded) location.reload();
+    };
+
+    banner.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-consent]");
+      const action = button?.dataset.consent;
+      if (action === "accept") applyChoice(true);
+      else if (action === "reject") applyChoice(false);
+      else if (action === "save") applyChoice(checkbox?.checked ?? false);
+    });
+
+    // Escape only dismisses a banner reopened from "Cookie settings"; on a
+    // first visit a choice is still needed.
+    banner.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && readChoice() !== null) close();
+    });
+
+    for (const trigger of document.querySelectorAll("[data-cookie-settings]")) {
+      trigger.addEventListener("click", () => open(true));
+    }
+
+    const choice = readChoice();
+    if (choice === null) open(false);
+    else if (choice) loadAnalytics();
+  }
+</script>
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    z-index: 200;
+    max-width: 560px;
+    max-height: calc(100vh - 32px);
+    margin-left: auto;
+    overflow-y: auto;
+    padding: 24px;
+    background: var(--white);
+    border-top: 4px solid var(--illuminated);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px rgba(35, 66, 47, 0.28);
+  }
+
+  .cookie-consent-title {
+    font-size: 1.5rem;
+    margin: 0 0 8px;
+  }
+
+  .cookie-consent p {
+    margin: 0 0 16px;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+
+  .cookie-consent a {
+    text-decoration: underline;
+  }
+
+  .cookie-consent-options {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 20px;
+    padding: 0;
+    border: 0;
+  }
+
+  .cookie-consent-options legend {
+    margin-bottom: 8px;
+    padding: 0;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--forest);
+  }
+
+  .cookie-consent-options label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.92rem;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .cookie-consent-options input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 4px 0 0;
+    accent-color: var(--forest);
+  }
+
+  .cookie-consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cookie-consent-actions .btn {
+    flex: 1 1 auto;
+    padding: 12px 18px;
+  }
+</style>

@@ -27,9 +27,9 @@
   /* Type. Instrument Serif ships one weight (400) in roman and italic only,
      so headings lean on size and italic accents rather than boldness. Karla
      covers body copy and all UI labels. */
-  --font-display: "Instrument Serif", serif;
-  --font-body: "Karla", sans-serif;
-  --font-ui: "Karla", sans-serif;
+  /* --font-display and --font-body come from Astro's <Font> component, which
+     self-hosts the files (see `fonts` in astro.config.mjs). */
+  --font-ui: var(--font-body);
 
   /* Layout */
   --max-width: 1120px;
@@ -129,6 +129,14 @@ p {
 
 .section--sage .eyebrow,
 .section--sea .eyebrow {
+  color: var(--forest-deep);
+}
+
+/* Forest headings measure 4.25:1 on Calm, under AA for the smaller h3 sizes. */
+.section--sage h2,
+.section--sage h3,
+.section--sea h2,
+.section--sea h3 {
   color: var(--forest-deep);
 }
 
@@ -1009,6 +1017,11 @@ p {
   border-bottom: none;
 }
 
+/* The global gold italic is ~1.9:1 on the Calm band this list sits on. */
+.qualifications em {
+  color: inherit;
+}
+
 .qualifications .credential-org {
   font-family: var(--font-ui);
   font-size: 0.78rem;
@@ -1151,6 +1164,9 @@ p {
   position: sticky;
   top: 96px;
   align-self: flex-start;
+  /* An h2 for the heading outline, styled as the small label it was. */
+  margin: 0;
+  line-height: 1.7;
 }
 
 .section--sage .faq-group-label {
@@ -1333,7 +1349,8 @@ p {
 .contact-next-step .step-index {
   font-family: var(--font-display);
   font-size: 1.05rem;
-  color: var(--illuminated-dark);
+  /* Small text, so the ink gold (5.65:1) rather than the display gold. */
+  color: var(--illuminated-ink);
   flex: 0 0 20px;
 }
 
@@ -1408,6 +1425,13 @@ p {
 
 .form-field textarea {
   resize: vertical;
+}
+
+/* Browser-default placeholder grey is ~4.1:1 on Peaceful, under AA. */
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-soft);
+  opacity: 1;
 }
 
 .form-field input:focus,
@@ -1510,7 +1534,8 @@ p {
 .footer-bottom {
   font-family: var(--font-ui);
   font-size: 0.72rem;
-  color: rgba(247, 240, 223, 0.55);
+  /* 0.55 alpha measured 4.16:1 at this small size; 0.72 gives 5.9:1. */
+  color: rgba(247, 240, 223, 0.72);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

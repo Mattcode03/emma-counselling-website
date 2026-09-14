@@ -22,9 +22,15 @@ export const practice = {
   phoneDisplay: "+27 82 067 0589",
   linkedin: "https://www.linkedin.com/in/emma-rossouw-aba5a935a/",
   registration: "ASCHP",
+  /** ASCHP membership registration number. */
+  registrationNumber: "13593",
   registrationBody:
     "Association for Supportive Counsellors and Holistic Practitioners",
+  /** Business address, published as required by ECTA s43. Sessions are online. */
+  streetAddress: "A805 The Claremont, 53 Main Road",
+  suburb: "Claremont",
   city: "Cape Town",
+  postalCode: "7708",
   region: "Western Cape",
   country: "ZA",
   countryName: "South Africa",
@@ -54,6 +60,16 @@ export const footerColumns = [
   ],
   [{ href: "/contact/", label: "Contact" }],
 ] as const;
+
+/** Policy pages, linked from the footer on every page. */
+export const legalLinks = [
+  { href: "/privacy-policy/", label: "Privacy policy" },
+  { href: "/terms/", label: "Terms & conditions" },
+  { href: "/cookie-policy/", label: "Cookie policy" },
+] as const;
+
+/** One-line business address for the footer and policy pages. */
+export const fullAddress = `${practice.streetAddress}, ${practice.suburb}, ${practice.city}, ${practice.postalCode}, ${practice.countryName}`;
 
 /**
  * Session fees. Consumed by the home fee list, the services pricing cards and
@@ -125,6 +141,8 @@ export interface Qualification {
   /** Full string used in the Person schema's hasCredential list. */
   schemaName: string;
   category: string;
+  /** Registration or certificate number, where there is one. */
+  identifier?: string;
 }
 
 /** Qualifications, shown on the About page and in the Person schema. */
@@ -154,5 +172,6 @@ export const qualifications: readonly Qualification[] = [
     org: "ASCHP",
     schemaName: "ASCHP Specialist Wellness Counsellor Registration",
     category: "professional certification",
+    identifier: practice.registrationNumber,
   },
 ];

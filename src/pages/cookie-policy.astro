@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import LegalContent from "../components/LegalContent.astro";
+import { href } from "../url";
+import { practice } from "../site";
+import { gaMeasurementId } from "../analytics";
+import { breadcrumbs, abs } from "../schema";
+import heroImage from "../assets/images/gradient-2.jpg";
+
+const title = "Cookie Policy | Emma Rossouw Counselling";
+const description =
+  "The cookies the Emma Rossouw Counselling website uses, what each one does, how long it lasts, and how to change your cookie settings.";
+
+/** GA4 names its session cookie after the measurement ID without the "G-". */
+const gaSessionCookie = gaMeasurementId && `_ga_${gaMeasurementId.replace(/^G-/, "")}`;
+
+const schema = [
+  {
+    "@type": "WebPage",
+    "@id": `${abs(Astro.site, "/cookie-policy/")}#webpage`,
+    url: abs(Astro.site, "/cookie-policy/"),
+    name: title,
+    description,
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+  },
+  breadcrumbs(Astro.site, [{ name: "Cookie policy", path: "/cookie-policy/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Legal"
+    title="Cookie policy"
+    variant="short"
+    class="photo-hero--gold-heading"
+  />
+
+  <LegalContent updated="14 September 2026">
+    <p>
+      Cookies are small text files a website stores in your browser. Similar technologies, such as
+      your browser's local storage, work in the same way, and this policy covers them too.
+    </p>
+    {
+      gaMeasurementId ? (
+        <p>
+          This site keeps cookies to a minimum. Analytics cookies are only set if you allow them,
+          and there are no advertising or marketing cookies.
+        </p>
+      ) : (
+        <p>This site doesn't use analytics, advertising or marketing cookies.</p>
+      )
+    }
+
+    <h2>Cookies this site uses</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Provider</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            gaMeasurementId && (
+              <>
+                <tr>
+                  <td>
+                    <code>erc-cookie-consent</code> (local storage)
+                  </td>
+                  <td>This site</td>
+                  <td>Remembers your cookie choice so you aren't asked on every page.</td>
+                  <td>Until you change your choice or clear your browser storage</td>
+                  <td>Strictly necessary</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code>_ga</code>
+                  </td>
+                  <td>Google Analytics</td>
+                  <td>Tells one visitor apart from another, so visits can be counted.</td>
+                  <td>2 years</td>
+                  <td>Analytics (only with your consent)</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code>{gaSessionCookie}</code>
+                  </td>
+                  <td>Google Analytics</td>
+                  <td>Keeps track of your current visit.</td>
+                  <td>2 years</td>
+                  <td>Analytics (only with your consent)</td>
+                </tr>
+              </>
+            )
+          }
+          <tr>
+            <td>
+              <code>__cf_bm</code>
+            </td>
+            <td>Cloudflare (hosting)</td>
+            <td>
+              Only set if Cloudflare's bot protection needs to check traffic. Helps block automated
+              attacks.
+            </td>
+            <td>30 minutes</td>
+            <td>Strictly necessary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Strictly necessary cookies don't need your consent, because the site can't work properly or
+      securely without them.
+    </p>
+
+    <h2>Third-party content</h2>
+    <p>
+      This site doesn't embed videos, maps, social media widgets, chat tools or advertising pixels,
+      and its fonts are served from this website rather than a third party. The LinkedIn icon is a
+      plain link: LinkedIn can't set cookies until you click it and visit their site. The contact
+      form sends your message to Web3Forms for delivery by email, without setting any cookies on
+      this site.
+    </p>
+
+    <h2>Managing your choice</h2>
+    {
+      gaMeasurementId && (
+        <>
+          <p>
+            You can change your mind at any time. Switching analytics off deletes the Google
+            Analytics cookies from this site.
+          </p>
+          <p>
+            <button type="button" class="btn btn-outline" data-cookie-settings>
+              Change cookie settings
+            </button>
+          </p>
+        </>
+      )
+    }
+    <p>
+      You can also block or delete cookies in your browser settings. Blocking strictly necessary
+      cookies may stop parts of the site from working.
+    </p>
+
+    <h2>More information</h2>
+    <p>
+      The <a href={href("/privacy-policy/")}>privacy policy</a> explains how personal information is
+      handled. Questions? Email <a href={`mailto:${practice.email}`}>{practice.email}</a>.
+    </p>
+  </LegalContent>
+</BaseLayout>

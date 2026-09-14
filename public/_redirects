@@ -1,0 +1,18 @@
+# Cloudflare Pages redirects.
+# https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Host redirects (www.ercounselling.co.za -> ercounselling.co.za) can't be
+# set here; they're a Redirect Rule in the Cloudflare dashboard (see README).
+# Trailing slashes need no rule: Cloudflare Pages already redirects /about to
+# /about/, matching the canonical URLs.
+
+# Pages from the original hand-written site.
+/about.html               /about/               301
+/services.html            /services/            301
+/scope-of-practice.html   /scope-of-practice/   301
+/faq.html                 /faq/                 301
+/contact.html             /contact/             301
+
+# The Resources section was removed. Delete these two lines if it returns.
+/resources.html           /                     301
+/resources/*              /                     301

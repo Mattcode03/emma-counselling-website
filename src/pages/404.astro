@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { href } from "../url";
+import { navLinks } from "../site";
+
+// Cloudflare Pages serves this for any unknown URL. Without a 404 page it
+// would treat the site as a single-page app and answer every bad URL with the
+// home page and a 200 status.
+const title = "Page Not Found | Emma Rossouw Counselling";
+const description =
+  "The page you were looking for couldn't be found. Head back to the home page or browse the main sections of the site.";
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="section">
+    <div class="container not-found">
+      <span class="eyebrow">Error 404</span>
+      <h1>This page couldn't be found</h1>
+      <p>
+        The link may be out of date, or the address may have been mistyped. Try one of these
+        instead:
+      </p>
+      <ul class="not-found-links">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={href(link.href)}>{link.label}</a>
+            </li>
+          ))
+        }
+        <li><a href={href("/contact/")}>Contact</a></li>
+      </ul>
+      <a href={href("/")} class="btn btn-primary">Back to the home page</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    max-width: 640px;
+    text-align: center;
+  }
+
+  .not-found-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 24px;
+    margin: 0 0 32px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .not-found-links a {
+    text-decoration: underline;
+  }
+</style>

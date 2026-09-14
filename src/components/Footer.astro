@@ -1,6 +1,7 @@
 ---
 import { href } from "../url";
-import { footerColumns, practice } from "../site";
+import { footerColumns, legalLinks, practice } from "../site";
+import { gaMeasurementId } from "../analytics";
 ---
 
 <footer class="site-footer">
@@ -12,7 +13,8 @@ import { footerColumns, practice } from "../site";
         </div>
         <p class="footer-nap">
           {practice.tagline}<br />
-          {practice.city}, {practice.region}, {practice.countryName}<br />
+          {practice.streetAddress}<br />
+          {`${practice.suburb}, ${practice.city}, ${practice.postalCode}, ${practice.countryName}`}<br />
           <a href={`tel:${practice.phone}`}>{practice.phoneDisplay}</a><br />
           <a href={`mailto:${practice.email}`}>{practice.email}</a>
         </p>
@@ -48,7 +50,62 @@ import { footerColumns, practice } from "../site";
     </div>
     <div class="footer-bottom">
       <span>&copy; {new Date().getFullYear()} {practice.name}. All rights reserved.</span>
-      <span>{practice.footerCredential}</span>
+      <nav aria-label="Legal">
+        <ul class="footer-legal">
+          {
+            legalLinks.map((link) => (
+              <li>
+                <a href={href(link.href)}>{link.label}</a>
+              </li>
+            ))
+          }
+          {
+            gaMeasurementId && (
+              <li>
+                <button type="button" class="footer-legal-button" data-cookie-settings>
+                  Cookie settings
+                </button>
+              </li>
+            )
+          }
+        </ul>
+      </nav>
+      <span>{`${practice.footerCredential} · Reg. no. ${practice.registrationNumber}`}</span>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer-legal a,
+  .footer-legal-button {
+    color: rgba(247, 240, 223, 0.8);
+    transition: color 0.2s ease;
+  }
+
+  .footer-legal-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+  }
+
+  .footer-legal a:hover,
+  .footer-legal-button:hover {
+    color: var(--illuminated-light);
+  }
+
+  .footer-legal-button:focus-visible {
+    outline-color: var(--illuminated-light);
+  }
+</style>

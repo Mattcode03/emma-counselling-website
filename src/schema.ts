@@ -41,7 +41,9 @@ export function professionalService(site: URL | undefined, imageUrl: string) {
     currenciesAccepted: "ZAR",
     address: {
       "@type": "PostalAddress",
+      streetAddress: `${practice.streetAddress}, ${practice.suburb}`,
       addressLocality: practice.city,
+      postalCode: practice.postalCode,
       addressRegion: practice.region,
       addressCountry: practice.country,
     },
@@ -101,6 +103,7 @@ export function person(site: URL | undefined, imageUrl: string) {
       "@type": "EducationalOccupationalCredential",
       credentialCategory: q.category,
       name: q.schemaName,
+      ...(q.identifier && { identifier: q.identifier }),
     })),
   };
 }

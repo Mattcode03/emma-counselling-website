@@ -10,7 +10,7 @@ import portrait from "../assets/images/emma-profile.jpg";
 
 const title = "About Emma Rossouw | ASCHP Wellness Counsellor, Cape Town";
 const description =
-  "Meet Emma Rossouw, a Registered Specialist Wellness Counsellor (ASCHP) based in Cape Town, offering integrative, evidence-based online counselling across South Africa.";
+  "Meet Emma Rossouw, an ASCHP Registered Specialist Wellness Counsellor in Cape Town, offering integrative online counselling across South Africa.";
 
 const approaches = [
   {
@@ -68,6 +68,7 @@ const schema = [
         <div class="bio-credential-label">Registered with</div>
         <div class="bio-credential-name">{practice.registration}</div>
         <p>{practice.registrationBody} &mdash; Specialist Wellness Counsellor.</p>
+        <p>{`Registration no. ${practice.registrationNumber}`}</p>
       </div>
     </aside>
     <div class="bio-copy">

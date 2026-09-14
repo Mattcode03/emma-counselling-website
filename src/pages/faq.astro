@@ -6,7 +6,7 @@ import { allFaqs, faqGroups } from "../faqs";
 import { breadcrumbs, abs } from "../schema";
 import heroImage from "../assets/images/gradient-2.jpg";
 
-const title = "Questions About Online Counselling | Emma Rossouw, Cape Town";
+const title = "Online Counselling FAQs | Emma Rossouw, Cape Town";
 const description =
   "Answers to common questions about booking, sessions, fees, and confidentiality for online counselling with Emma Rossouw, ASCHP Specialist Wellness Counsellor.";
 
@@ -40,7 +40,7 @@ const schema = [
       <section class:list={["section", { "section--sage": group.tinted }]}>
         <div class="container">
           <div class="faq-group">
-            <div class="faq-group-label">{group.label}</div>
+            <h2 class="faq-group-label">{group.label}</h2>
             <div class="faq-list">
               {group.items.map((item) => (
                 <div class="faq-item">

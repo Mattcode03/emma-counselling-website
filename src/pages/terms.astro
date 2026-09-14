@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import LegalContent from "../components/LegalContent.astro";
+import { href } from "../url";
+import { fees, fullAddress, practice } from "../site";
+import { breadcrumbs, abs } from "../schema";
+import heroImage from "../assets/images/gradient-2.jpg";
+
+const title = "Terms & Conditions | Emma Rossouw Counselling";
+const description =
+  "The terms for using the Emma Rossouw Counselling website, including business details, scope of practice, fees and how bookings work.";
+
+const siteUrl = abs(Astro.site);
+const siteHost = new URL(siteUrl).host;
+
+const schema = [
+  {
+    "@type": "WebPage",
+    "@id": `${abs(Astro.site, "/terms/")}#webpage`,
+    url: abs(Astro.site, "/terms/"),
+    name: title,
+    description,
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+  },
+  breadcrumbs(Astro.site, [{ name: "Terms & conditions", path: "/terms/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Legal"
+    title="Terms & conditions"
+    variant="short"
+    class="photo-hero--gold-heading"
+  />
+
+  <LegalContent updated="14 September 2026">
+    <p>
+      These terms apply to your use of this website. By using it, you agree to them. If you don't
+      agree, please don't use the site.
+    </p>
+
+    <h2>Business details</h2>
+    <ul>
+      <li><strong>Practice:</strong> {practice.name}, run by {practice.counsellor}</li>
+      <li>
+        <strong>Professional registration:</strong>{" "}
+        {`${practice.jobTitle}, ${practice.registrationBody} (${practice.registration}), registration no. ${practice.registrationNumber}`}
+      </li>
+      <li><strong>Physical address:</strong> {fullAddress}</li>
+      <li><strong>Email:</strong> <a href={`mailto:${practice.email}`}>{practice.email}</a></li>
+      <li><strong>Phone:</strong> <a href={`tel:${practice.phone}`}>{practice.phoneDisplay}</a></li>
+      <li><strong>Website:</strong> <a href={siteUrl}>{siteHost}</a></li>
+    </ul>
+    <p>All counselling sessions are held online.</p>
+
+    <h2>Information on this website</h2>
+    <p>
+      The content on this website is general information about counselling and the services
+      offered. It isn't counselling, therapy, diagnosis or medical advice, and reading it doesn't
+      create a counselling relationship.
+    </p>
+    <p>
+      <strong>This website and the contact form are not for emergencies.</strong> If you or someone
+      else is in immediate danger or crisis, please contact emergency services or a 24-hour crisis
+      line rather than waiting for a reply.
+    </p>
+
+    <h2>Scope of practice</h2>
+    <p>
+      As an {practice.registration}-registered Specialist Wellness Counsellor, I provide
+      professional, non-diagnostic counselling. I don't diagnose mental health disorders or
+      prescribe medication. If your needs fall outside my scope of practice, I'll refer you to an
+      appropriate HPCSA-registered professional. <a href={href("/scope-of-practice/")}
+        >Read more about what to expect</a
+      >.
+    </p>
+
+    <h2>Fees and bookings</h2>
+    <ul>
+      {
+        fees.map((fee) => (
+          <li>
+            <strong>{fee.name}:</strong> {fee.amount} ({fee.note.toLowerCase()})
+          </li>
+        ))
+      }
+      <li>
+        <strong>Six-session offer:</strong> book and pay for six individual or couples sessions up
+        front at the price of five.
+      </li>
+    </ul>
+    <p>
+      Prices are in South African rand. Sending a message through the contact form is an enquiry,
+      not a booking. Sessions are confirmed once we've agreed to work together, and are provided
+      under a written client agreement that you'll receive before your first session. That
+      agreement sets out fees, invoicing and payment, cancellations, refunds, and confidentiality
+      and its limits. If anything in it differs from this website, the client agreement applies.
+    </p>
+    <p>Prices may change from time to time. The price confirmed when you book is the price you pay.</p>
+
+    <h2>Intellectual property</h2>
+    <p>
+      The text, logo, design and images on this website belong to {practice.name} or are used
+      with permission. You're welcome to share links to the site, but please don't copy or reuse
+      its content without written permission.
+    </p>
+
+    <h2>Using the website</h2>
+    <p>
+      Please don't misuse the site, for example by trying to gain unauthorised access, interfering
+      with how it works, or using the contact form to send spam or unlawful content.
+    </p>
+
+    <h2>Links to other websites</h2>
+    <p>
+      This site links to other websites, such as LinkedIn. I'm not responsible for their content or
+      for how they handle your information.
+    </p>
+
+    <h2>Liability</h2>
+    <p>
+      I take care to keep this website accurate and available, but can't guarantee it will always
+      be complete, up to date or uninterrupted. To the extent the law allows, I'm not liable for
+      any loss arising from your use of the website. Nothing in these terms limits your rights
+      under the Consumer Protection Act, 2008, or any other law that can't be excluded.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      How your personal information is handled is explained in the <a
+        href={href("/privacy-policy/")}>privacy policy</a
+      > and the <a href={href("/cookie-policy/")}>cookie policy</a>.
+    </p>
+
+    <h2>Governing law</h2>
+    <p>These terms are governed by the laws of the Republic of South Africa.</p>
+
+    <h2>Changes to these terms</h2>
+    <p>
+      These terms may be updated from time to time. The current version is always on this page,
+      with the date it last changed at the top.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms? Email <a href={`mailto:${practice.email}`}>{practice.email}</a> or
+      call <a href={`tel:${practice.phone}`}>{practice.phoneDisplay}</a>.
+    </p>
+  </LegalContent>
+</BaseLayout>

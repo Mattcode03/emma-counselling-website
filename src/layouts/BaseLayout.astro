@@ -1,18 +1,27 @@
 ---
+import { Font } from "astro:assets";
 import { href } from "../url";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
+import CookieConsent from "../components/CookieConsent.astro";
 import { practice } from "../site";
+import { gaMeasurementId } from "../analytics";
 import { person, professionalService, website } from "../schema";
 import { portraitUrl } from "../og";
+import favicon16 from "../assets/images/favicon-16.png";
+import favicon32 from "../assets/images/favicon-32.png";
+import appleTouchIcon from "../assets/images/favicon-180.png";
 import "../styles/style.css";
 
 interface Props {
   title: string;
   description: string;
+  /** Optional meta keywords for this page. */
+  keywords?: readonly string[];
   /** Extra schema.org nodes for this page, merged into the global @graph. */
   schema?: unknown[];
-  /** Keeps the page out of search results (used for placeholder content). */
+  /** Keeps the page out of search results. */
   noindex?: boolean;
   /** Overrides the default social-share image. */
   ogImage?: ImageMetadata;
@@ -23,15 +32,12 @@ interface Props {
 const {
   title,
   description,
+  keywords,
   schema = [],
   noindex = false,
   ogImage,
   ogImageAlt = `${practice.counsellor}, ${practice.registration} ${practice.jobTitle}`,
 } = Astro.props;
-
-// Canonical and Open Graph URLs derive from the configured `site`, so the
-// domain is never hardcoded in a page.
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
 // Social crawlers need a fixed, absolute image URL, so the share image is
 // rendered at a known size rather than relying on a content-hashed srcset.
@@ -47,7 +53,16 @@ const graph = [
   website(Astro.site),
   ...schema,
 ];
-const jsonLd = { "@context": "https://schema.org", "@graph": graph };
+
+// Escaping "<" stops any string containing "</script>" from closing the tag.
+const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(
+  /</g,
+  "\\u003c",
+);
+
+// Fonts are self-hosted at build time (see `fonts` in astro.config.mjs); only
+// the regular weight is preloaded, the rest load on demand.
+const preload = [{ weight: "400", style: "normal" }];
 ---
 
 <!doctype html>
@@ -56,40 +71,25 @@ const jsonLd = { "@context": "https://schema.org", "@graph": graph };
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    <meta
-      name="robots"
-      content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"}
+    <SEO
+      title={title}
+      description={description}
+      keywords={keywords}
+      noindex={noindex}
+      ogImageUrl={ogUrl}
+      ogImageAlt={ogImageAlt}
     />
-    <meta name="author" content={practice.counsellor} />
-
-    <!-- Open Graph / social sharing -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={practice.name} />
-    <meta property="og:locale" content="en_ZA" />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogUrl} />
-    <meta property="og:image:alt" content={ogImageAlt} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogUrl} />
 
     <meta name="theme-color" content="#23422F" />
+    <link rel="icon" type="image/png" sizes="32x32" href={favicon32.src} />
+    <link rel="icon" type="image/png" sizes="16x16" href={favicon16.src} />
+    <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIcon.src} />
     <link rel="sitemap" href={href("/sitemap-index.xml")} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <Font cssVariable="--font-display" preload={preload} />
+    <Font cssVariable="--font-body" preload={preload} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+    <script type="application/ld+json" set:html={jsonLd} is:inline />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to main content</a>
@@ -98,5 +98,6 @@ const jsonLd = { "@context": "https://schema.org", "@graph": graph };
       <slot />
     </main>
     <Footer />
+    {gaMeasurementId && <CookieConsent />}
   </body>
 </html>

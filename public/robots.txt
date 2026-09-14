@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 
-# Update the domain below once the site is live.
-# The sitemap is generated at build time by @astrojs/sitemap.
-Sitemap: https://REPLACE-WITH-DOMAIN.co.za/sitemap-index.xml
+# The sitemap is generated at build time by @astrojs/sitemap. If the domain in
+# astro.config.mjs changes, update this line to match.
+Sitemap: https://ercounselling.co.za/sitemap-index.xml

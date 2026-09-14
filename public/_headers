@@ -1,0 +1,30 @@
+# Cloudflare Pages response headers.
+# https://developers.cloudflare.com/pages/configuration/headers/
+#
+# CSP notes: every script is an external file (see `assetsInlineLimit` in
+# astro.config.mjs), so script-src needs no 'unsafe-inline'. The Google hosts
+# are only contacted after a visitor accepts analytics cookies. Web3Forms
+# receives contact form submissions. Styles keep 'unsafe-inline' because Astro
+# inlines small stylesheets and the self-hosted @font-face rules.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; form-action 'self' https://api.web3forms.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Build output under /_astro/ has content-hashed filenames, so it can be
+# cached forever; a changed file always gets a new name.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Keep the *.pages.dev copies (production and preview deployments) out of
+# search results so they don't compete with the real domain.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

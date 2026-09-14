@@ -3,8 +3,8 @@
 Website for Emma Rossouw, a private counsellor that offers online sessions to individual clients.
 
 Built with [Astro](https://astro.build). Output is a fully static site — no server, no client-side
-framework. The only JavaScript shipped to the browser is the mobile nav toggle and the contact-form
-handler.
+framework. The only JavaScript shipped to the browser is the mobile nav toggle, the contact-form
+handler and, when analytics is switched on, the cookie consent banner.
 
 ## Getting started
 
@@ -16,55 +16,84 @@ npm run preview  # serve the built dist/ locally
 npm run check    # TypeScript + Astro template type checking
 ```
 
+The build fails on purpose if any page title is 60 characters or longer, or any meta description
+is 160 or longer (see `src/components/SEO.astro`).
+
 ## Deployment
 
-Deployed to **GitHub Pages** by `.github/workflows/deploy.yml`, which runs on every push to `main`:
-it installs, type-checks, builds, and publishes `dist/`. There is nothing to commit by hand and no
-build output in the repo.
+Hosted on **Cloudflare Pages** at https://ercounselling.co.za, built straight from this repository.
 
-> **One-time setup:** in the repo's **Settings → Pages**, "Source" must be set to **GitHub Actions**.
-> The site previously used "Deploy from a branch", which only worked because the old site was
-> hand-written HTML in the repo root. An Astro site has to be built first, so leaving it on
-> "Deploy from a branch" would publish nothing.
+One-time setup in the Cloudflare dashboard (Workers & Pages → Create → Pages → connect the repo):
 
-Live at https://mattcode03.github.io/emma-counselling-website/
+| Setting | Value |
+| --- | --- |
+| Framework preset | Astro |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Node version | read from `.node-version` (22) |
+| Environment variable (optional) | `PUBLIC_GA4_MEASUREMENT_ID` = your GA4 ID, e.g. `G-XXXXXXXXXX` |
 
-### Moving to a real domain
+Then:
 
-The site currently lives under a GitHub Pages *project path*, so every internal link needs a
-`/emma-counselling-website` prefix. That is handled centrally — see `src/url.ts`. To switch to a
-custom domain, change two lines in `astro.config.mjs`:
+1. **Custom domain** — add `ercounselling.co.za` and `www.ercounselling.co.za` under the project's
+   Custom domains.
+2. **www redirect** — add a Redirect Rule (Rules → Redirect Rules) sending
+   `www.ercounselling.co.za/*` to `https://ercounselling.co.za/${1}` with a 301. Host redirects
+   can't be done in `_redirects`.
+3. **HTTPS** — SSL/TLS → Edge Certificates → turn on "Always Use HTTPS".
+4. **Old GitHub Pages copy** — in the GitHub repo's Settings → Pages, unpublish the site so the
+   old `mattcode03.github.io` copy doesn't compete with the real domain in search results.
 
-```js
-const SITE = "https://the-real-domain.co.za";
-const BASE = "/";
-```
+`.github/workflows/deploy.yml` no longer deploys: it type-checks and builds every push and pull
+request, so a broken change fails there.
 
-then add a `public/CNAME` file containing the domain, and update the `Sitemap:` line in
-`public/robots.txt`. Canonicals, Open Graph tags, schema.org `@id`s, the sitemap and every internal
-link follow automatically.
+### Files Cloudflare reads from `public/`
 
-To host somewhere else instead (Netlify, Vercel, Cloudflare Pages): build command `npm run build`,
-publish directory `dist`, and set `BASE = "/"`.
+- `_headers` — security headers (CSP, HSTS, X-Frame-Options and more), long-term caching for
+  `/_astro/`, and `noindex` on the `*.pages.dev` preview addresses. If you add a third-party
+  script, font, embed or form service, its host must be added to the Content-Security-Policy.
+- `_redirects` — old `.html` addresses and the removed Resources section.
+- `robots.txt` — points to the sitemap. Update its `Sitemap:` line if the domain changes.
+
+### Changing the domain
+
+The domain is set in `astro.config.mjs` (`SITE`). Canonicals, Open Graph tags, schema.org `@id`s,
+the sitemap and every internal link follow automatically; also update `public/robots.txt`.
+
+## Analytics and cookie consent
+
+Google Analytics 4 is off unless `PUBLIC_GA4_MEASUREMENT_ID` is set (in Cloudflare, or in a local
+`.env` file, which git ignores). When it's set, the build adds:
+
+- a cookie banner with Reject all / Save choices / Accept all and an unticked analytics option;
+- Google Consent Mode v2 with every consent type defaulting to `denied`;
+- gtag.js, requested only after the visitor accepts analytics, never before;
+- a "Cookie settings" button in the footer and on the cookie policy, to change the choice later;
+- the GA cookies in the cookie policy table and GA in the privacy policy.
+
+With the variable unset, none of that is built. There is no banner and no GA mention, because no
+cookies need consent. All of it lives in `src/components/CookieConsent.astro` and
+`src/analytics.ts`.
+
+In Google Analytics, set Admin → Data retention to **14 months** to match the privacy policy.
 
 ## Structure
 
 ```
 src/
-  pages/            One file per route. resources/[...slug].astro renders each article.
+  pages/            One file per route, including 404 and the three policy pages.
   layouts/
-    BaseLayout.astro  <head>, meta/OG tags, JSON-LD, nav + footer wrapper.
-  components/       Nav, Footer, PhotoHero, CtaBand.
-  content/
-    resources/      Article Markdown. Add a file here to publish a post.
-  assets/images/    Source photos. Optimised at build time; never served as-is.
-  styles/style.css  All styling.
-  site.ts           Practice details, nav, fees, support areas, qualifications.
-  url.ts            Base-aware link helpers (GitHub Pages project path).
+    BaseLayout.astro  <head>, fonts, JSON-LD, nav + footer wrapper.
+  components/       Nav, Footer, PhotoHero, CtaBand, PackageOffer, SEO (meta tags),
+                    CookieConsent, LegalContent (policy page wrapper).
+  assets/images/    Source photos and favicons. Optimised at build time; never served as-is.
+  styles/style.css  Site-wide styling.
+  site.ts           Practice details and address, nav, fees, support areas, qualifications.
+  analytics.ts      Reads and validates the GA4 measurement ID.
+  url.ts            Base-aware link helpers.
   faqs.ts           FAQ content.
   schema.ts         schema.org graph builders.
-  content.config.ts Frontmatter schema for the resources collection.
-public/             Served verbatim (robots.txt).
+public/             Served verbatim (_headers, _redirects, robots.txt).
 ```
 
 ### Where to edit what
@@ -72,57 +101,20 @@ public/             Served verbatim (robots.txt).
 | To change | Edit |
 | --- | --- |
 | Phone, email, address, LinkedIn | `src/site.ts` |
-| Session prices | `src/site.ts` (`fees`) — updates the home list, the pricing cards and the schema.org offers together |
-| Nav or footer links | `src/site.ts` (`navLinks`, `footerColumns`) |
+| Session prices | `src/site.ts` (`fees`) — updates the home list, the pricing cards, the terms and the schema.org offers together |
+| Nav, footer or policy links | `src/site.ts` (`navLinks`, `footerColumns`, `legalLinks`) |
 | FAQ questions | `src/faqs.ts` — updates both the page and the FAQPage structured data |
 | Areas of support / qualifications | `src/site.ts` |
-| The live domain / base path | `astro.config.mjs` (`SITE`, `BASE`) — canonicals, OG tags, JSON-LD, the sitemap and every internal link all follow |
-| Colours, fonts, layout | `src/styles/style.css` |
-
-### Adding a resource article
-
-Drop a Markdown file into `src/content/resources/`:
-
-```markdown
----
-title: Your title
-description: One or two sentences, used on the card and as the meta description.
-category: Anxiety & stress
-cover: ../../assets/images/gradient.jpg
-publishDate: 2026-09-10
-readingTime: 5 min read
-featured: false      # true gives it the wide hero card (use on one post only)
-placeholder: false   # true keeps it out of search results
----
-
-Your writing here.
-```
-
-The listing page, card, article page, sitemap and structured data all pick it up automatically. The
-frontmatter is validated at build time, so a typo or missing cover fails the build rather than the
-live site.
-
-**The four posts currently in `src/content/resources/` are scaffolding**, marked `placeholder: true`
-so the whole Resources section is `noindex` and excluded from the sitemap. Replace the text with
-Emma's own words and remove the `placeholder` line to publish. The "content to come" banner
-disappears automatically once no post is flagged.
-
-## To-do before launch
-
-1. **Contact form** — the contact page uses [Web3Forms](https://web3forms.com) to deliver
-   submissions by email, with no backend required.
-   - Get a free access key from web3forms.com using Emma's email.
-   - Replace `YOUR_WEB3FORMS_ACCESS_KEY` in `src/pages/contact.astro`.
-2. **Domain** — see "Moving to a real domain" above.
-3. **Resource articles** — replace the four placeholder posts (see above).
-4. **Favicon** — none yet; add one to `public/` and link it in `BaseLayout.astro`.
-5. **Logo** — currently text-only (`Emma Rossouw Counselling`) styled in the nav and footer.
+| Policy wording | `src/pages/privacy-policy.astro`, `terms.astro`, `cookie-policy.astro` — also update the "Last updated" date |
+| Security headers | `public/_headers` |
+| The live domain | `astro.config.mjs` (`SITE`) and `public/robots.txt` |
+| Colours, fonts, layout | `src/styles/style.css`; font families and weights in `astro.config.mjs` (`fonts`) |
 
 ## Images
 
 Source photos live in `src/assets/images/` at full resolution (3–6 MB each). Astro's `<Image>`
 component resizes and converts them to WebP at build time and emits a `srcset`, so the browser
-downloads an appropriately sized file — the whole built site is around 2.6 MB.
+downloads an appropriately sized file.
 
 Because the source photos are tall portraits, images are given an explicit `width`/`height` and
 `fit="cover"` so they are cropped to their display aspect ratio at build time. Without that, a
@@ -133,7 +125,8 @@ full-width hero would generate a ~3800px-tall variant weighing several MB.
 - **Colours**: palette based on the client-supplied swatch (Forest, Leaf, Calm, Deep Sea, Sea Foam,
   Peaceful, Illuminated), defined as CSS variables at the top of `src/styles/style.css`. The seven
   swatch colours are unchanged.
-- **Fonts**: Instrument Serif (headings) and Karla (body, nav, buttons, labels), via Google Fonts.
+- **Fonts**: Instrument Serif (headings) and Karla (body, nav, buttons, labels), downloaded from
+  Google Fonts at build time and served from this site, so visitors never contact Google.
   Instrument Serif ships a single weight, so headings rely on size and italics rather than bold.
 
 ### Accent tokens and contrast
@@ -144,19 +137,18 @@ uses it, it does not reach WCAG AA against any page background, so derived token
 | Token | Value | Use |
 | --- | --- | --- |
 | `--illuminated` | `#C6913F` | Borders, rules, non-text accents only |
-| `--illuminated-dark` | `#A97A32` | The wordmark's "Counselling" (3.35:1 on Peaceful, large text) |
-| `--illuminated-ink` | `#7E5722` | Eyebrow labels on light surfaces (5.65:1 on Peaceful) |
+| `--illuminated-dark` | `#A97A32` | Large display text only, e.g. the italic accents in headings (3.35:1 on Peaceful) |
+| `--illuminated-ink` | `#7E5722` | Eyebrow labels and small gold text on light surfaces (5.65:1 on Peaceful) |
 | `--illuminated-light` | `#E5C286` | Text and icons on Forest backgrounds (4.72:1) |
-| `--forest-deep` | `#23422F` | Header and footer background, button hover, eyebrows on Calm tints |
+| `--forest-deep` | `#23422F` | Header and footer background, button hover, headings and eyebrows on Calm tints |
 
 Other rules worth keeping if you edit the CSS:
 
-- The primary button is Forest with Peaceful text (7.04:1). It was previously white on gold at 2.79:1.
-- On the Calm and Sea Foam sections, body copy uses `--text`, not `--text-soft`. The soft grey drops
-  to ~3.8:1 on those tints.
+- The primary button is Forest with Peaceful text (7.04:1).
+- On the Calm and Sea Foam sections, body copy uses `--text` and headings `--forest-deep`. The soft
+  grey drops to ~3.8:1 and Forest to 4.25:1 on those tints.
+- Form placeholders use `--text-soft`; the browser default grey is ~4.1:1 on Peaceful.
 - Every interactive element has a `:focus-visible` outline, and a `prefers-reduced-motion` block
   neutralises the hover lifts and smooth scrolling.
 - The horizontal nav hands over to the mobile toggle at **1024px**. Below that, six links plus the
   CTA no longer fit on one line.
-
-All foreground/background pairs in the stylesheet were checked against WCAG AA and pass.

@@ -1,0 +1,236 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoHero from "../components/PhotoHero.astro";
+import LegalContent from "../components/LegalContent.astro";
+import { href } from "../url";
+import { fullAddress, practice } from "../site";
+import { gaMeasurementId } from "../analytics";
+import { breadcrumbs, abs } from "../schema";
+import heroImage from "../assets/images/gradient-2.jpg";
+
+const title = "Privacy Policy | Emma Rossouw Counselling";
+const description =
+  "How Emma Rossouw Counselling collects, uses, shares and protects your personal information under POPIA, and the rights you have over it.";
+
+const schema = [
+  {
+    "@type": "WebPage",
+    "@id": `${abs(Astro.site, "/privacy-policy/")}#webpage`,
+    url: abs(Astro.site, "/privacy-policy/"),
+    name: title,
+    description,
+    inLanguage: "en-ZA",
+    isPartOf: { "@id": `${abs(Astro.site, "/")}#website` },
+  },
+  breadcrumbs(Astro.site, [{ name: "Privacy policy", path: "/privacy-policy/" }]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <PhotoHero
+    image={heroImage}
+    eyebrow="Legal"
+    title="Privacy policy"
+    variant="short"
+    class="photo-hero--gold-heading"
+  />
+
+  <LegalContent updated="14 September 2026">
+    <p>
+      This policy explains how {practice.name} collects and uses personal information through this
+      website and when you get in touch. It is written to meet South Africa's Protection of
+      Personal Information Act, 2013 (POPIA).
+    </p>
+
+    <h2>Who is responsible for your information</h2>
+    <p>
+      {practice.name} is run by {practice.counsellor}, who is the responsible party for your
+      personal information and the Information Officer under POPIA.
+    </p>
+    <ul>
+      <li><strong>Address:</strong> {fullAddress}</li>
+      <li><strong>Email:</strong> <a href={`mailto:${practice.email}`}>{practice.email}</a></li>
+      <li><strong>Phone:</strong> <a href={`tel:${practice.phone}`}>{practice.phoneDisplay}</a></li>
+    </ul>
+
+    <h2>What this policy covers</h2>
+    <p>
+      This policy covers the website and the enquiries you send before counselling begins. If you
+      become a client, what you share in sessions is covered by the client agreement you receive
+      before your first session, and by the professional confidentiality obligations of my
+      registration with the {practice.registrationBody} ({practice.registration}).
+    </p>
+
+    <h2>What information I collect</h2>
+    <h3>When you use the contact form</h3>
+    <p>
+      Your name and email address, and, if you choose to give them, your phone number, the service
+      you're interested in, whether you'd like the six-session offer, and your message. Your
+      message may include information about your health, wellbeing or relationships, which POPIA
+      treats as special personal information. Please only share what you're comfortable with; the
+      details can wait for our first conversation.
+    </p>
+    <h3>When you email or phone</h3>
+    <p>Your contact details and whatever you choose to tell me.</p>
+    <h3>When you visit the site</h3>
+    <p>
+      This website is hosted by Cloudflare, which processes technical information such as your IP
+      address, browser type and the pages you request, in order to deliver the site and protect it
+      from attacks.
+    </p>
+    {
+      gaMeasurementId ? (
+        <p>
+          If you allow analytics cookies, Google Analytics collects information about how you use
+          the site: the pages you view, your device and browser type, your approximate location
+          (city or region) and how you arrived at the site. It doesn't give me your name or contact
+          details. If you don't allow analytics cookies, Google Analytics isn't loaded at all.
+        </p>
+      ) : (
+        <p>The site doesn't use analytics, advertising or tracking cookies.</p>
+      )
+    }
+    <p>
+      I don't sell personal information, use it for advertising, or make automated decisions about
+      you.
+    </p>
+
+    <h2>Why I use it</h2>
+    <ul>
+      <li>
+        <strong>To reply to your enquiry and arrange a free consultation</strong>, with your
+        consent and because you've asked me to take these steps before we agree to work together.
+      </li>
+      <li>
+        <strong>To handle any health or wellbeing information in your message</strong>, with your
+        explicit consent, which you give by ticking the consent box on the contact form.
+      </li>
+      <li>
+        <strong>To keep the website secure and working</strong>, because this is necessary for the
+        legitimate interest of running a safe website.
+      </li>
+      {
+        gaMeasurementId && (
+          <li>
+            <strong>To understand which pages are useful and improve the site</strong>, only with
+            your consent to analytics cookies.
+          </li>
+        )
+      }
+      <li><strong>To meet legal or professional obligations</strong>, where these apply.</li>
+    </ul>
+
+    <h2>Children and young people</h2>
+    <p>
+      Individual counselling is available for children and adolescents. If you're under 18, please
+      ask a parent or legal guardian to get in touch on your behalf. I only process a child's
+      personal information with the consent of a parent or legal guardian, or where the law
+      otherwise allows it.
+    </p>
+
+    <h2>Who I share it with</h2>
+    <p>
+      Your information is shared only with the service providers that help run this website and my
+      practice, and only as far as they need it:
+    </p>
+    <ul>
+      <li><strong>Web3Forms</strong>, which delivers contact form messages to my email inbox.</li>
+      <li><strong>Cloudflare</strong>, which hosts the website.</li>
+      <li><strong>My email provider</strong>, which stores the messages I send and receive.</li>
+      {
+        gaMeasurementId && (
+          <li>
+            <strong>Google</strong>, which provides Google Analytics, only if you accept analytics
+            cookies.
+          </li>
+        )
+      }
+    </ul>
+    <p>
+      I may also disclose information where the law requires it, or where there is a serious and
+      imminent risk to someone's life or safety. These limits to confidentiality are explained
+      before counselling begins.
+    </p>
+
+    <h2>Information processed outside South Africa</h2>
+    <p>
+      Web3Forms, Cloudflare{gaMeasurementId && " and Google"} may process information on servers
+      outside South Africa. This transfer happens with your consent, which you give when you tick
+      the consent box on the contact form{gaMeasurementId && " or accept analytics cookies"}.
+    </p>
+
+    <h2>How long I keep it</h2>
+    <ul>
+      <li>
+        <strong>Enquiries that don't lead to counselling</strong> are deleted within 12 months of
+        our last contact.
+      </li>
+      <li>
+        <strong>If you become a client</strong>, your records are kept for as long as your client
+        agreement and my professional record-keeping obligations require.
+      </li>
+      {
+        gaMeasurementId && (
+          <li>
+            <strong>Google Analytics data</strong> is kept for 14 months and then deleted
+            automatically.
+          </li>
+        )
+      }
+      <li>
+        <strong>Cloudflare's technical logs</strong> are kept for a short period under Cloudflare's
+        own policies.
+      </li>
+    </ul>
+
+    <h2>How I protect it</h2>
+    <p>
+      The site is only served over an encrypted (HTTPS) connection, and enquiries are accessible
+      only to me. No way of sending information over the internet is completely secure, so please
+      keep detailed or sensitive information for our conversation rather than the contact form.
+    </p>
+
+    <h2>Your rights</h2>
+    <p>Under POPIA you can:</p>
+    <ul>
+      <li>ask what personal information I hold about you, and for a copy of it;</li>
+      <li>ask me to correct or delete it;</li>
+      <li>object to how I use it;</li>
+      <li>
+        withdraw your consent at any time (this doesn't affect anything done before you withdrew
+        it);
+      </li>
+      <li>
+        complain to the Information Regulator (South Africa) at <a
+          href="https://inforegulator.org.za"
+          target="_blank"
+          rel="noopener noreferrer">inforegulator.org.za</a
+        >.
+      </li>
+    </ul>
+    <p>
+      To use any of these rights, email <a href={`mailto:${practice.email}`}>{practice.email}</a>.
+      If you're in the European Union or the United Kingdom, you have similar rights under the
+      GDPR and can also complain to your local data protection authority.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      The <a href={href("/cookie-policy/")}>cookie policy</a> lists the cookies this site uses and
+      explains how to control them.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      If this policy changes, the updated version will be posted on this page with a new date at
+      the top.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy or your information? Email <a href={`mailto:${practice.email}`}
+        >{practice.email}</a
+      > or call <a href={`tel:${practice.phone}`}>{practice.phoneDisplay}</a>.
+    </p>
+  </LegalContent>
+</BaseLayout>

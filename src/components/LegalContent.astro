@@ -1,0 +1,83 @@
+---
+/**
+ * Readable single-column wrapper for the policy pages. Page content is passed
+ * in through the slot, so the element styles below are :global() within it.
+ */
+interface Props {
+  /** Human-readable date the text last changed, e.g. "14 September 2026". */
+  updated: string;
+}
+
+const { updated } = Astro.props;
+---
+
+<section class="section">
+  <div class="container legal">
+    <p class="legal-updated">Last updated: {updated}</p>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .legal {
+    max-width: 780px;
+  }
+
+  .legal-updated {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+
+  .legal :global(h2) {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    margin: 1.8em 0 0.5em;
+  }
+
+  .legal :global(h3) {
+    margin: 1.4em 0 0.4em;
+  }
+
+  .legal :global(p),
+  .legal :global(li) {
+    color: var(--text);
+  }
+
+  .legal :global(ul) {
+    margin: 0 0 1.2em;
+    padding-left: 1.3em;
+  }
+
+  .legal :global(li) {
+    margin-bottom: 0.5em;
+  }
+
+  .legal :global(a) {
+    text-decoration: underline;
+  }
+
+  .legal :global(.table-wrap) {
+    overflow-x: auto;
+    margin: 0 0 1.4em;
+  }
+
+  .legal :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  .legal :global(th),
+  .legal :global(td) {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(46, 89, 67, 0.2);
+  }
+
+  .legal :global(th) {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--forest);
+  }
+</style>
