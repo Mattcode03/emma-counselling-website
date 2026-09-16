@@ -31,7 +31,7 @@ export function professionalService(site: URL | undefined, imageUrl: string) {
     name: practice.name,
     alternateName: "Emma Rossouw Online Counselling",
     description:
-      "Online counselling and virtual therapy for individuals and couples, provided by an ASCHP Registered Specialist Wellness Counsellor based in Cape Town, South Africa.",
+      "Online counselling for individuals and couples, provided by an ASCHP Registered Specialist Wellness Counsellor based in Cape Town, South Africa.",
     url: abs(site),
     image: imageUrl,
     email: practice.email,
@@ -41,8 +41,7 @@ export function professionalService(site: URL | undefined, imageUrl: string) {
     currenciesAccepted: "ZAR",
     address: {
       "@type": "PostalAddress",
-      streetAddress: `${practice.streetAddress}, ${practice.suburb}`,
-      addressLocality: practice.city,
+      addressLocality: `${practice.suburb}, ${practice.city}`,
       postalCode: practice.postalCode,
       addressRegion: practice.region,
       addressCountry: practice.country,
@@ -51,7 +50,6 @@ export function professionalService(site: URL | undefined, imageUrl: string) {
     availableLanguage: { "@type": "Language", name: "English" },
     knowsAbout: [
       "Online counselling",
-      "Virtual therapy",
       "Anxiety and stress",
       "Couples counselling",
       "Grief and loss",

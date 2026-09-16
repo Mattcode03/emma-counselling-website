@@ -58,7 +58,7 @@ export const faqGroups: readonly FaqGroup[] = [
       },
       {
         q: "How often would we meet, and for how long?",
-        a: "This depends entirely on what you need, and we decide it together. Some people come weekly for a season; others prefer fortnightly or a shorter, focused block of sessions.",
+        a: "This depends entirely on what you need, and we decide it together. Weekly sessions or sessions every two weeks are most common.",
       },
     ],
   },

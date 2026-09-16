@@ -27,14 +27,13 @@ export const practice = {
   registrationBody:
     "Association for Supportive Counsellors and Holistic Practitioners",
   /** Business address, published as required by ECTA s43. Sessions are online. */
-  streetAddress: "A805 The Claremont, 53 Main Road",
   suburb: "Claremont",
   city: "Cape Town",
   postalCode: "7708",
   region: "Western Cape",
   country: "ZA",
   countryName: "South Africa",
-  tagline: "Online counselling & virtual therapy",
+  tagline: "Online counselling",
   footerCredential: "ASCHP Registered Specialist Wellness Counsellor",
 } as const;
 
@@ -69,7 +68,7 @@ export const legalLinks = [
 ] as const;
 
 /** One-line business address for the footer and policy pages. */
-export const fullAddress = `${practice.streetAddress}, ${practice.suburb}, ${practice.city}, ${practice.postalCode}, ${practice.countryName}`;
+export const fullAddress = `${practice.suburb}, ${practice.city}, ${practice.postalCode}, ${practice.countryName}`;
 
 /**
  * Session fees. Consumed by the home fee list, the services pricing cards and
