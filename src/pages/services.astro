@@ -32,6 +32,35 @@ const offerings = [
   },
 ];
 
+// The concerns people search for most, each with a short explanation. `area`
+// names the matching supportAreas entry, which is then left out of the tag
+// list below so it isn't shown twice.
+const focusAreas = [
+  {
+    area: "Anxiety and stress",
+    heading: "Anxiety and stress counselling",
+    body: "Anxiety can show up as racing thoughts, trouble sleeping, or a constant sense of being on edge. Together we look at what's driving it and build practical ways to cope, at a pace that feels manageable for you.",
+  },
+  {
+    area: "Relationship, marriage, and family challenges",
+    heading: "Couples and relationship counselling",
+    body: "Whether you come on your own or together as a couple, sessions offer a space to work through conflict, communication difficulties, and changes in a relationship, marriage, or family, with each person heard.",
+  },
+  {
+    area: "Burnout and workplace wellbeing",
+    heading: "Burnout and workplace wellbeing",
+    body: "When work or study leaves you exhausted, detached, or running on empty, we can explore what's contributing to it, set healthier boundaries, and find ways to restore some balance in your day-to-day life.",
+  },
+  {
+    area: "Grief and loss",
+    heading: "Grief and loss counselling",
+    body: "Grief doesn't follow a timeline. Whether you're mourning a person, a relationship, or a way of life, counselling offers a gentle, unhurried space to process your loss and find ways to carry it.",
+  },
+];
+
+const focusAreaNames: readonly string[] = focusAreas.map((focus) => focus.area);
+const otherAreas = supportAreas.filter((area) => !focusAreaNames.includes(area));
+
 const pageUrl = abs(Astro.site, "/services/");
 
 const schema = [
@@ -126,8 +155,19 @@ const schema = [
           get in touch. Together, we can determine the most appropriate way to support you.
         </p>
       </div>
+      <div class="grid grid-2 focus-areas">
+        {
+          focusAreas.map((focus) => (
+            <div class="approach-card">
+              <h3>{focus.heading}</h3>
+              <p>{focus.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <h3 class="focus-areas-more">I also support</h3>
       <ul class="tag-list tag-list--center">
-        {supportAreas.map((area) => <li>{area}</li>)}
+        {otherAreas.map((area) => <li>{area}</li>)}
       </ul>
     </div>
   </section>

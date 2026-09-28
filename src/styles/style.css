@@ -1680,6 +1680,18 @@ p {
   padding-top: 26px;
 }
 
+/* Services — the four main concern areas, above the full tag list */
+.focus-areas {
+  max-width: 960px;
+  margin: 0 auto 56px;
+  column-gap: clamp(28px, 4vw, 56px);
+}
+
+.focus-areas-more {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
 /* ==========================================================================
    Focus visibility
    ========================================================================== */
