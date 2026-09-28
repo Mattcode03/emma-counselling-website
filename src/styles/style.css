@@ -476,15 +476,35 @@ p {
   margin-bottom: 18px;
 }
 
-.photo-hero-content h1 {
+.photo-hero-content h1,
+.photo-hero-content .photo-hero-title {
   color: var(--peaceful);
   margin: 0 0 16px;
   max-width: 22ch;
 }
 
+/* Home and About: the keyword h1 sits in the eyebrow slot and looks like an
+   eyebrow, while the greeting below keeps the display-heading look. */
+.photo-hero-content h1.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: inherit;
+  max-width: none;
+  margin: 0 0 18px;
+}
+
+.photo-hero-content .photo-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.2vw, 3.7rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
 /* FAQ, Scope of practice, Services, and Contact banners: the heading takes
    the brand gold rather than Peaceful. */
-.photo-hero--gold-heading .photo-hero-content h1 {
+.photo-hero--gold-heading .photo-hero-content h1:not(.eyebrow),
+.photo-hero--gold-heading .photo-hero-content .photo-hero-title {
   color: var(--illuminated-dark);
 }
 

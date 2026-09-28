@@ -7,6 +7,11 @@ interface Props {
   /** Empty string marks the image decorative (interior heroes are backdrops). */
   alt?: string;
   eyebrow?: string;
+  /**
+   * Keyword h1 for search. When set, it takes the eyebrow's place and style,
+   * and the title below renders as a display paragraph instead of the h1.
+   */
+  heading?: string;
   /** Plain-text heading. Omit and use the `title` slot for markup. */
   title?: string;
   description?: string;
@@ -20,6 +25,7 @@ const {
   image,
   alt = "",
   eyebrow,
+  heading,
   title,
   description,
   variant = "interior",
@@ -62,8 +68,19 @@ const RATIO_H = 900;
     role={alt === "" ? "presentation" : undefined}
   />
   <div class="photo-hero-content">
-    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-    <h1>{title}<slot name="title" /></h1>
+    {
+      heading ? (
+        <>
+          <h1 class="eyebrow">{heading}</h1>
+          <p class="photo-hero-title">{title}<slot name="title" /></p>
+        </>
+      ) : (
+        <>
+          {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+          <h1>{title}<slot name="title" /></h1>
+        </>
+      )
+    }
     {
       (description || Astro.slots.has("description")) && (
         <p>
